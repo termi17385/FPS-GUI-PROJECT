@@ -39,10 +39,10 @@ public class PlayController : MonoBehaviour
         float v = Input.GetAxis("Vertical") * speed;
 
         rb.velocity = transform.forward * v;
-
-      
-        
     }
+
+
+
     /// <summary>
     /// Handles looking around
     /// </summary>
