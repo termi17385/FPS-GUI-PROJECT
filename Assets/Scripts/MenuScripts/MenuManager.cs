@@ -10,7 +10,7 @@ public class MenuManager : MonoBehaviour
     #region
     #region SettingVariables 
     [Header("Resolution Settings")]
-    public Resolution[] resolutions;            // an array for storing all the resolutions
+    public Resolution[] resolutionArray;            // an array for storing all the resolutions
     public Dropdown resolution;                 // dropdown for showing resolution settings
 
     [Header("Audio Settings")]
@@ -45,21 +45,21 @@ public class MenuManager : MonoBehaviour
     {
         #region Resolution
         // makes an array of the different resolutions
-        resolutions = Screen.resolutions;                       // gets and stores all the resolutions
+        resolutionArray = Screen.resolutions;                       // gets and stores all the resolutions
         resolution.ClearOptions();                              // clears the dropdown menu
         List<string> options = new List<string>();              // creates a new list of options
 
         int currentResolutionIndex = 0;                         // an index for the list
         // go through every resolution
-        for (int i = 0; i < resolutions.Length; i++)                                // creates a for loop setting i to zero and loops each time until the condition is met 
+        for (int i = 0; i < resolutionArray.Length; i++)                                // creates a for loop setting i to zero and loops each time until the condition is met 
         {
             // Build a string for displaying the resolution
-            string option = resolutions[i].width + "x" + resolutions[i].height;     // displays the resolutions in a user friendly format
+            string option = resolutionArray[i].width + "x" + resolutionArray[i].height;     // displays the resolutions in a user friendly format
             options.Add(option);                                                    // adds the new option
 
             // checks what the current resolution is
-            if (resolutions[i].width == Screen.currentResolution.width &&
-            resolutions[i].height == Screen.currentResolution.height)
+            if (resolutionArray[i].width == Screen.currentResolution.width &&
+            resolutionArray[i].height == Screen.currentResolution.height)
             {
                 // if we have found the current resolution, save that number
                 currentResolutionIndex = i;
@@ -111,7 +111,7 @@ public class MenuManager : MonoBehaviour
     #region Set Values
     public void SetResolution(int ResolutionIndex)
     {
-        Resolution res = resolutions[ResolutionIndex];
+        Resolution res = resolutionArray[ResolutionIndex];
         Screen.SetResolution(res.width, res.height, Screen.fullScreen);
     }
 
