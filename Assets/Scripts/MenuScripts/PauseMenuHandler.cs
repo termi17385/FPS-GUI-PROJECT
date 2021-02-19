@@ -45,6 +45,7 @@ public class PauseMenuHandler : MonoBehaviour
         {
             menus[0].gameObject.SetActive(true);    // MainScreen
             menus[1].gameObject.SetActive(true);   // Menu 
+            Cursor.lockState = CursorLockMode.None;
             paused = true;
         }
 
@@ -53,6 +54,7 @@ public class PauseMenuHandler : MonoBehaviour
             menus[0].gameObject.SetActive(true);    // MainScreen
             menus[1].gameObject.SetActive(false);   // Menu
             menus[2].gameObject.SetActive(false);   // Options
+            Cursor.lockState = CursorLockMode.Locked;
             paused = false;
         }
 
