@@ -17,6 +17,8 @@ public class PlayController : MonoBehaviour
 
     public Transform cam;
     public Rigidbody rb;
+
+
     #endregion
 
     // Start is called before the first frame update
@@ -24,6 +26,8 @@ public class PlayController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
+
+       
     }
 
     // Update is called once per frame
@@ -40,7 +44,6 @@ public class PlayController : MonoBehaviour
 
         rb.velocity = transform.forward * v;
     }
-
 
 
     /// <summary>
