@@ -25,11 +25,6 @@ public class MenuManager : MonoBehaviour
 
     public GameObject disable;
     #endregion
-
-    #region Scenes
-    [Header("Scenes we want to load")]
-    [SerializeField] private string[] loadScene;
-    #endregion
     #endregion
 
     private void Awake()
@@ -107,6 +102,10 @@ public class MenuManager : MonoBehaviour
         #endregion
 
         PlayerPrefs.Save();
+    }
+    public void ChangeScene(int scene)
+    {
+        SceneManager.LoadScene(scene);  
     }
     #region Set Values
     public void SetResolution(int ResolutionIndex)
