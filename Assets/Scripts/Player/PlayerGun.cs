@@ -10,6 +10,7 @@ public class PlayerGun : MonoBehaviour
     [SerializeField] private float weaponRange = 50;
     [SerializeField] private float hitForce = 100;
     [SerializeField] private Transform gunEnd;
+    [SerializeField] private GameObject muzzleFlash;
 
     #region Private Variables
     private Camera fpsCam;
@@ -23,6 +24,7 @@ public class PlayerGun : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        muzzleFlash.SetActive(false);
         #region GunStuff
         laserLine = GetComponent<LineRenderer>();
         gunShotSound = GetComponent<AudioSource>();
@@ -45,6 +47,7 @@ public class PlayerGun : MonoBehaviour
         // if the player presses the fire button (mouse 1) and the time is greater then next fire
         if (Input.GetButtonDown("Fire1") && Time.time > nextFire)
         {
+            #region Raycasting and effects
             nextFire = Time.time + fireRate;    // next fire is reset 
             StartCoroutine(ShotEffect());       // start the coroutine for the shooting effects
 
@@ -52,6 +55,7 @@ public class PlayerGun : MonoBehaviour
             RaycastHit hit;                                                                     // a variable for getting hit information
 
             laserLine.SetPosition(0, gunEnd.position);                                          // sets the starting point of the linecast
+            #endregion
 
             // the raycast hits something within weapon range
             if (Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hit, weaponRange))     
@@ -61,10 +65,18 @@ public class PlayerGun : MonoBehaviour
                 ShootableObject health = 
                 hit.collider.GetComponent<ShootableObject>();   // checks for an object with the shootableObject script and assigns it to health
 
+                Enemy _health = 
+                hit.collider.GetComponent<Enemy>();
+
                 // if the script is not null and is assigned
                 if (health != null)
                 {
                     health.Damage(gunDamage);                   // damage the object and or enemy
+                }
+
+                if (_health != null)
+                {
+                    _health.DamageEnemy(gunDamage * 10);
                 }
 
                 // if it has a rigidbody
@@ -98,9 +110,10 @@ public class PlayerGun : MonoBehaviour
     private IEnumerator ShotEffect()
     {
         gunShotSound.Play();            // plays the gunshot sound when called
-
+        muzzleFlash.SetActive(true);
         laserLine.enabled = true;       // enables the line
         yield return shotDuration;      // returns the shot duration which waits for set seconds
         laserLine.enabled = false;      // once time is up disable line
+        muzzleFlash.SetActive(false);
     }
 }

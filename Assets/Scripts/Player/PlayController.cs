@@ -6,10 +6,6 @@ public class PlayController : MonoBehaviour
 {
     #region Variables
     public float speed;
-
-    [SerializeField] private float h;
-    [SerializeField] private float v;
-
     public float jumpHeight;
 
     #region MouseStuff
@@ -31,8 +27,6 @@ public class PlayController : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
-
-       
     }
 
     // Update is called once per frame
@@ -44,27 +38,34 @@ public class PlayController : MonoBehaviour
 
     private void PlayerMovement()
     {
-        h = Input.GetAxis("Horizontal");      // left and right axis (a and d)
-        v = Input.GetAxis("Vertical");        // up and down axis ( w and s)
+        #region The axis being used to move the player
+        float h = Input.GetAxis("Horizontal");      // left and right axis (a and d)
+        float v = Input.GetAxis("Vertical");        // up and down axis ( w and s)
+        #endregion
 
         Vector3 direction = new Vector3(h, 0 ,v).normalized;
 
         // if the length of the players move direction is more then 0.1
         if (direction.magnitude >= 0.1f)
         {
+            #region Handles the rotation and movement of the player based on the camera's angle
             float targetAngle = Mathf.Atan2(direction.x, direction.z)
             * Mathf.Rad2Deg + cam.eulerAngles.y;                                // gets the direction and camera facing angle                 
 
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, 
             targetAngle, ref turnSmoothVelocity, turnSmoothTime);               // keeps the player smoothly looking in the direction of the camera  
+            #endregion
 
+            #region moves the player to face the direction of the camera so they always move camera facing
             transform.rotation = Quaternion.Euler(0f, angle, 0f);                             // rotates the player around the y axis
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;        // rotates the player to always be facing forward and keeps the movement going forward
-            cc.Move(moveDir * speed * Time.deltaTime); // moves the player
+            #endregion
+
+            cc.Move(moveDir * speed * Time.deltaTime); // moves the player times'd be speed and Time.deltaTime
         }
         else
         {
-            Debug.Log("stop");          
+            Debug.Log("stop");  // used to see when the player actually stops        
         }
     }
 
