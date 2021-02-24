@@ -30,6 +30,7 @@ public class MenuManager : MonoBehaviour
     private void Awake()
     {
         VideoSettings();
+        LoadPrefs();
     }
 
     #region Settings

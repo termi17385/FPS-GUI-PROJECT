@@ -11,6 +11,8 @@ public class PlayerGun : MonoBehaviour
     [SerializeField] private float hitForce = 100;
     [SerializeField] private Transform gunEnd;
     [SerializeField] private GameObject muzzleFlash;
+    [SerializeField] private Animator recoil;
+    [SerializeField] private PauseMenuHandler pause;
 
     #region Private Variables
     private Camera fpsCam;
@@ -29,14 +31,19 @@ public class PlayerGun : MonoBehaviour
         laserLine = GetComponent<LineRenderer>();
         gunShotSound = GetComponent<AudioSource>();
         fpsCam = GetComponentInParent<Camera>();
+        recoil = GetComponent<Animator>();
         #endregion 
     }
 
     // Update is called once per frame
     void Update()
     {
-        PlayerShooting();
-        ViewRay();
+        if (pause.paused == false)
+        {
+            PlayerShooting();
+            ViewRay();
+        }
+       
     }
 
     /// <summary>
@@ -45,7 +52,7 @@ public class PlayerGun : MonoBehaviour
     private void PlayerShooting()
     {
         // if the player presses the fire button (mouse 1) and the time is greater then next fire
-        if (Input.GetButtonDown("Fire1") && Time.time > nextFire)
+        if (Input.GetButton("Fire1") && Time.time > nextFire)
         {
             #region Raycasting and effects
             nextFire = Time.time + fireRate;    // next fire is reset 
@@ -112,6 +119,7 @@ public class PlayerGun : MonoBehaviour
         gunShotSound.Play();            // plays the gunshot sound when called
         muzzleFlash.SetActive(true);
         laserLine.enabled = true;       // enables the line
+        recoil.Play(0);
         yield return shotDuration;      // returns the shot duration which waits for set seconds
         laserLine.enabled = false;      // once time is up disable line
         muzzleFlash.SetActive(false);

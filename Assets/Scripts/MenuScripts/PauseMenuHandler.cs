@@ -7,8 +7,8 @@ public class PauseMenuHandler : MonoBehaviour
     #region Variables
     [SerializeField] private GameObject[] menus = new GameObject[3];
 
-    [SerializeField] private bool goBack = false;
-    [SerializeField] private bool paused = false;
+    public bool goBack = false;
+    public bool paused = false;
     #endregion
 
     #region Start and Update
@@ -46,6 +46,7 @@ public class PauseMenuHandler : MonoBehaviour
             menus[0].gameObject.SetActive(true);    // MainScreen
             menus[1].gameObject.SetActive(true);   // Menu 
             Cursor.lockState = CursorLockMode.None;
+            Time.timeScale = 0;
             paused = true;
         }
 
@@ -55,6 +56,7 @@ public class PauseMenuHandler : MonoBehaviour
             menus[1].gameObject.SetActive(false);   // Menu
             menus[2].gameObject.SetActive(false);   // Options
             Cursor.lockState = CursorLockMode.Locked;
+            Time.timeScale = 1;
             paused = false;
         }
 

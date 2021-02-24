@@ -20,6 +20,7 @@ public class PlayController : MonoBehaviour
     public Transform cam;
 
     [SerializeField] private CharacterController cc;
+    [SerializeField] private PauseMenuHandler pause;
     #endregion
 
     // Start is called before the first frame update
@@ -33,14 +34,17 @@ public class PlayController : MonoBehaviour
     void Update()
     {
         PlayerMovement();
-        MouseMovement();
+        if (pause.paused == false)
+        {
+            MouseMovement();
+        }
     }
 
     private void PlayerMovement()
     {
         #region The axis being used to move the player
-        float h = Input.GetAxis("Horizontal");      // left and right axis (a and d)
-        float v = Input.GetAxis("Vertical");        // up and down axis ( w and s)
+        float h = Input.GetAxisRaw("Horizontal");      // left and right axis (a and d)
+        float v = Input.GetAxisRaw("Vertical");        // up and down axis ( w and s)
         #endregion
 
         Vector3 direction = new Vector3(h, 0 ,v).normalized;
