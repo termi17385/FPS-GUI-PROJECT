@@ -17,6 +17,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float weaponRange;
     [SerializeField] private float fireRate = 2f;
     [SerializeField] private float nextFire;
+    [SerializeField] private LineRenderer laserLine;
+    [SerializeField] private Transform gunEnd;
+    [SerializeField] private GameObject muzzleFlash;
+
+    private WaitForSeconds shotDuration = new WaitForSeconds(.07f);
 
     // Start is called before the first frame update
     void Start()
@@ -99,6 +104,8 @@ public class Enemy : MonoBehaviour
             Vector3 rayDir = head.forward;
             RaycastHit hit;
 
+            laserLine.SetPosition(0, gunEnd.position);
+
             if (Physics.Raycast(rayOrigin, rayDir, out hit, weaponRange))
             {
                 PlayerStats player = 
@@ -108,6 +115,8 @@ public class Enemy : MonoBehaviour
                 {
                     Debug.Log("Hit Player");
                     player.Damage(5);
+                    laserLine.SetPosition(1, hit.point);
+                    StartCoroutine(ShotEffect());
                 }
             }
         }
@@ -135,5 +144,14 @@ public class Enemy : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+    }
+
+    private IEnumerator ShotEffect()
+    {
+        muzzleFlash.SetActive(true);
+        laserLine.enabled = true;
+        yield return shotDuration;
+        laserLine.enabled = false;
+        muzzleFlash.SetActive(false);
     }
 }
