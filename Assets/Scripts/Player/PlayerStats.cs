@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
-public class HealthManager : MonoBehaviour
+public class PlayerStats : MonoBehaviour
 {
     #region Variables
     public float health;
