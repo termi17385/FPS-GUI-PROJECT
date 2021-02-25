@@ -2,26 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using FPSProject.Stats;
+using FPSProject.Utils;
 
 public class Enemy : MonoBehaviour
-{      
-    [SerializeField] private Transform player;
-    [SerializeField] private Transform head;
-
-    [SerializeField] private float maxHealth = 100;
-    [SerializeField] private float health;
-    [SerializeField] private Image bar;
-    [SerializeField] private float target_range;
+{
+    #region Variables
+    #region Movement and Targetting Variables
+    [Header("Movement and Targetting")]
     [SerializeField] private float enemySpeed;
     [SerializeField] private float enemyLookSpeed;
+    [SerializeField] private float target_range;
+    #endregion
+
+    #region Health Variables
+    [Header("Health")]
+    [SerializeField] private float maxHealth = 100;
+    [SerializeField] private float health;
+    #endregion
+
+    #region Weapon Variables
+    [Header("Weapons")]
     [SerializeField] private float weaponRange;
     [SerializeField] private float fireRate = 2f;
     [SerializeField] private float nextFire;
-    [SerializeField] private LineRenderer laserLine;
-    [SerializeField] private Transform gunEnd;
-    [SerializeField] private GameObject muzzleFlash;
+    #endregion
 
+    #region Transforms
+    [Header("Transforms")]
+    [SerializeField] private Transform player;
+    [SerializeField] private Transform head;
+    [SerializeField] private Transform gun;
+    [SerializeField] private Transform gunEnd;
+    #endregion
+
+    #region Others
+    [Header("Others")]
+    [SerializeField] private Animator recoil;
+    [SerializeField] private Image bar;
+    [SerializeField] private LineRenderer laserLine;
+    [SerializeField] private GameObject muzzleFlash;
+    [SerializeField] private AudioSource gunShot;
+    [SerializeField] private MathUtils utils;
     private WaitForSeconds shotDuration = new WaitForSeconds(.07f);
+    #endregion
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +62,7 @@ public class Enemy : MonoBehaviour
         //transform.position += transform.forward * 2f * Time.deltaTime;
         #endregion
 
+        #region Called Methods
         #region EnemyMovement
         EnemyMove();
         EnemyLookAtPlayer();
@@ -46,8 +72,10 @@ public class Enemy : MonoBehaviour
         ViewRay();
         ShootAtPlayer();
         #endregion
+        #endregion
     }
 
+    #region EnemyMovement
     private void EnemyMove()
     {
         if (Vector3.Distance(transform.position, player.position) > target_range)
@@ -56,7 +84,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void EnemyLookAtPlayer()
+    private void EnemyLookAtPlayer()   // shorten all of this and add a lot of paras 
     {
         #region old code
         //// get the direction we want to rotate towards
@@ -75,25 +103,29 @@ public class Enemy : MonoBehaviour
         // old code doesnt work
         #endregion
 
-        #region used to rotate the body (left and right)
-        // gets the position for the object to rotate towards
-        Vector3 lookPos = player.position - transform.position;
-        lookPos.y = 0; // locks the rotation to the y axis
-        // sets the rotation of the object
-        Quaternion rotation = Quaternion.LookRotation(lookPos);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, enemyLookSpeed * Time.deltaTime); // smooths the rotation and handles rotating the object
-        #endregion
+
+        utils.CustomLookAt(transform, player.position, enemyLookSpeed);  // rotates the enemy to stay in line with the player position
 
         #region used for the gun and head (up and down)
-        // gets the position for the object to rotate towards
-        Vector3 lookPos_ = player.position - head.position;
-        lookPos.x = Mathf.Clamp(rotation.x, -15, 15); // locks the rotation to the y axis
-        // sets the rotation of the object
-        Quaternion rotation_ = Quaternion.LookRotation(lookPos_);
-        head.rotation= Quaternion.Slerp(head.rotation, rotation_, enemyLookSpeed * Time.deltaTime); // smooths the rotation and handles rotating the object
+        Vector3 lookPos = player.position - head.position;              //  gets the position of the target
+        lookPos.x = Mathf.Clamp(lookPos.x, -15, 15);                    //  sets the axis to rotate the object
+
+        Quaternion rotation_ = Quaternion.LookRotation(lookPos);        //  handles the look rotation
+        head.rotation= Quaternion.Slerp(head.rotation, rotation_,       //  rotates the objects with the given values
+            enemyLookSpeed * Time.deltaTime);
+
+
+        Vector3 gunLookPos = player.position - gun.position;            //  gets the position of the target
+        gunLookPos.x = Mathf.Clamp(gunLookPos.x, -15, 15);              //  sets the axis to rotate the object
+
+        Quaternion gunRotation = Quaternion.LookRotation(gunLookPos);   //  handles the look rotation
+        gun.rotation = Quaternion.Slerp(gun.rotation, gunRotation,      //  rotates the objects with the given values
+            enemyLookSpeed * Time.deltaTime);
         #endregion
     }
+    #endregion
 
+    #region Shooting
     private void ShootAtPlayer()
     {
         if (Time.time > nextFire)
@@ -129,7 +161,9 @@ public class Enemy : MonoBehaviour
 
         Debug.DrawRay(rayOrigin, rayDir * weaponRange, Color.red);
     }
+    #endregion
 
+    #region Enemy Health
     private void SetHealthEnemy(float health)
     {
         bar.fillAmount = Mathf.Clamp01(health/maxHealth);
@@ -145,11 +179,14 @@ public class Enemy : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+    #endregion
 
     private IEnumerator ShotEffect()
     {
         muzzleFlash.SetActive(true);
-        laserLine.enabled = true;
+        gunShot.Play();
+        laserLine.enabled = true;   
+        recoil.Play(0);
         yield return shotDuration;
         laserLine.enabled = false;
         muzzleFlash.SetActive(false);
