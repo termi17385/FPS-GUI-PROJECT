@@ -5,20 +5,26 @@ using UnityEngine;
 public class PlayerGun : MonoBehaviour
 {
     #region GunVariables
+    [SerializeField] private float bullet_distance;
     [SerializeField] private int gunDamage = 1;
     [SerializeField] private float fireRate = .25f;
     [SerializeField] private float weaponRange = 50;
     [SerializeField] private float hitForce = 100;
     [SerializeField] private Transform gunEnd;
     [SerializeField] private GameObject muzzleFlash;
-    [SerializeField] private Animator recoil;
+    //[SerializeField] private Animator recoil;
     [SerializeField] private PauseMenuHandler pause;
+
+    [SerializeField] private float bulletSpeed;
+    [SerializeField] private Bullet projectile;
+
+    [SerializeField] private GameObject bulletPrefab;
 
     #region Private Variables
     private Camera fpsCam;
     private WaitForSeconds shotDuration = new WaitForSeconds(.07f);
     private AudioSource gunShotSound;
-    private LineRenderer laserLine;
+    //private LineRenderer laserLine;
     private float nextFire;
     #endregion
     #endregion
@@ -28,10 +34,10 @@ public class PlayerGun : MonoBehaviour
     {
         muzzleFlash.SetActive(false);
         #region GunStuff
-        laserLine = GetComponent<LineRenderer>();
+        //laserLine = GetComponent<LineRenderer>();
         gunShotSound = GetComponent<AudioSource>();
         fpsCam = GetComponentInParent<Camera>();
-        recoil = GetComponent<Animator>();
+        //recoil = GetComponent<Animator>();
         #endregion 
     }
 
@@ -61,40 +67,49 @@ public class PlayerGun : MonoBehaviour
             Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));        // generates a ray from the center of the fps camera
             RaycastHit hit;                                                                     // a variable for getting hit information
 
-            laserLine.SetPosition(0, gunEnd.position);                                          // sets the starting point of the linecast
+            //laserLine.SetPosition(0, gunEnd.position);                                          // sets the starting point of the linecast
             #endregion
 
             // the raycast hits something within weapon range
             if (Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hit, weaponRange))     
             {
-                laserLine.SetPosition(1, hit.point);            // sets the line to end at the point of contact           
+                GameObject newBullet = Instantiate(bulletPrefab, gunEnd.position, gunEnd.rotation);
+                StartCoroutine(MoveForward(newBullet, hit.point));
 
-                ShootableObject health = 
-                hit.collider.GetComponent<ShootableObject>();   // checks for an object with the shootableObject script and assigns it to health
+                #region Old Code
 
-                Enemy _health = 
-                hit.collider.GetComponent<Enemy>();
+                //laserLine.SetPosition(1, hit.point);            // sets the line to end at the point of contact           
 
-                // if the script is not null and is assigned
-                if (health != null)
-                {
-                    health.Damage(gunDamage);                   // damage the object and or enemy
-                }
+                //ShootableObject health = 
+                //hit.collider.GetComponent<ShootableObject>();   // checks for an object with the shootableObject script and assigns it to health
 
-                if (_health != null)
-                {
-                    _health.DamageEnemy(gunDamage * 10);
-                }
+                //Enemy _health = 
+                //hit.collider.GetComponent<Enemy>();
 
-                // if it has a rigidbody
-                if (hit.rigidbody != null)
-                {
-                    hit.rigidbody.AddForce(-hit.normal * hitForce);     // addforce to the object in the direction hit
-                }
+                //// if the script is not null and is assigned
+                //if (health != null)
+                //{
+                //    health.Damage(gunDamage);                   // damage the object and or enemy
+                //}
+
+                //if (_health != null)
+                //{
+                //    _health.DamageEnemy(gunDamage * 10);
+                //}
+
+                //// if it has a rigidbody
+                //if (hit.rigidbody != null)
+                //{
+                   // hit.rigidbody.AddForce(-hit.normal * hitForce);     // addforce to the object in the direction hit
+                //}
+
+                #endregion
             }
             else  // if the raycast doesnt hit anything ie the player shoots the sky then set the linecast to end at weapon range
             {
-                laserLine.SetPosition(1, rayOrigin + (fpsCam.transform.forward * weaponRange));
+                //laserLine.SetPosition(1, rayOrigin + (fpsCam.transform.forward * weaponRange));
+                GameObject newBullet = Instantiate(bulletPrefab, gunEnd.position, gunEnd.rotation);
+                StartCoroutine(MoveForward(newBullet, rayOrigin + (fpsCam.transform.forward * weaponRange)));
             }
 
             Debug.Log(hit);
@@ -118,10 +133,27 @@ public class PlayerGun : MonoBehaviour
     {
         gunShotSound.Play();            // plays the gunshot sound when called
         muzzleFlash.SetActive(true);
-        laserLine.enabled = true;       // enables the line
-        recoil.Play(0);
+        //laserLine.enabled = true;       // enables the line
+        //recoil.Play(0);
         yield return shotDuration;      // returns the shot duration which waits for set seconds
-        laserLine.enabled = false;      // once time is up disable line
+        //laserLine.enabled = false;      // once time is up disable line
         muzzleFlash.SetActive(false);
+    }
+
+    private IEnumerator MoveForward(GameObject bullet, Vector3 target)
+    {
+        while(bullet != null)
+        {                       
+            bullet.transform.position = Vector3.MoveTowards(bullet.transform.position,target, Time.deltaTime * bulletSpeed);
+            if (Vector3.Distance(bullet.transform.position, target) < bullet_distance)
+            {
+                Debug.Log("Reached End Pos");
+                Destroy(bullet.gameObject,.5f);
+                projectile = bullet.GetComponent<Bullet>();
+                projectile.enabled = true;
+                break;
+            }
+            yield return null;
+        }
     }
 }

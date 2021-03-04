@@ -437,13 +437,13 @@ GameObject:
   - component: {fileID: 3701405799246244636}
   - component: {fileID: 3701405799246244632}
   - component: {fileID: 3701405799246244635}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3701405799246244633
 Transform:
   m_ObjectHideFlags: 0

@@ -5,16 +5,17 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - Level
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ignore
   - Water
   - UI
   - Ground
-  - 
-  - 
+  - Object
+  - Characters
   - 
   - 
   - 
