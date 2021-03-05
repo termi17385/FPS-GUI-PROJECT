@@ -55,7 +55,7 @@ namespace FPSProject.Customisation
         public void Start()
         {
             matName = new string[] {"Skin", "Eyes", "Mouth", "Hair","Clothes","Armour"};
-            selectedClass = new string[] {"Stealth", "Tank", "Hunter", "SprintyBoi", };
+            selectedClass = new string[] {"Stealth", "Tank", "Hunter", "SprintyBoi", "Mage"};
 
             #region For loops for assigning textures
             /* 
@@ -193,7 +193,7 @@ namespace FPSProject.Customisation
             }
         }
 
-        void ChooseClass(int classIndex)
+        public void ChooseClass(int classIndex)
         {
             switch (classIndex)
             {
@@ -209,6 +209,17 @@ namespace FPSProject.Customisation
                 break;
 
                 case 1:
+                characterStats[0].baseStats = 5;    // charisma
+                characterStats[1].baseStats = 2;    // Intelligence
+                characterStats[2].baseStats = 16;   // Strength
+                characterStats[3].baseStats = 5;    // Dexterity
+                characterStats[4].baseStats = 17;   // Constitution
+                characterStats[5].baseStats = 1;    // Agility
+
+                characterClass = CharacterClass.Tank;
+                break;
+
+                case 2:
                 characterStats[0].baseStats = 7;    // charisma
                 characterStats[1].baseStats = 10;   // Intelligence
                 characterStats[2].baseStats = 3;    // Strength
@@ -219,7 +230,7 @@ namespace FPSProject.Customisation
                 characterClass = CharacterClass.Hunter;
                 break;
 
-                case 2:
+                case 3:
                 characterStats[0].baseStats = 3;    // charisma
                 characterStats[1].baseStats = 10;   // Intelligence
                 characterStats[2].baseStats = 6;    // Strength
@@ -228,17 +239,6 @@ namespace FPSProject.Customisation
                 characterStats[5].baseStats = 18;   // Agility
 
                 characterClass = CharacterClass.SprintyBoi;
-                break;
-
-                case 3:
-                characterStats[0].baseStats = 5;    // charisma
-                characterStats[1].baseStats = 2;    // Intelligence
-                characterStats[2].baseStats = 16;   // Strength
-                characterStats[3].baseStats = 5;    // Dexterity
-                characterStats[4].baseStats = 17;   // Constitution
-                characterStats[5].baseStats = 1;    // Agility
-
-                characterClass = CharacterClass.Tank;
                 break;
 
                 case 4:
@@ -324,9 +324,10 @@ namespace FPSProject.Customisation
             h++;
             if (showDropdown)
             {
+
                 scrollPos = GUI.BeginScrollView(
-                new Rect(classX,y+h*y,4*x,4*y), scrollPos, 
-                new Rect(0, 0, 0, selectedClass.Length), false,true);
+                new Rect(classX, y + h * y, 4 * x, 4 * y), scrollPos, 
+                new Rect(0, 0, 0, selectedClass.Length * y), false,true);
 
                 for (int i = 0; i < selectedClass.Length; i++)
                 {
@@ -340,7 +341,6 @@ namespace FPSProject.Customisation
                 GUI.EndScrollView();
             }   
             #endregion
-
         }
 
         public enum CharacterClass
