@@ -21,6 +21,7 @@ namespace FPSProject.Customisation
             public int tempStats;
         };
         public Stats[] characterStats;
+        public GameObject[] statChange;
         #endregion
         #region DropDown Menu
         [Header("DropDown Menu")]
@@ -49,6 +50,8 @@ namespace FPSProject.Customisation
         public int eyesMax, mouthMax, hairMax, armourMax, clothesMax;
         [Header("Material names")]  // ids for the materials
         public string[] matName = new string[6];
+
+        public bool debugMode = false;
         #endregion
         #endregion
 
@@ -56,6 +59,17 @@ namespace FPSProject.Customisation
         {
             matName = new string[] {"Skin", "Eyes", "Mouth", "Hair","Clothes","Armour"};
             selectedClass = new string[] {"Stealth", "Tank", "Hunter", "SprintyBoi", "Mage"};
+
+            debugMode = false;
+
+            #region TemporayNameAssignMentForStats
+            characterStats[0].baseStatsName = "Charisma";
+            characterStats[1].baseStatsName = "Intelligence";
+            characterStats[2].baseStatsName = "Strength";
+            characterStats[3].baseStatsName = "Dexterity";
+            characterStats[4].baseStatsName = "Constitution";
+            characterStats[5].baseStatsName = "Agility";
+            #endregion
 
             #region For loops for assigning textures
             /* 
@@ -102,7 +116,7 @@ namespace FPSProject.Customisation
         /// </summary>
         /// <param name="type">The ID of the texture being changed</param>
         /// <param name="dir">The direction in the array we are going</param>
-        void SetTexture(string type, int dir)
+        public void SetTexture(string type, int dir)
         {
             // ints for the index matIndex and max value
             int index = 0, max = 0, matIndex = 0;
@@ -112,10 +126,10 @@ namespace FPSProject.Customisation
             switch (type)
             {
                 case "Skin":                    // the Id of the item we want to change
-                index = skinIndex;              // sets the starting value of the index
-                max = skinMax;                  // sets the max value to the Skin max
-                textures = skin.ToArray();      // assigns the textures to the texture list 
-                matIndex = 1;                   // sets what array we are on
+                index = skinIndex;              // sets the index to the starting value of skinIndex
+                max = skinMax;                  // gets the skin's max value and sets max to it
+                textures = skin.ToArray();      // sends the textures for skin to the skin array 
+                matIndex = 1;                   // sets what material we are changing textures on
                 break;
 
                 case "Eyes":                    // the Id of the item we want to change
@@ -283,64 +297,108 @@ namespace FPSProject.Customisation
         /// </summary>
         private void OnGUI()
         {
-            
-            #region GUI value Setup
-            // 116 : 9
-            Vector2 scr = new Vector2(Screen.width / 16, Screen.height / 9);
-
-            // start positions
-            float left = 0.25f * scr.x;
-            float mid = 0.75f * scr.x;
-            float right = 2.25f * scr.x;
-
-            // sizes
-            float x = 0.5f * scr.x;
-            float y = 0.5f * scr.y;
-            float label = 1.5f * scr.x;
-            #endregion
-            #region Customisation 
-            for (int i = 0; i < matName.Length; i++)
+            if (debugMode)
             {
-                if (GUI.Button(new Rect(left, y + i * y, x, y), "<"))
-                {
-                    // the -1 is used to go backwards in the array
-                    SetTexture(matName[i],  -1);    // changes the textures when left arrow is pressed
-                }
-                GUI.Box(new Rect(mid, y + i * y, label, y), matName[i]);
-                if (GUI.Button(new Rect(right, y + i * y, x, y), ">"))
-                {
-                    SetTexture(matName[i],  1);    // changes the textures when right arrow is pressed
-                }
-            }
-            #endregion
+                #region GUI value Setup
+                // 116 : 9
+                Vector2 scr = new Vector2(Screen.width / 16, Screen.height / 9);
 
-            #region Stats Stuff
-            float classX = 12.75f * scr.x;
-            float h = 0;
-            if (GUI.Button(new Rect(classX, y+h*y,4*x,y), classButton))
-            {
-                showDropdown = !showDropdown;  
-            }
-            h++;
-            if (showDropdown)
-            {
+                // start positions
+                float left = 0.25f * scr.x;
+                float mid = 0.75f * scr.x;
+                float right = 2.25f * scr.x;
 
-                scrollPos = GUI.BeginScrollView(
-                new Rect(classX, y + h * y, 4 * x, 4 * y), scrollPos, 
-                new Rect(0, 0, 0, selectedClass.Length * y), false,true);
-
-                for (int i = 0; i < selectedClass.Length; i++)
+                // sizes
+                float x = 0.5f * scr.x;
+                float y = 0.5f * scr.y;
+                float label = 1.5f * scr.x;
+                #endregion
+                #region Customisation 
+                // used to create a button for each of the customisation options
+                for (int i = 0; i < matName.Length; i++)
                 {
-                    if (GUI.Button(new Rect(0, i*y, 3*x,y), selectedClass[i]))
+                    if (GUI.Button(new Rect(left, y + i * y, x, y), "<"))
                     {
-                        ChooseClass(i);
-                        classButton = selectedClass[i];
-                        showDropdown = false;
+                        // the -1 is used to go backwards in the array
+                        SetTexture(matName[i], -1);    // changes the textures when left arrow is pressed
+                    }
+                    GUI.Box(new Rect(mid, y + i * y, label, y), matName[i]);
+                    if (GUI.Button(new Rect(right, y + i * y, x, y), ">"))
+                    {
+                        SetTexture(matName[i], 1);    // changes the textures when right arrow is pressed
                     }
                 }
-                GUI.EndScrollView();
-            }   
-            #endregion
+                #endregion
+
+                #region Stats Stuff
+                #region Handles the classes
+                float classX = 12.75f * scr.x;
+                float h = 0;
+                if (GUI.Button(new Rect(classX, y + h * y, 4 * x, y), classButton))
+                {
+                    showDropdown = !showDropdown;
+                }
+                h++;
+                if (showDropdown)
+                {
+
+                    scrollPos = GUI.BeginScrollView(
+                    new Rect(classX, y + h * y, 4 * x, 4 * y), scrollPos,
+                    new Rect(0, 0, 0, selectedClass.Length * y), false, true);
+
+                    for (int i = 0; i < selectedClass.Length; i++)
+                    {
+                        if (GUI.Button(new Rect(0, i * y, 3 * x, y), selectedClass[i]))
+                        {
+                            ChooseClass(i);
+                            classButton = selectedClass[i];
+                            showDropdown = false;
+                        }
+                    }
+                    GUI.EndScrollView();
+                }
+                #endregion
+
+                #region Handles the stat points
+                // loops until i is no longer less then characterstats length
+                // while looping i increases by i
+                for (int i = 0; i < characterStats.Length; i++)
+                {
+                    // handles creating the gui placing i amount of buttons
+                    if (GUI.Button(new Rect(left * 19, y + i * y, x, y), "+"))
+                    {
+                        // a variable that combines both character base stats and temp stats
+                        int stats = characterStats[i].baseStats + characterStats[i].tempStats;
+
+                        // if the starting stat points are greater then 0 and stats arent in total 20
+                        if (statPoints > 0 && stats < 20)
+                        {
+                            characterStats[i].tempStats += 1;
+                            statChange[i].SetActive(true);          // show the player there has been a change by setting the object active
+                            statPoints -= 1;
+                        }
+                    }
+                    // textbox that displays the name of eacher stat
+                    GUI.Box(new Rect(mid * 7, y + i * y, label, y), characterStats[i].baseStatsName);
+                    if (GUI.Button(new Rect(right * 3, y + i * y, x, y), "-"))
+                    {
+                        // if temp stats are less or equal to 1
+                        if (characterStats[i].tempStats <= 1)
+                        {
+                            // disables the object so that the player can see base stats are at default values
+                            statChange[i].SetActive(false);
+                        }
+                        // if stat points are < 10 and temp stats greater than 0
+                        if (statPoints < 10 && characterStats[i].tempStats > 0)
+                        {
+                            characterStats[i].tempStats -= 1;
+                            statPoints += 1;
+                        }
+                    }
+                }
+                #endregion
+                #endregion
+            }
         }
 
         public enum CharacterClass

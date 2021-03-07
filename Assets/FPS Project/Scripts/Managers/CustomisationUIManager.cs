@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using TMPro;
 
 namespace FPSProject.Customisation
@@ -14,11 +16,39 @@ namespace FPSProject.Customisation
         [SerializeField] private TextMeshProUGUI displayStartingPoints;
         [SerializeField] private TextMeshProUGUI displayStatPoints;
 
+        [SerializeField] private int x;
+
         #endregion
         private void Awake()
         {
             pc = FindObjectOfType<PlayerCustomisation>();
             DisplayText();
+
+            pc.ChooseClass( 0);
+        }
+
+        private void Update()
+        {
+            DisplayText();
+            EnableDebug();
+        }
+
+        private void EnableDebug()
+        {   
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                x ++;
+                switch (x)
+                {
+                    case 1:
+                        pc.debugMode = true;
+                        break;
+                    case 2:
+                        pc.debugMode = false;
+                        x = 0;
+                        break;
+                }
+            }
         }
 
 
@@ -34,13 +64,24 @@ namespace FPSProject.Customisation
             #endregion
 
             displayStartingPoints.text = string.Format("Points : {0}", pc.statPoints);
-            displayStatPoints.text = string.Format("{0}\n{1}\n{2}\n{3}\n{4}\n{5}", charisma, intelligence, strength, dexterity, constitution, agility);
+            displayStatPoints.text = string.Format("charisma: {0}\n\nintelligence: {1}\n\nstrength: {2}\n\ndexterity: {3}\n\nconstitution: {4}\n\nagility: {5}",
+                charisma, intelligence, strength, dexterity, constitution, agility);
         }
 
         public void CharacterClassDropDown(int i)
         {
             pc.ChooseClass(i);
             DisplayText();
+        }
+
+        public void SetTexturePos(string buttonID)
+        {
+            pc.SetTexture(buttonID, 1); 
+        }
+
+        public void SetTextureNeg(string buttonID)
+        {
+            pc.SetTexture(buttonID, -1);
         }
     }
 }
