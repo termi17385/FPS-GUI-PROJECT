@@ -111,8 +111,10 @@ namespace FPSProject.Customisation
             #endregion
         }
 
+        #region Methods for changing the characters classes and textures
         /// <summary>
-        /// Sets the textures of the character when called based off the name and index value given
+        /// Used to let the player change the texture of there character so they 
+        /// <br/> can customise the look of the character to their desire
         /// </summary>
         /// <param name="type">The ID of the texture being changed</param>
         /// <param name="dir">The direction in the array we are going</param>
@@ -122,51 +124,61 @@ namespace FPSProject.Customisation
             int index = 0, max = 0, matIndex = 0;
             Texture2D[] textures = new Texture2D[0];    // list of textures
 
-            // this switch handles changing and assigning textures
+            #region Switch 1
+            // used to get and assign the textures
+            // and the indexs of the defined items
             switch (type)
             {
+                #region Skin
                 case "Skin":                    // the Id of the item we want to change
-                index = skinIndex;              // sets the index to the starting value of skinIndex
-                max = skinMax;                  // gets the skin's max value and sets max to it
-                textures = skin.ToArray();      // sends the textures for skin to the skin array 
+                index = skinIndex;              // sets the index to match the items index
+                max = skinMax;                  // sets the max to the items max
+                textures = skin.ToArray();      // gets the textures from items list and converts to array
                 matIndex = 1;                   // sets what material we are changing textures on
                 break;
-
-                case "Eyes":                    // the Id of the item we want to change
-                index = eyesIndex;              // sets the starting value of the index
-                max = eyesMax;                  // sets the max value to the Eyes max
-                textures = eyes.ToArray();      // assigns the textures to the texture list
-                matIndex = 2;                   // sets what array we are on
+                #endregion
+                #region Eyes
+                case "Eyes":                   
+                index = eyesIndex;             
+                max = eyesMax;                 
+                textures = eyes.ToArray();     
+                matIndex = 2;                  
                 break;
-
-                case "Mouth":                   // the Id of the item we want to change
-                index = mouthIndex;             // sets the starting value of the index
-                max = mouthMax;                 // sets the max value to the Mouth max
-                textures = mouth.ToArray();     // assigns the textures to the texture list
-                matIndex = 3;                   // sets what array we are on
+                #endregion
+                #region Mouth
+                case "Mouth":                  
+                index = mouthIndex;            
+                max = mouthMax;                
+                textures = mouth.ToArray();    
+                matIndex = 3;                  
                 break;
-                                                
-                case "Hair":                    // the Id of the item we want to change
-                index = hairIndex;              // sets the starting value of the index
-                max = hairMax;                  // sets the max value to the Hair max
-                textures = hair.ToArray();      // assigns the textures to the texture list
-                matIndex = 4;                   // sets what array we are on
+                #endregion
+                #region Hair
+                case "Hair":                   
+                index = hairIndex;             
+                max = hairMax;                 
+                textures = hair.ToArray();     
+                matIndex = 4;                  
                 break;
-
-                case "Clothes":                 // the Id of the item we want to change
-                index = clothesIndex;           // sets the starting value of the index
-                max = clothesMax;               // sets the max value to the Clothes max
-                textures = clothes.ToArray();   // assigns the textures to the texture list
-                matIndex = 5;                   // sets what array we are on
+                #endregion
+                #region Clothes
+                case "Clothes":                
+                index = clothesIndex;          
+                max = clothesMax;              
+                textures = clothes.ToArray();  
+                matIndex = 5;                  
                 break;
-                                                
-                case "Armour":                  // the Id of the item we want to change
-                index = armourIndex;            // sets the starting value of the index
-                max = armourMax;                // sets the max value to the Armour max
-                textures = armour.ToArray();    // assigns the textures to the texture list
-                matIndex = 6;                   // sets what array we are on
+                #endregion
+                #region Armour
+                case "Armour":                 
+                index = armourIndex;           
+                max = armourMax;               
+                textures = armour.ToArray();   
+                matIndex = 6;                  
                 break;
+                #endregion
             }
+            #endregion
 
             index += dir; // adds to the index from the number given when the method is called
             if(index < 0)
@@ -183,34 +195,44 @@ namespace FPSProject.Customisation
             mat[matIndex].mainTexture = textures[index];    // gets the materials
             characterRenderer.materials = mat;              // assigns what material we are changing 
 
+            #region Switch 2
             // handles changing the index values
             switch (type)
             {
                 case "Skin":
-                    skinIndex = index;      // assigns the Skin index to the current value of the index
+                    skinIndex = index;      // assigns the choosen item's index to the current value of the index
                     break;
                 case "Eyes":
-                    eyesIndex = index;      // assigns the Eyes index to the current value of the index
+                    eyesIndex = index;     
                     break;
                 case "Mouth":
-                    mouthIndex = index;     // assigns the Mouth index to the current value of the index
+                    mouthIndex = index;    
                     break;
                 case "Hair":
-                    hairIndex = index;      // assigns the Hair index to the current value of the index
+                    hairIndex = index;     
                     break;
                 case "Clothes":
-                    clothesIndex = index;   // assigns the Clothes index to the current value of the index
+                    clothesIndex = index;  
                     break;
                 case "Armour":
-                    armourIndex = index;    // assigns the Armour index to the current value of the index
+                    armourIndex = index;   
                     break;
             }
+            #endregion
         }
 
+        /// <summary>
+        /// This method handles the players ability to <br/>
+        /// Choose their class in the customisation menu
+        /// <br/><br/>
+        /// As well as assigning the base stats of the class
+        /// </summary>
+        /// <param name="classIndex">used to choose which class</param>
         public void ChooseClass(int classIndex)
         {
             switch (classIndex)
             {
+                #region Slealth
                 case 0:
                 characterStats[0].baseStats = 11;   // charisma
                 characterStats[1].baseStats = 15;   // Intelligence
@@ -221,52 +243,58 @@ namespace FPSProject.Customisation
 
                 characterClass = CharacterClass.Stealth;
                 break;
-
+                #endregion
+                #region Tank
                 case 1:
-                characterStats[0].baseStats = 5;    // charisma
-                characterStats[1].baseStats = 2;    // Intelligence
-                characterStats[2].baseStats = 16;   // Strength
-                characterStats[3].baseStats = 5;    // Dexterity
-                characterStats[4].baseStats = 17;   // Constitution
-                characterStats[5].baseStats = 1;    // Agility
+                characterStats[0].baseStats = 5;  
+                characterStats[1].baseStats = 2;  
+                characterStats[2].baseStats = 16; 
+                characterStats[3].baseStats = 5;  
+                characterStats[4].baseStats = 17; 
+                characterStats[5].baseStats = 1;  
 
                 characterClass = CharacterClass.Tank;
                 break;
-
+                #endregion
+                #region Hunter
                 case 2:
-                characterStats[0].baseStats = 7;    // charisma
-                characterStats[1].baseStats = 10;   // Intelligence
-                characterStats[2].baseStats = 3;    // Strength
-                characterStats[3].baseStats = 6;    // Dexterity
-                characterStats[4].baseStats = 16;   // Constitution
-                characterStats[5].baseStats = 11;   // Agility
+                characterStats[0].baseStats = 7;  
+                characterStats[1].baseStats = 10; 
+                characterStats[2].baseStats = 3;  
+                characterStats[3].baseStats = 6;  
+                characterStats[4].baseStats = 16; 
+                characterStats[5].baseStats = 11; 
 
                 characterClass = CharacterClass.Hunter;
                 break;
-
+                #endregion
+                #region SprintyBoi
                 case 3:
-                characterStats[0].baseStats = 3;    // charisma
-                characterStats[1].baseStats = 10;   // Intelligence
-                characterStats[2].baseStats = 6;    // Strength
-                characterStats[3].baseStats = 11;   // Dexterity
-                characterStats[4].baseStats = 6;    // Constitution
-                characterStats[5].baseStats = 18;   // Agility
+                characterStats[0].baseStats = 3;   
+                characterStats[1].baseStats = 10;  
+                characterStats[2].baseStats = 6;   
+                characterStats[3].baseStats = 11;  
+                characterStats[4].baseStats = 6;   
+                characterStats[5].baseStats = 18;  
 
                 characterClass = CharacterClass.SprintyBoi;
                 break;
-
+                #endregion
+                #region Mage
                 case 4:
-                characterStats[0].baseStats = 18;   // charisma
-                characterStats[1].baseStats = 15;   // Intelligence
-                characterStats[2].baseStats = 5;    // Strength
-                characterStats[3].baseStats = 10;   // Dexterity
-                characterStats[4].baseStats = 19;   // Constitution
-                characterStats[5].baseStats = 6;    // Agility
+                characterStats[0].baseStats = 18;  
+                characterStats[1].baseStats = 15;  
+                characterStats[2].baseStats = 5;   
+                characterStats[3].baseStats = 10;  
+                characterStats[4].baseStats = 19;  
+                characterStats[5].baseStats = 6;   
 
                 characterClass = CharacterClass.Mage;
                 break;
+                #endregion
             }
         }
+        #endregion
 
         void SaveCharacter()
         {
@@ -334,25 +362,30 @@ namespace FPSProject.Customisation
                 #region Handles the classes
                 float classX = 12.75f * scr.x;
                 float h = 0;
+                // creates a button
                 if (GUI.Button(new Rect(classX, y + h * y, 4 * x, y), classButton))
                 {
+                    // when the button is pressed it either shows the dropdown or hides it
                     showDropdown = !showDropdown;
                 }
                 h++;
                 if (showDropdown)
                 {
-
+                    // creates a scroll bar at the set position with a set size and length
                     scrollPos = GUI.BeginScrollView(
                     new Rect(classX, y + h * y, 4 * x, 4 * y), scrollPos,
-                    new Rect(0, 0, 0, selectedClass.Length * y), false, true);
+                    new Rect(0, 0, 0, selectedClass.Length * y), false, true); // gets the length of the scroll bar based
+                                                              // on the length of the class list * 0.5 of he aspect ratio
 
+                    // i < class list length keep looping until i is no longer less then the length
                     for (int i = 0; i < selectedClass.Length; i++)
                     {
+                        // creates a new button each time it loops 1 under the other
                         if (GUI.Button(new Rect(0, i * y, 3 * x, y), selectedClass[i]))
                         {
-                            ChooseClass(i);
-                            classButton = selectedClass[i];
-                            showDropdown = false;
+                            ChooseClass(i);                     // when the button is pressed select defined class
+                            classButton = selectedClass[i];     // displays the choosen class on the class button 
+                            showDropdown = false;               // hides the drop down
                         }
                     }
                     GUI.EndScrollView();
@@ -398,6 +431,7 @@ namespace FPSProject.Customisation
                 }
                 #endregion
                 #endregion
+
             }
         }
 

@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using TMPro;
 
 namespace FPSProject.Customisation
@@ -19,6 +15,7 @@ namespace FPSProject.Customisation
         [SerializeField] private int x;
 
         #endregion
+
         private void Awake()
         {
             pc = FindObjectOfType<PlayerCustomisation>();
@@ -33,6 +30,9 @@ namespace FPSProject.Customisation
             EnableDebug();
         }
 
+        /// <summary>
+        /// enables the debug gui elements
+        /// </summary>
         private void EnableDebug()
         {   
             if (Input.GetKeyDown(KeyCode.F1))
@@ -51,7 +51,9 @@ namespace FPSProject.Customisation
             }
         }
 
-
+        /// <summary>
+        /// used for displaying text to the canvas UI elements
+        /// </summary>
         private void DisplayText()
         {
             #region variables
@@ -63,17 +65,23 @@ namespace FPSProject.Customisation
             int agility =       pc.characterStats[5].baseStats + pc.characterStats[5].tempStats;    // holds the data for agility
             #endregion
 
+            #region Displaying Stats
             displayStartingPoints.text = string.Format("Points : {0}", pc.statPoints);
             displayStatPoints.text = string.Format("charisma: {0}\n\nintelligence: {1}\n\nstrength: {2}\n\ndexterity: {3}\n\nconstitution: {4}\n\nagility: {5}",
-                charisma, intelligence, strength, dexterity, constitution, agility);
+            charisma, intelligence, strength, dexterity, constitution, agility);
+            #endregion
         }
 
+        /// <summary>
+        /// a dropdown for changing the characters class
+        /// </summary>
+        /// <param name="i">the id of the class in the list</param>
         public void CharacterClassDropDown(int i)
         {
             pc.ChooseClass(i);
-            DisplayText();
         }
 
+        #region Texture Customisation
         public void SetTexturePos(string buttonID)
         {
             pc.SetTexture(buttonID, 1); 
@@ -83,6 +91,7 @@ namespace FPSProject.Customisation
         {
             pc.SetTexture(buttonID, -1);
         }
+        #endregion
     }
 }
 
