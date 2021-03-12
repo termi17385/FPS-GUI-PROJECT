@@ -1,56 +1,84 @@
-using System.Collections;
-using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;  
 using UnityEngine.AI;
 using FPSProject.Utils;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyBasic : MonoBehaviour
 {
+    #region Properties
+    /// <summary>
+    /// read only property for Angle
+    /// </summary>
+    protected float TargetAngle
+    { 
+        get => angle; // gets the angle
+    }
+    /// <summary>
+    /// read only property for Max Angle
+    /// </summary>
+    protected float MaxAngle
+    {
+        get => maxAngle;
+    }
+    /// <summary>
+    /// Read only property for target distance
+    /// </summary>
+    protected float TargetDistance
+    {
+        get => targetDistance;
+    }
+    #endregion
     #region Variables
-    #region Ranges
-    [SerializeField] protected float playerRangeMax;
-    [SerializeField] protected float playerRangeMid;
-    [SerializeField] protected float playerRangeMin;
+    #region angle and distance
+    [Header("Angles and Distances"), 
+    InfoBox("Read only variables for showing the current angle and current distance to target")]
+    [SerializeField, ReadOnly] private float angle;
+    [SerializeField, ReadOnly] private float targetDistance;
+    private float maxAngle = 30;
     #endregion
-    #region Floats
-    [SerializeField] protected float playerDistance;
-    protected float detectionLevel = 0;
+    #region AgentSpeed
+    [SerializeField] protected float agentSprint;
+    [SerializeField] protected float agentWalk;
+    #endregion
+    #region Detection
+    [Header("Detection")]
+    [SerializeField, ReadOnly] protected float detectionLevel = 0;
     protected float maxDetectionLevel = 100;
-    [SerializeField] protected float detectionAmt = 15;
-
-    [SerializeField] private float x;
-    public float angle;
-
-    [SerializeField] float lineDist;
-    [SerializeField] float lineOffsetDist;
+    protected float detectionAmt = 15;
+    [ReadOnly] public Transform target;
+    [SerializeField] private Transform head;
+    [SerializeField] private float lookSpeed;
     #endregion
-    #region Transforms
-    public Transform target;
-    [SerializeField] protected Transform canvas;
-    #endregion
-    #region Bools
-    public bool playerDetected = false;
-    protected bool isPlayer;
-    protected bool ray;
+    #region CanvasVariables
+    //[SerializeField] protected Transform canvas;
+    //[SerializeField] protected Image bar;
     #endregion
     #region Misc
-    [SerializeField] protected Image bar;
     [SerializeField] protected LayerMask ignore;
     [SerializeField] protected NavMeshAgent agent;
+    #endregion
+    #region DebugVariables
+    [InfoBox("Variables for changing the cone size for debugging purposes", EInfoBoxType.Error)]
+    public bool _debug;
+    [SerializeField, ShowIf("_debug")] private float lineDist;
+    [SerializeField, ShowIf("_debug")] private float lineOffsetDist;
     #endregion
     #endregion
 
     #region Start and Update
     protected virtual void Start()
     {
+        agent = GetComponent<NavMeshAgent>();
     }
 
     protected virtual void Update()
     {
         DetectionCone();
-        if (Debugging.debugMode){DebugDrawLines();}
-        canvas.LookAt(target);
+        if (Debugging.debugMode){DebugDrawLines(); _debug = Debugging.debugMode;}
+        else{_debug = false;}
+        //canvas.LookAt(target);
         //DetectionBar(detectionLevel);
     }
     #endregion
@@ -58,24 +86,24 @@ public class EnemyBasic : MonoBehaviour
     #region Handles Detection
     private void DetectionCone()
     {
-        MathUtils.CalculateTargetAngle(transform, target, out angle, out playerDistance);
+        MathUtils.CalculateTargetAngle(head, target, out angle, out targetDistance);   // calculates the angle and distance
         RaycastHit _hit;
 
         // if the angle is less then x 
-        if (angle < x && playerDistance < 50)
+        if ((TargetAngle < MaxAngle && TargetDistance < 50f) || (TargetAngle < 360f && TargetDistance <= 4.5f))
         {
             // send ray to the target to check if there is line of sight
-            if (Physics.Linecast(transform.position, target.position, out _hit, ignore))
+            if (Physics.Linecast(head.position, target.position, out _hit))
             {
+                if (_hit.collider.gameObject.CompareTag("Player")){ Debug.Log("can see you"); 
+                MathUtils.LookAtTarget(head, target.position, lookSpeed); EngageTarget();}
+                
                 // if the enemy can see the player and 
                 // no object is blocking view 
                 // run method
             }
-            Debug.DrawRay(transform.position, target.position - transform.position, Color.red);
+            Debug.DrawRay(head.position, target.position - head.position, Color.red);
         }
-       
-
-        
         //Debug.Log("Target Angle" + angle + "\n Target Distance" + playerDistance);
 
         #region OldCode
@@ -102,107 +130,56 @@ public class EnemyBasic : MonoBehaviour
         //
         //    if (detectionLevel <= 0){ engageAi.enabled = false; } // stop chasing nothing you fool
         //} 
-       
-            //if (isPlayer)
-            //{
-            //Debug.Log(playerDetected);
-            //Debug.Log(_target.name);
 
-            //#region Player Distances
+        //if (isPlayer)
+        //{
+        //Debug.Log(playerDetected);
+        //Debug.Log(_target.name);
 
-            //#endregion
-            //}
+        //#region Player Distances
 
-            //if (isPlayer == false)
-            //{
-            //FillDetection(-detectionAmt * Time.deltaTime);
-            //Debug.Log(_target.name);
-            //canvas.gameObject.SetActive(false);
-            //}
-            #endregion
+        //#endregion
+        //}
+
+        //if (isPlayer == false)
+        //{
+        //FillDetection(-detectionAmt * Time.deltaTime);
+        //Debug.Log(_target.name);
+        //canvas.gameObject.SetActive(false);
+        //}
+        #endregion
     }
 
     private void EngageTarget()
     {
-        if (playerDistance >= 40)
+        agent.SetDestination(target.position);
+        
+        if (TargetDistance >= 30)
         {
-            
+            agent.speed = agentSprint;
         }
+        else if (TargetDistance <= 25)
+        {
+            agent.speed = agentWalk;
+        }
+    }
+
+    #region Debug
+    private void OnDrawGizmos()
+    {
+        if (Debugging.debugMode){ Gizmos.DrawWireSphere(transform.position, 4); }
     }
 
     void DebugDrawLines()
     {
         float distance = lineDist;                              // used to make it go further out
         float offsetDistance = lineOffsetDist;                  // used to spread out the lines
-        Vector3 offset = transform.right * offsetDistance;      // sets the offset
-        Vector3 forward = transform.forward * distance;         // sets the direction
+        Vector3 offset = head.right * offsetDistance;      // sets the offset
+        Vector3 forward = head.forward * distance;         // sets the direction
 
-        Debug.DrawLine(transform.position, transform.position + forward - offset, Color.blue);   // left
-        Debug.DrawLine(transform.position, transform.position + forward, Color.blue);            // middle
-        Debug.DrawLine(transform.position, transform.position + forward + offset, Color.blue);   // right
-    }
-
-    #region Old
-    /// <summary>
-    /// Used to handle if the player is seen or not
-    /// </summary>
-    /// <param name="playerSpotted">A bool for checking if the player can be seen</param>
-    private void PlayerDetectionSwitch(bool playerSpotted)
-    {
-        switch (playerSpotted)
-        {
-            case true:  // if true
-            Debug.Log("I have line of sight on");
-            PlayerDistances(); // run method
-            break;
-
-            case false:  // if false
-            FillDetection(-detectionAmt * Time.deltaTime); // run method
-            canvas.gameObject.SetActive(false);  // disable object
-
-            break;
-        }
-    }
-
-    /// <summary>
-    /// Handles checking how far the target is from the enemy
-    /// </summary>
-    private void PlayerDistances()
-    {
-        #region Variables
-        bool playerIsFar = playerDistance >= playerRangeMax;
-        bool playerIsMidRange = playerDistance <= playerRangeMid && playerDistance >= playerRangeMin;
-        bool playerIsClose = playerDistance <= playerRangeMin;
-        #endregion
-
-        if (playerIsFar)
-        {
-            FillDetection(detectionAmt * Time.deltaTime);
-        }
-        if (playerIsMidRange)
-        {
-            FillDetection(detectionAmt * Time.deltaTime * 2);
-        }
-        if (playerIsClose)
-        {
-            FillDetection(100);
-        }
-    }    
-    private void DetectionBar(float spotLevel)
-    {
-        bar.fillAmount = Mathf.Clamp01(spotLevel / maxDetectionLevel);
-        if (detectionLevel <= 0)
-        {
-            detectionLevel = 0;
-        }
-        if (detectionLevel >= 100)
-        {
-            detectionLevel = 100;
-        }
-    }
-    private void FillDetection(float amt)
-    {
-        detectionLevel += amt;
+        Debug.DrawLine(head.position, head.position + forward - offset, Color.blue);   // left
+        Debug.DrawLine(head.position, head.position + forward, Color.blue);            // middle
+        Debug.DrawLine(head.position, head.position + forward + offset, Color.blue);   // right
     }
     #endregion
     #endregion

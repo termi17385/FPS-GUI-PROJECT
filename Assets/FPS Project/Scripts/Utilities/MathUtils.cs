@@ -12,7 +12,7 @@ namespace FPSProject.Utils
         /// <param name="objectPosY">the objects transform</param>
         /// <param name="targetPos">the targets transform</param>
         /// <param name="rotationSpeed">the speed we want to rotate the object at</param>
-        static public void CustomLookAt
+        static public void LookAtTarget
         (Transform objectPosY, Vector3 targetPos, float rotationSpeed)
         {
             #region Handles the horizontal Rotation of the object

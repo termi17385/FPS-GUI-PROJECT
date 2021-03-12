@@ -16,7 +16,7 @@ public class TargetDetectionBasic : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             if (setDetection.target == null){setDetection.target = other.gameObject.transform;}
-            setDetection.playerDetected = true;
+            //setDetection.playerDetected = true;
         }
     }
 
@@ -24,7 +24,7 @@ public class TargetDetectionBasic : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            setDetection.playerDetected = false;
+            //setDetection.playerDetected = false;
         }
     }
 }
