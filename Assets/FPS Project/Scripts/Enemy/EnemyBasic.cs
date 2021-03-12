@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine;  
+using UnityEngine.AI;
 using FPSProject.Utils;
 using UnityEngine.UI;
 
@@ -36,19 +37,18 @@ public class EnemyBasic : MonoBehaviour
     #region Misc
     [SerializeField] protected Image bar;
     [SerializeField] protected LayerMask ignore;
-    [SerializeField] protected NavMeshTargettingTest engageAi;
+    [SerializeField] protected NavMeshAgent agent;
     #endregion
     #endregion
 
     #region Start and Update
     protected virtual void Start()
     {
-        engageAi.enabled = false;
     }
 
     protected virtual void Update()
     {
-        DetectPlayer();
+        DetectionCone();
         if (Debugging.debugMode){DebugDrawLines();}
         canvas.LookAt(target);
         //DetectionBar(detectionLevel);
@@ -56,7 +56,7 @@ public class EnemyBasic : MonoBehaviour
     #endregion
 
     #region Handles Detection
-    private void DetectPlayer()
+    private void DetectionCone()
     {
         MathUtils.CalculateTargetAngle(transform, target, out angle, out playerDistance);
         RaycastHit _hit;
@@ -122,6 +122,14 @@ public class EnemyBasic : MonoBehaviour
             #endregion
     }
 
+    private void EngageTarget()
+    {
+        if (playerDistance >= 40)
+        {
+            
+        }
+    }
+
     void DebugDrawLines()
     {
         float distance = lineDist;                              // used to make it go further out
@@ -152,7 +160,6 @@ public class EnemyBasic : MonoBehaviour
             FillDetection(-detectionAmt * Time.deltaTime); // run method
             canvas.gameObject.SetActive(false);  // disable object
 
-            if (detectionLevel <= 0){ engageAi.enabled = false; } // stop chasing nothing you fool
             break;
         }
     }

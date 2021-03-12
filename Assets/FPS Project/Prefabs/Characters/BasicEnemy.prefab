@@ -89,7 +89,6 @@ GameObject:
   - component: {fileID: 5091829569920509855}
   - component: {fileID: 5091829569920509851}
   - component: {fileID: 5091829569686294392}
-  - component: {fileID: 5091829569686294393}
   - component: {fileID: 2491074092509330239}
   m_Layer: 0
   m_Name: BasicEnemy
@@ -203,7 +202,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5091829569920509854}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5000001
   m_Speed: 3.5
@@ -218,20 +217,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &5091829569686294393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5091829569920509854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fe6587ac16b70f49b4ae3f10a4f127e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 5091829569686294392}
-  target: {fileID: 0}
 --- !u!114 &2491074092509330239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,7 +245,7 @@ MonoBehaviour:
   ignore:
     serializedVersion: 2
     m_Bits: 499
-  engageAi: {fileID: 5091829569686294393}
+  agent: {fileID: 0}
 --- !u!1 &5091829570201532150
 GameObject:
   m_ObjectHideFlags: 0
