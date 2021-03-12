@@ -51,8 +51,6 @@ namespace FPSProject.Customisation
         public int eyesMax, mouthMax, hairMax, armourMax, clothesMax;
         [Header("Material names")]  // ids for the materials
         public string[] matName = new string[6];
-
-        public bool debugMode = false;
         #endregion
         #endregion
 
@@ -60,8 +58,6 @@ namespace FPSProject.Customisation
         {
             matName = new string[] {"Skin", "Eyes", "Mouth", "Hair","Clothes","Armour"};
             selectedClass = new string[] {"Stealth", "Tank", "Hunter", "SprintyBoi", "Mage"};
-
-            debugMode = false;
 
             #region TemporayNameAssignMentForStats
             characterStats[0].baseStatsName = "Charisma";
@@ -233,7 +229,7 @@ namespace FPSProject.Customisation
         {
             switch (classIndex)
             {
-                #region Slealth
+                #region Stealth
                 case 0:
                 characterStats[0].baseStats = 11;   // charisma
                 characterStats[1].baseStats = 15;   // Intelligence
@@ -242,6 +238,7 @@ namespace FPSProject.Customisation
                 characterStats[4].baseStats = 9;    // Constitution
                 characterStats[5].baseStats = 18;   // Agility
 
+                selectedClassIndex = 0;
                 characterClass = CharacterClass.Stealth;
                 break;
                 #endregion
@@ -252,8 +249,9 @@ namespace FPSProject.Customisation
                 characterStats[2].baseStats = 16; 
                 characterStats[3].baseStats = 5;  
                 characterStats[4].baseStats = 17; 
-                characterStats[5].baseStats = 1;  
+                characterStats[5].baseStats = 1;
 
+                selectedClassIndex = 1;
                 characterClass = CharacterClass.Tank;
                 break;
                 #endregion
@@ -264,8 +262,9 @@ namespace FPSProject.Customisation
                 characterStats[2].baseStats = 3;  
                 characterStats[3].baseStats = 6;  
                 characterStats[4].baseStats = 16; 
-                characterStats[5].baseStats = 11; 
+                characterStats[5].baseStats = 11;
 
+                selectedClassIndex = 2;
                 characterClass = CharacterClass.Hunter;
                 break;
                 #endregion
@@ -276,8 +275,9 @@ namespace FPSProject.Customisation
                 characterStats[2].baseStats = 6;   
                 characterStats[3].baseStats = 11;  
                 characterStats[4].baseStats = 6;   
-                characterStats[5].baseStats = 18;  
+                characterStats[5].baseStats = 18;
 
+                selectedClassIndex = 3;
                 characterClass = CharacterClass.SprintyBoi;
                 break;
                 #endregion
@@ -288,8 +288,9 @@ namespace FPSProject.Customisation
                 characterStats[2].baseStats = 5;   
                 characterStats[3].baseStats = 10;  
                 characterStats[4].baseStats = 19;  
-                characterStats[5].baseStats = 6;   
+                characterStats[5].baseStats = 6;
 
+                selectedClassIndex = 4;
                 characterClass = CharacterClass.Mage;
                 break;
                 #endregion
@@ -305,7 +306,6 @@ namespace FPSProject.Customisation
             PlayerPrefs.SetInt("MouthIndex", mouthIndex);           // saves the index for mouth
             PlayerPrefs.SetInt("ClothesIndex", clothesIndex);       // saves the index for clothes
             PlayerPrefs.SetInt("ArmourIndex", armourIndex);         // saves the index for armour
-
 
             PlayerPrefs.SetString("CharacterName", characterName);  // saves the name of the character
 
@@ -326,7 +326,7 @@ namespace FPSProject.Customisation
         /// </summary>
         private void OnGUI()
         {
-            if (debugMode)
+            if (Debugging.debugMode)
             {
                 #region GUI value Setup
                 // 116 : 9

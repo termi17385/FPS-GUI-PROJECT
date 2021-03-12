@@ -140,7 +140,7 @@ public class PlayerGun : MonoBehaviour
         muzzleFlash.SetActive(false);
     }
 
-    private IEnumerator MoveForward(GameObject bullet, Vector3 target)
+    IEnumerator MoveForward(GameObject bullet, Vector3 target)
     {
         while(bullet != null)
         {                       

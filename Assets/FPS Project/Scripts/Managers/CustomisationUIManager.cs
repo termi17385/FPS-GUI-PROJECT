@@ -27,30 +27,8 @@ namespace FPSProject.Customisation
         private void Update()
         {
             DisplayText();
-            EnableDebug();
         }
-
-        /// <summary>
-        /// enables the debug gui elements
-        /// </summary>
-        private void EnableDebug()
-        {   
-            if (Input.GetKeyDown(KeyCode.F1))
-            {
-                x ++;
-                switch (x)
-                {
-                    case 1:
-                        pc.debugMode = true;
-                        break;
-                    case 2:
-                        pc.debugMode = false;
-                        x = 0;
-                        break;
-                }
-            }
-        }
-
+ 
         /// <summary>
         /// used for displaying text to the canvas UI elements
         /// </summary>

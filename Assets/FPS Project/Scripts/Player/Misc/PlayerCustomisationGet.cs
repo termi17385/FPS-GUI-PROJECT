@@ -14,7 +14,6 @@ public class PlayerCustomisationGet : MonoBehaviour
         characterRenderer = GameObject.FindGameObjectWithTag("Mesh").GetComponent<SkinnedMeshRenderer>();
         Load();
     }
-
     private void Load()
     {
         SetTexture("Skin", PlayerPrefs.GetInt("SkinIndex"));
@@ -26,7 +25,6 @@ public class PlayerCustomisationGet : MonoBehaviour
 
         player.name = PlayerPrefs.GetString("CharacterName");
     }
-
     private void SetTexture(string type, int index)
     {
         Texture2D texture = null;

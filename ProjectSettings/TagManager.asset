@@ -8,6 +8,12 @@ TagManager:
   - Level
   - Mesh
   - FreeCam
+  - Menu
+  - GameManager
+  - Hand1pos
+  - Hand2pos
+  - LKP
+  - PathFindingObstacle
   layers:
   - Default
   - TransparentFX
