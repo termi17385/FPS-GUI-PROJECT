@@ -9,7 +9,7 @@ namespace FPSProject.Weapons
         [SerializeField] protected float bulletDistance;
         [SerializeField] protected int damage;
         [SerializeField] protected float weaponRange = 50f;
-        protected float fireRate = .25f;
+        [SerializeField] protected float fireRate = .25f;
         [SerializeField] protected float bulletSpeed = 40f;
         [SerializeField] protected Transform gunEnd;
         [SerializeField] protected GameObject bulletPrefab;

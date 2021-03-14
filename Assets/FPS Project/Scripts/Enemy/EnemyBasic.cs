@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using UnityEngine;  
 using UnityEngine.AI;
 using FPSProject.Utils;
+using FPSProject.Player.Manager;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -13,14 +14,15 @@ public class EnemyBasic : MonoBehaviour
     /// </summary>
     protected float TargetAngle
     { 
-        get => angle; // gets the angle
+        get => angle;
     }
     /// <summary>
     /// read only property for Max Angle
     /// </summary>
     protected float MaxAngle
     {
-        get => maxAngle;
+        get{return maxAngle = lineOffsetDist;}
+        set{lineOffsetDist = value;}
     }
     /// <summary>
     /// Read only property for target distance
@@ -36,7 +38,7 @@ public class EnemyBasic : MonoBehaviour
     InfoBox("Read only variables for showing the current angle and current distance to target")]
     [SerializeField, ReadOnly] private float angle;
     [SerializeField, ReadOnly] private float targetDistance;
-    private float maxAngle = 30;
+    [SerializeField, ReadOnly] private float maxAngle = 30;
     #endregion
     #region AgentSpeed
     [SerializeField] protected float agentSprint;
@@ -46,7 +48,7 @@ public class EnemyBasic : MonoBehaviour
     [Header("Detection")]
     [SerializeField, ReadOnly] protected float detectionLevel = 0;
     protected float maxDetectionLevel = 100;
-    protected float detectionAmt = 15;
+    [SerializeField] protected float detectionAmt = 15;
     [ReadOnly] public Transform target;
     [SerializeField] private Transform head;
     [SerializeField] private float lookSpeed;
@@ -58,6 +60,7 @@ public class EnemyBasic : MonoBehaviour
     #region Misc
     [SerializeField] protected LayerMask ignore;
     [SerializeField] protected NavMeshAgent agent;
+    [SerializeField] protected PlayerManager player;
     #endregion
     #region DebugVariables
     [InfoBox("Variables for changing the cone size for debugging purposes", EInfoBoxType.Error)]
@@ -71,6 +74,7 @@ public class EnemyBasic : MonoBehaviour
     protected virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        player = FindObjectOfType<PlayerManager>();
     }
 
     protected virtual void Update()
@@ -90,20 +94,18 @@ public class EnemyBasic : MonoBehaviour
         RaycastHit _hit;
 
         // if the angle is less then x 
-        if ((TargetAngle < MaxAngle && TargetDistance < 50f) || (TargetAngle < 360f && TargetDistance <= 4.5f))
+        if (((TargetAngle < MaxAngle) && (TargetDistance < 50f)) || (TargetAngle < 360f && TargetDistance <= 4.5f))
         {
             // send ray to the target to check if there is line of sight
             if (Physics.Linecast(head.position, target.position, out _hit))
             {
-                if (_hit.collider.gameObject.CompareTag("Player")){ Debug.Log("can see you"); 
-                MathUtils.LookAtTarget(head, target.position, lookSpeed); EngageTarget();}
-                
-                // if the enemy can see the player and 
-                // no object is blocking view 
-                // run method
+                if (_hit.collider.gameObject.CompareTag("Player")){ Debug.Log("can see you");                           // looks for the players collider 
+                MathUtils.LookAtTarget(head, target.position, lookSpeed); player.DetectionMeterSpotted(detectionAmt);}  // if player is spotted increase detection
+                else { player.DetectionMeterHidden(detectionAmt);}                                                      // otherwise decrease detection
             }
             Debug.DrawRay(head.position, target.position - head.position, Color.red);
         }
+        else { player.DetectionMeterHidden(detectionAmt);}
         //Debug.Log("Target Angle" + angle + "\n Target Distance" + playerDistance);
 
         #region OldCode
@@ -150,7 +152,8 @@ public class EnemyBasic : MonoBehaviour
         #endregion
     }
 
-    private void EngageTarget()
+
+    protected void EngageTarget()
     {
         agent.SetDestination(target.position);
         

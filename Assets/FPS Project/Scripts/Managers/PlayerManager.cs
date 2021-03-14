@@ -3,40 +3,74 @@ using UnityEngine;
 using TMPro;
 using FPSProject.Player.stats;
 using FPSProject.Player.inventory;
+using NaughtyAttributes;
 
 namespace FPSProject.Player.Manager
 {
     public class PlayerManager : MonoBehaviour
     {
+        #region Properties
+        /// <summary>
+        /// Clamps the health of the player <br/>
+        /// between 0 and 1 so it can be used for <br/>
+        /// the health bar
+        /// </summary>
+        public float PlayerHeatlh
+        {
+            get {return (Mathf.Clamp01(health / maxHealth));}
+            set {health = value;}
+        }
+        /// <summary>
+        /// Clamps the detectionMeter of the player <br/>
+        /// between 0 and 1 so it can be used for <br/>
+        /// the detection bar
+        /// </summary>
+        public float DetectionMeter
+        {
+            get {return (Mathf.Clamp01(detection / maxDetection));}
+            set {detection = value;}
+        }
+        #endregion
+
         #region Variables
-        public float health;
-        public float maxHeatlh;
+        #region Health
+        [Header("Health")]
+        private float health;
+        protected float maxHealth = 100;
+        [SerializeField] private Image healthBar;
+        #endregion
+        #region Stealth
+        [SerializeField] private float detection;
+        private float maxDetection = 100;
+        [SerializeField] private Image detectionBar;
+        #endregion
+
+        [SerializeField, ReadOnly] private float heathDisplay;
         private string assignClass;
 
         public int medkits;
 
-        public Image healthbar;
         public TextMeshProUGUI number;
         public TextMeshProUGUI medKitsText;
 
-        [SerializeField] public PlayerStats pStats = new PlayerStats();
-        [SerializeField] public PlayerInventory pInv = new PlayerInventory();
+        [SerializeField, ReadOnly] public PlayerStats pStats = new PlayerStats();
+        [SerializeField, ReadOnly] public PlayerInventory pInv = new PlayerInventory();
 
         [SerializeField] private Transform LKP;  // Last Known Position;
 
         #region Class Abilities
         [Header("Class Abilites")]
-        [Tooltip("activates the Cloaking ability")]
+        [Tooltip("activates the Cloaking ability"), ReadOnly]
         [SerializeField] private bool isCloaked;
-        [Tooltip("activates the Tracking ability")]
+        [Tooltip("activates the Tracking ability"), ReadOnly]
         [SerializeField] private bool isTracking;
-        [Tooltip("activates the Shield ability")]
+        [Tooltip("activates the Shield ability"), ReadOnly]
         [SerializeField] private bool deployShield;
-        [Tooltip("activates the Dash ability")]
+        [Tooltip("activates the Dash ability"), ReadOnly]
         [SerializeField] private bool canDash;
-        [Tooltip("Swaps to the FireBall ability")]
+        [Tooltip("Swaps to the FireBall ability"), ReadOnly]
         [SerializeField] private bool fireBall;
-        [Tooltip("Swaps to the MagicMissile ability")] 
+        [Tooltip("Swaps to the MagicMissile ability"), ReadOnly] 
         [SerializeField] private bool magicMissile;
         #endregion
         #endregion
@@ -51,16 +85,23 @@ namespace FPSProject.Player.Manager
         // Start is called before the first frame update
         void Start()
         {
-            //health = maxHeatlh;
-            //SetHealth(health);
-            //number.text = string.Format("{0}/{1}", health, maxHeatlh);
-            //medKitsText.text = string.Format("{0}", medkits);
+            PlayerHeatlh = maxHealth;
+            DetectionMeter = 0;
+            number.text = string.Format("{0}/{1}", health, maxHealth);
+        }
+        private void LateUpdate()
+        {
+            #region SettingStuff
+            SetHealth();
+            SetDetection();
+            #endregion
         }
 
         // Update is called once per frame
         void Update()
         {
             AssignClass(assignClass);
+            heathDisplay = PlayerHeatlh;
             //medKitsText.text = string.Format("{0}", medkits);
         }
         #endregion
@@ -169,21 +210,17 @@ namespace FPSProject.Player.Manager
         #endregion
 
         #region Methods
+        #region Health
         /// <summary>
         /// Used to damage the player
         /// </summary>
         /// <param name="dmg">how much to damage the player by</param>
         public void Damage(float dmg)
         {
-            health -= dmg;
-            SetHealth(health);
+            PlayerHeatlh -= dmg;
+            if (health <= 0){PlayerHeatlh = 0;}  // kill the player
 
-            if (health <= 0f)
-            {
-                health = 0f;
-            }
-
-            number.text = string.Format("{0}/{1}", health, maxHeatlh);
+            number.text = string.Format("{0}/{1}", PlayerHeatlh, maxHealth);
         }
 
         /// <summary>
@@ -192,21 +229,34 @@ namespace FPSProject.Player.Manager
         /// <param name="heal">how much to heal the player by</param>
         public void Heal(float heal)
         {
-            health += heal;
-            SetHealth(health);
+            PlayerHeatlh += heal;
+            if (health >= maxHealth){PlayerHeatlh = maxHealth;}
 
-            if (health >= maxHeatlh)
-            {
-                health = maxHeatlh;
-            }
-
-           // number.text = string.Format("{0}/{1}", health, maxHeatlh);
+            number.text = string.Format("{0}/{1}", PlayerHeatlh, maxHealth);
         }
 
-        public void SetHealth(float _health)
+        public void SetHealth()
         {
-           //healthbar.fillAmount = Mathf.Clamp01(_health / maxHeatlh);
+            healthBar.fillAmount = PlayerHeatlh;
         }
+        #endregion
+        #region Detection
+        private void SetDetection()
+        {
+            detectionBar.fillAmount = DetectionMeter;
+        }
+
+        public void DetectionMeterSpotted(float amt)
+        {
+            detection += amt * Time.deltaTime;
+            if (detection >= maxDetection){detection = 100;}
+        }
+        public void DetectionMeterHidden(float amt)
+        {
+            detection -= amt * Time.deltaTime;
+            if (detection <= 0){detection = 0;}
+        }
+        #endregion
         #endregion
     }
 }
