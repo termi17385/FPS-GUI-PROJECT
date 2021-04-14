@@ -22,21 +22,16 @@ namespace FPSProject.Weapons
 
         protected override void Update()
         {
-            test = gm.freeCamMode;
 
             // if player is paused of in free cam the player can't shoot
-            bool canShoot = (p.paused == false) && (gm.freeCamMode == false);
 
-            if (canShoot)
-            {
-                //base.Update(); 
-                { if (Input.GetButton("Fire1")) { Shoot(); } ViewRay(); }
+            //base.Update(); 
+            { if (Input.GetButton("Fire1")) { Shoot(); } ViewRay(); }
 
-                // runs the animation to aim down sights when the player holds right mouse
-                if(Input.GetKey(KeyCode.Mouse1)) 
-                {anim.SetBool("isADS", true);}
-                else{anim.SetBool("isADS", false);}
-            }
+            // runs the animation to aim down sights when the player holds right mouse
+            if(Input.GetKey(KeyCode.Mouse1)) 
+            {anim.SetBool("isADS", true);}
+            else{anim.SetBool("isADS", false);}
             
         }
 

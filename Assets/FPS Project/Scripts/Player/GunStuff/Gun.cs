@@ -15,16 +15,12 @@ namespace FPSProject.Weapons
         [SerializeField] protected GameObject bulletPrefab;
         [SerializeField] protected float nextFire;
 
-        protected PauseMenuHandler p;
-        protected GameManager gm;
         protected Camera fpsCam;
         protected WaitForSeconds shotDuration = new WaitForSeconds(.07f);
 
         protected virtual void Start()
         {
             fpsCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-            p = GameObject.FindGameObjectWithTag("Menu").GetComponent<PauseMenuHandler>();
-            gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         }
 
         protected virtual void Update()

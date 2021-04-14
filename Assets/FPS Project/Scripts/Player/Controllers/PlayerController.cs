@@ -27,11 +27,9 @@ namespace FPSProject.Player
         public Transform cam;
 
         [SerializeField] private CharacterController cc;
-        [SerializeField] private PauseMenuHandler pause;
         [SerializeField] private Vector3 playerVelocity;
         [SerializeField] private bool grounded = false;
 
-        [SerializeField] private GameManager gm;
         [SerializeField] private LayerMask groundLayer;
 
         [SerializeField] private Transform[] handPositions;
@@ -43,26 +41,16 @@ namespace FPSProject.Player
         {
             cc = GetComponent<CharacterController>();
             Cursor.lockState = CursorLockMode.Locked;
-            gm = FindObjectOfType<GameManager>();
         }
 
         // Update is called once per frame
         void Update()
         {
-            Debugging.DebugMode();
-
             grounded = GroundCheck();
-            if (!gm.freeCamMode) // if in free cam mode stop the player moving while they use the camera
-            {
-                PlayerMovement();
-                PlayerJumping();
-                if (pause.paused == false)
-                {
-                    MouseMovement();
-                }
-
-                MoveHandsIntoPosition();
-            }
+            PlayerMovement();
+            PlayerJumping();
+            MouseMovement();
+            MoveHandsIntoPosition();
         }
 
         private void MoveHandsIntoPosition()
@@ -131,6 +119,7 @@ namespace FPSProject.Player
             {
                 // if true the players velocity adds the sqrt of the jumpheight times'd by -3.0f and gravity
                 playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravity);
+                grounded = false;
             }
             float gravity_ = gravity * gravMultiplier;
 
@@ -171,20 +160,20 @@ namespace FPSProject.Player
             return false;
         }
 
-        //private void OnTriggerEnter(Collider other)
-        //{
-        //if (other.gameObject.tag == "Ground")
-        //{
-        //grounded = true;
-        //}
-        //}
-        //private void OnTriggerExit(Collider other)
-        //{
-        //if (other.gameObject.tag == "Ground")  
-        //{
-        //grounded = false;
-        //}
-        //}
+       //private void OnTriggerEnter(Collider other)
+       //{
+       //    if (other.gameObject.tag == "Ground")
+       //    {
+       //        grounded = true;
+       //    }
+       //}
+       //private void OnTriggerExit(Collider other)
+       //{
+       //    if (other.gameObject.tag == "Ground")  
+       //    {
+       //        grounded = false;
+       //    }
+       //}
         #endregion
     }
 }

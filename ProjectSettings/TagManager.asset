@@ -4,16 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ground
-  - Level
+  - LKP
   - Mesh
   - FreeCam
-  - Menu
-  - GameManager
-  - Hand1pos
-  - Hand2pos
-  - LKP
-  - PathFindingObstacle
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -21,9 +15,9 @@ TagManager:
   - Ignore
   - Water
   - UI
+  - 
+  - 
   - Ground
-  - Object
-  - Characters
   - 
   - 
   - 

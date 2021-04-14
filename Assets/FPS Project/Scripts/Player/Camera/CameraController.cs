@@ -16,21 +16,17 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float upDownSpeed;
     [SerializeField] private float boost;
 
-    PauseMenuHandler pause;
     #endregion
 
     private void Start()
     {
-        pause = GameObject.FindGameObjectWithTag("Menu").GetComponent<PauseMenuHandler>();
+
     }
 
     private void Update()
     {
-        if (pause.paused == false)
-        {
-            FreeLook();
-            FreeFly();
-        }
+        FreeLook();
+        FreeFly();
     }
 
     /// <summary>

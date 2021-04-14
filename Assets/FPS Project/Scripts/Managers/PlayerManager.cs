@@ -3,11 +3,11 @@ using UnityEngine;
 using TMPro;
 using FPSProject.Player.stats;
 using FPSProject.Player.inventory;
-using NaughtyAttributes;
+using Sirenix.OdinInspector;
 
 namespace FPSProject.Player.Manager
 {
-    public class PlayerManager : MonoBehaviour
+    public class PlayerManager : SerializedMonoBehaviour
     {
         #region Properties
         /// <summary>
@@ -31,7 +31,6 @@ namespace FPSProject.Player.Manager
             set {detection = value;}
         }
         #endregion
-
         #region Variables
         #region Health
         [Header("Health")]
@@ -45,7 +44,7 @@ namespace FPSProject.Player.Manager
         [SerializeField] private Image detectionBar;
         #endregion
 
-        [SerializeField, ReadOnly] private float heathDisplay;
+        [SerializeField] private float heathDisplay;
         private string assignClass;
 
         public int medkits;
@@ -53,28 +52,28 @@ namespace FPSProject.Player.Manager
         public TextMeshProUGUI number;
         public TextMeshProUGUI medKitsText;
 
-        [SerializeField, ReadOnly] public PlayerStats pStats = new PlayerStats();
-        [SerializeField, ReadOnly] public PlayerInventory pInv = new PlayerInventory();
+        [SerializeField] public PlayerStats pStats = new PlayerStats();
+        [SerializeField] public PlayerInventory pInv = new PlayerInventory();
 
         [SerializeField] private Transform LKP;  // Last Known Position;
 
         #region Class Abilities
         [Header("Class Abilites")]
-        [Tooltip("activates the Cloaking ability"), ReadOnly]
+        [Tooltip("activates the Cloaking ability")]
         [SerializeField] private bool isCloaked;
-        [Tooltip("activates the Tracking ability"), ReadOnly]
+        [Tooltip("activates the Tracking ability")]
         [SerializeField] private bool isTracking;
-        [Tooltip("activates the Shield ability"), ReadOnly]
+        [Tooltip("activates the Shield ability")]
         [SerializeField] private bool deployShield;
-        [Tooltip("activates the Dash ability"), ReadOnly]
+        [Tooltip("activates the Dash ability")]
         [SerializeField] private bool canDash;
-        [Tooltip("Swaps to the FireBall ability"), ReadOnly]
+        [Tooltip("Swaps to the FireBall ability")]
         [SerializeField] private bool fireBall;
-        [Tooltip("Swaps to the MagicMissile ability"), ReadOnly] 
+        [Tooltip("Swaps to the MagicMissile ability")] 
         [SerializeField] private bool magicMissile;
         #endregion
         #endregion
-
+        
         #region Start and Update
         private void Awake()
         {
@@ -87,7 +86,7 @@ namespace FPSProject.Player.Manager
         {
             PlayerHeatlh = maxHealth;
             DetectionMeter = 0;
-            number.text = string.Format("{0}/{1}", health, maxHealth);
+            //number.text = string.Format("{0}/{1}", health, maxHealth);
         }
         private void LateUpdate()
         {
@@ -105,7 +104,6 @@ namespace FPSProject.Player.Manager
             //medKitsText.text = string.Format("{0}", medkits);
         }
         #endregion
-
         #region Player Leveling
         #region Loading Values
         public void LoadStatsAndClasses()
@@ -121,6 +119,7 @@ namespace FPSProject.Player.Manager
             // load the class of the player
             assignClass = PlayerPrefs.GetString("CharacterClass");
         }
+
         public void AssignClass(string className)
         {
             switch (className)
@@ -166,16 +165,12 @@ namespace FPSProject.Player.Manager
             pStats.stats[5].statNames = "Agility";
         }
         #endregion
-
         #region Player Classes
         private void StealthClass()
         {
             // The player is less likely to be detected
             // Player has a faster crouch speed then normal
             // The player can cloak and enemies will go to last known pos
-            if (Input.GetKeyDown(KeyCode.T)) { isCloaked = true;
-            if (GameObject.FindGameObjectWithTag("LKP") == null && isCloaked == true) 
-            { Instantiate(LKP, transform.position, transform.rotation); } }
             // look around then go back to patrol
         }
 
@@ -208,7 +203,6 @@ namespace FPSProject.Player.Manager
         }
         #endregion
         #endregion
-
         #region Methods
         #region Health
         /// <summary>
@@ -237,13 +231,13 @@ namespace FPSProject.Player.Manager
 
         public void SetHealth()
         {
-            healthBar.fillAmount = PlayerHeatlh;
+            //healthBar.fillAmount = PlayerHeatlh;
         }
         #endregion
         #region Detection
         private void SetDetection()
         {
-            detectionBar.fillAmount = DetectionMeter;
+            //detectionBar.fillAmount = DetectionMeter;
         }
 
         public void DetectionMeterSpotted(float amt)

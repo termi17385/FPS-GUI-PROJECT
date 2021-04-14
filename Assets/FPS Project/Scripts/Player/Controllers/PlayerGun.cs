@@ -13,10 +13,7 @@ public class PlayerGun : MonoBehaviour
     [SerializeField] private Transform gunEnd;
     [SerializeField] private GameObject muzzleFlash;
     //[SerializeField] private Animator recoil;
-    [SerializeField] private PauseMenuHandler pause;
-
     [SerializeField] private float bulletSpeed;
-    [SerializeField] private Bullet projectile;
 
     [SerializeField] private GameObject bulletPrefab;
 
@@ -44,11 +41,8 @@ public class PlayerGun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (pause.paused == false)
-        {
-            PlayerShooting();
-            ViewRay();
-        }
+        PlayerShooting();
+        ViewRay();
        
     }
 
@@ -149,8 +143,6 @@ public class PlayerGun : MonoBehaviour
             {
                 Debug.Log("Reached End Pos");
                 Destroy(bullet.gameObject,.5f);
-                projectile = bullet.GetComponent<Bullet>();
-                projectile.enabled = true;
                 break;
             }
             yield return null;
