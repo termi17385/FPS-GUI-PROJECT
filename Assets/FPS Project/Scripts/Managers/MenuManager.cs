@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using Sirenix.OdinInspector;
 
@@ -56,12 +57,18 @@ namespace FPSProject.Menu
         #endregion
         #endregion
         #region Variables
+        [SerializeField] private AudioMixer mixer;
         [SerializeField] private AudioSource sfx;
+        [SerializeField] private AudioSource music;
+
 
         [SerializeField, ReadOnly]
         private bool playPressed = false;
         [SerializeField, ReadOnly]
         private bool optionsMenu = false;
+
+        [SerializeField] private float musicSliderVal;
+        [SerializeField] private float sfxSliderVal;
         
         #region Debug Variables
         static bool debugMode = false;
@@ -97,7 +104,9 @@ namespace FPSProject.Menu
         #region GUI Styling
         private GUIContent content;
         private GUIStyle style = new GUIStyle();
+        private GUIStyle _style = new GUIStyle();
         [SerializeField] int textSize;
+        [SerializeField] int _textSize;
 
         [SerializeField]
         private int selectionGridInt = 0;
@@ -126,11 +135,22 @@ namespace FPSProject.Menu
         // Update is called once per frame
         void Update()
         {
-            debugMode = true;
+            #region Debugging
             EnableDebugMode();
+            debugMode = true;
+            #endregion
         }
 
+        public void QuitGame()
+        {
+            #if UNITY_EDITOR                        // checks if we are in the Unity Editior
+            EditorApplication.ExitPlaymode();       // if true then exit playmode
+            #endif                                  // end if
 
+            Application.Quit();                     // Quits application if we are in build
+        }
+
+        #region Debugging
         public static void EnableDebugMode()
         {
             bool enable = Input.GetKeyDown(KeyCode.F2);
@@ -167,17 +187,17 @@ namespace FPSProject.Menu
                     GUI.Box(new Rect(_posX, _posY, _sizeX, _sizeY), content, style);
                     // a loop for creating a set of buttons for play options and quit
                     for (int i = 0; i < 3; i++)
-                {
+                    {
                     if (GUI.Button(new Rect(shape[i].posX * scr.x, shape[i].posY * scr.y,
                     shape[i].sizeX * scr.x, shape[i].sizeY * scr.y), buttons[i].buttonName))
                     {
                         sfx.Play();
                         _ID = buttons[i].buttonID;        
                     }
-                }
+                    }
                     // a loop for a set of buttons that are displayed when play is pressed
                     if (playPressed == true)
-                {
+                    {
                     for (int i = 0; i < 3; i++)
                     {
                         if(GUI.Button(new Rect(_shape[i].posX * scr.x, _shape[i].posY * scr.y,
@@ -187,51 +207,47 @@ namespace FPSProject.Menu
                             _ID = 4 + i;
                         }
                     }
-                }
+                    }
             
                     // a switch for the button ids to determine what gets run
                     switch (_ID)
-                {
-                    case 1: // goes to the play options
-                    Debug.Log("Play");
-                    playPressed = !playPressed;
-                    _ID = 0;
-                    break;
+                    {
+                        case 1: // goes to the play options
+                        Debug.Log("Play");
+                        playPressed = !playPressed;
+                        _ID = 0;
+                        break;
                 
-                    case 2: // Goes to the options Menu
-                    Debug.Log("Options");
-                    optionsMenu = !optionsMenu;
-                    _ID = 0;
-                    break;
+                        case 2: // Goes to the options Menu
+                        Debug.Log("Options");
+                        optionsMenu = !optionsMenu;
+                        _ID = 0;
+                        break;
 
-                    case 3: // Quits or exitsPlaymode
-                    Debug.Log("Quit");
-                
-    #if UNITY_EDITOR
-                    EditorApplication.ExitPlaymode();
-    #endif
-                
-                    Application.Quit();
-                    _ID = 0;
-                    break;
+                        case 3: 
+                        // Quits application (unless in editior which case it exits playmode)
+                        Debug.Log("Quit");
+                        QuitGame();
+                        _ID = 0;
+                        break;
 
-                    case 4:
-                    Debug.Log("Resume");
-                    SceneManager.LoadScene(2);
-                    _ID = 0;
-                    break;
+                        case 4:
+                        Debug.Log("Resume");
+                        SceneManager.LoadScene(2);
+                        _ID = 0;
+                        break;
 
-                    case 5:
-                    Debug.Log("New Game");
-                    SceneManager.LoadScene(1);
-                    _ID = 0;
-                    break;
+                        case 5:
+                        Debug.Log("New Game");
+                        SceneManager.LoadScene(1);
+                        _ID = 0;
+                        break;
 
-                    case 6:
-                    Debug.Log("What Level Do You Want To Load?...");
-                    _ID = 0;
-                    break;
-                }
+                        case 6:
+                        Debug.Log("What Level Do You Want To Load?...");
+                        _ID = 0;
+                        break;
+                    }
                 }
                 #endregion
                 #region OptionsMenu
@@ -241,17 +257,30 @@ namespace FPSProject.Menu
                 
                     float pX = layout.posX * scr.x; 
                     float pY = layout.posY * scr.y; 
-                
-                    float sX = layout.sizeX * scr.x;
-                    float sY = layout.sizeY * scr.y; 
 
                     float buttonPosX = 0.7f * scr.x;
                     float buttonPosY = 3.5f * scr.y;
+                   
+                    float sX = layout.sizeX * scr.x;
+                    float sY = layout.sizeY * scr.y; 
 
                     float buttonSizeX = 1.5f * scr.x;
                     float buttonSizeY = 0.5f * scr.y;
 
-                   
+                    _style.fontSize = _textSize;
+                    #region VolumeDisplay
+                    float musicVolume; 
+                    float sfxVolume;
+
+                    float musicPercentage = (musicSliderVal + 80) * 5/4;
+                    float sfxPercentage = (sfxSliderVal + 80) * 5/4;
+
+                    mixer.GetFloat("Music", out musicVolume);
+                    mixer.GetFloat("SFX", out sfxVolume);
+
+                    string s = string.Format("Music \n mixer:{0} \npercentage:{2} \n \nSFX \nmixer:{1} \npercentage: {3}",
+                    musicVolume, sfxVolume, musicPercentage, sfxPercentage);
+                    #endregion
 
                     GUI.BeginGroup(new Rect(pX, pY, sX, sY));
 
@@ -287,11 +316,18 @@ namespace FPSProject.Menu
                     {
                         #region Audio
                         case 0:
-                        GUILayout.Box("SFX");
-                        GUILayout.HorizontalSlider(0, 0.0f, 100);
+                        GUILayout.Box("SFX");   // displays text for SFX
+                        sfxSliderVal = GUILayout.HorizontalSlider(sfxSliderVal, -60.0f, 20.0f);       // slider for controlling sound effects volume
+                        mixer.SetFloat("SFX", sfxSliderVal);
 
-                        GUILayout.Box("Music");
-                        GUILayout.HorizontalSlider(0, 0.0f, 100);
+                        GUILayout.Box("Music"); // displays text for Music
+                        musicSliderVal = GUILayout.HorizontalSlider(musicSliderVal, -60.0f, 20.0f); // slider for controlling music volume
+                        mixer.SetFloat("Music", musicSliderVal);
+
+                        GUI.BeginGroup(new Rect(0, 0, sX, sY)); // a group for holding text for music and sfx volume display
+                        GUI.Box(new Rect(0.1f * scr.x, 1.3f * scr.y, 1f * scr.x, 1f * scr.y), s, _style);   // displays volume for sfx and music
+                        GUI.EndGroup();
+                        
                         break;
                         #endregion
 
@@ -299,7 +335,10 @@ namespace FPSProject.Menu
                         case 1:
                         GUI.BeginGroup(new Rect(0, 0, sX, sY));                          
                         if(GUI.Button(new Rect(50, 0, 120, 20), "GraphicsDropDown"))
-                        {sfx.Play(); graphicsDropDown = !graphicsDropDown;}
+                        {
+                            sfx.Play(); 
+                            graphicsDropDown = !graphicsDropDown;
+                        }
                         if (graphicsDropDown)
                         {
                             _scrollView = GUI.BeginScrollView(new Rect(60, 30, 100, 100), _scrollView, new Rect(0, 0, 0, 4 * (0.5f * scr.y)),false,true);
@@ -317,7 +356,10 @@ namespace FPSProject.Menu
                         case 2:
                         GUI.BeginGroup(new Rect(0, 0, sX, sY));
                         if (GUI.Button(new Rect(50, 0, 120, 20), "ResolutionDropDown"))
-                        {sfx.Play(); resDropDown = !resDropDown;}
+                        {
+                            sfx.Play(); 
+                            resDropDown = !resDropDown;
+                        }
                         if (resDropDown)
                         {
                             _scrollView = GUI.BeginScrollView(new Rect(60, 30, 100, 100), _scrollView, new Rect(0, 0, 0, 4 * (0.5f * scr.y)), false, true);
@@ -351,5 +393,6 @@ namespace FPSProject.Menu
                 }
             }
         }
+        #endregion
     }
 }

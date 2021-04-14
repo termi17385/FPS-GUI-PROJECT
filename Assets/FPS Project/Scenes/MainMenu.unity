@@ -608,7 +608,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 4771094575702284841, guid: 497747f4de9a6ae4787ccb9240a56eee, type: 2}
   m_audioClip: {fileID: 8300000, guid: 51c35cd7972b52b49bcdb3f2f92f685a, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -977,14 +977,19 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  mixer: {fileID: 24100000, guid: 497747f4de9a6ae4787ccb9240a56eee, type: 2}
   sfx: {fileID: 640064007}
+  music: {fileID: 0}
   playPressed: 0
   optionsMenu: 0
+  musicSliderVal: -60
+  sfxSliderVal: -60
   posX: 7
   posY: 1
   sizeX: 2.61
   sizeY: 0.76
   textSize: 70
+  _textSize: 0
   selectionGridInt: 0
 --- !u!1 &2108481623
 GameObject:
