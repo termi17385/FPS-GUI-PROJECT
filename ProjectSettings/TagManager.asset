@@ -4,17 +4,20 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - LKP
+  - Mesh
+  - FreeCam
   - Ground
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ignore
   - Water
   - UI
+  - 
+  - 
   - Ground
-  - 
-  - 
   - 
   - 
   - 
