@@ -4,6 +4,47 @@ using UnityEngine;
 
 namespace FPSProject.Customisation
 {
+    public class MyTexture
+    {
+        int index =0;
+        int max = 0;
+        list textures = [];
+
+        public void add(Texture2D texture)
+        {
+            textures.add(texture);
+            max = textures.size();
+        }
+
+        public array[] getTexturesArray()
+        {
+            textures.toArray();
+
+        }
+    }
+
+    /*
+     * 
+ 
+    myTextures myEyes = new MyTextures();
+    repeat for others;
+    
+    Resource[] allReses = Resources.loadAll("Characture/", Txtures2D);
+    
+    foreach(r in allReses) 
+    {
+    String name = substring(r.name, 0, search(r.name, '_'));
+        
+        switch (name) 
+        {
+            case 'Eyes':
+            myEyes.add(r.content);
+            break;
+        }
+
+     * 
+     */
+
     public class PlayerCustomisation : MonoBehaviour
     {
         #region
