@@ -760,226 +760,16 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: buttons
-      Entry: 7
-      Data: 0|FPSProject.Menu.MenuManager+Buttons[], Assembly-CSharp
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 7
-      Data: FPSProject.Menu.MenuManager+Buttons, Assembly-CSharp
-    - Name: buttonID
-      Entry: 3
-      Data: 1
-    - Name: buttonName
-      Entry: 1
-      Data: PlayGame
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: FPSProject.Menu.MenuManager+Buttons, Assembly-CSharp
-    - Name: buttonID
-      Entry: 3
-      Data: 2
-    - Name: buttonName
-      Entry: 1
-      Data: Options
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: FPSProject.Menu.MenuManager+Buttons, Assembly-CSharp
-    - Name: buttonID
-      Entry: 3
-      Data: 3
-    - Name: buttonName
-      Entry: 1
-      Data: Quit
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: shape
-      Entry: 7
-      Data: 1|FPSProject.Menu.MenuManager+GUIShape[], Assembly-CSharp
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 7
-      Data: FPSProject.Menu.MenuManager+GUIShape, Assembly-CSharp
-    - Name: name
-      Entry: 1
-      Data: PlayGame
-    - Name: sizeX
-      Entry: 4
-      Data: 2.61
-    - Name: sizeY
-      Entry: 4
-      Data: 0.76
-    - Name: posX
-      Entry: 4
-      Data: 3.05
-    - Name: posY
-      Entry: 4
-      Data: 3.2
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: FPSProject.Menu.MenuManager+GUIShape, Assembly-CSharp
-    - Name: name
-      Entry: 1
-      Data: Options
-    - Name: sizeX
-      Entry: 4
-      Data: 2.61
-    - Name: sizeY
-      Entry: 4
-      Data: 0.76
-    - Name: posX
-      Entry: 4
-      Data: 3.05
-    - Name: posY
-      Entry: 4
-      Data: 4.8
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: FPSProject.Menu.MenuManager+GUIShape, Assembly-CSharp
-    - Name: name
-      Entry: 1
-      Data: QuitGame
-    - Name: sizeX
-      Entry: 4
-      Data: 2.61
-    - Name: sizeY
-      Entry: 4
-      Data: 0.76
-    - Name: posX
-      Entry: 4
-      Data: 3.05
-    - Name: posY
-      Entry: 4
-      Data: 6.5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _shape
-      Entry: 7
-      Data: 2|FPSProject.Menu.MenuManager+GUIShapeTwo[], Assembly-CSharp
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 7
-      Data: FPSProject.Menu.MenuManager+GUIShapeTwo, Assembly-CSharp
-    - Name: name
-      Entry: 1
-      Data: ResumeGame
-    - Name: sizeX
-      Entry: 4
-      Data: 2.11
-    - Name: sizeY
-      Entry: 4
-      Data: 0.69
-    - Name: posX
-      Entry: 4
-      Data: 6.5
-    - Name: posY
-      Entry: 4
-      Data: 2.2
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: FPSProject.Menu.MenuManager+GUIShapeTwo, Assembly-CSharp
-    - Name: name
-      Entry: 1
-      Data: NewGame
-    - Name: sizeX
-      Entry: 4
-      Data: 2.11
-    - Name: sizeY
-      Entry: 4
-      Data: 0.69
-    - Name: posX
-      Entry: 4
-      Data: 7
-    - Name: posY
-      Entry: 4
-      Data: 3.23
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: FPSProject.Menu.MenuManager+GUIShapeTwo, Assembly-CSharp
-    - Name: name
-      Entry: 1
-      Data: LoadGame
-    - Name: sizeX
-      Entry: 4
-      Data: 2.11
-    - Name: sizeY
-      Entry: 4
-      Data: 0.69
-    - Name: posX
-      Entry: 4
-      Data: 6.5
-    - Name: posY
-      Entry: 4
-      Data: 4.29
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: layout
-      Entry: 7
-      Data: FPSProject.Menu.MenuManager+LayoutPositionAndSize, Assembly-CSharp
-    - Name: posX
-      Entry: 4
-      Data: 6.84
-    - Name: posY
-      Entry: 4
-      Data: 3.23
-    - Name: sizeX
-      Entry: 4
-      Data: 3
-    - Name: sizeY
-      Entry: 4
-      Data: 4.15
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
   mixer: {fileID: 24100000, guid: 497747f4de9a6ae4787ccb9240a56eee, type: 2}
   sfx: {fileID: 640064007}
   music: {fileID: 0}
+  fullscreen: 0
+  tempResWidth: 1280
+  tempResHeight: 720
+  options: []
+  resSpacing: 0
+  scrolSpacing: 0
   playPressed: 0
   optionsMenu: 0
   musicSliderVal: -60
@@ -988,8 +778,54 @@ MonoBehaviour:
   posY: 1
   sizeX: 2.61
   sizeY: 0.76
-  textSize: 70
-  _textSize: 0
+  layoutOptions:
+  - name: PlayGame
+    posX: 342.1
+    posY: 295
+    sizeX: 198
+    sizeY: 54
+  - name: Options
+    posX: 342.1
+    posY: 392
+    sizeX: 198
+    sizeY: 54
+  - name: QuitToDesktop
+    posX: 342.1
+    posY: 632
+    sizeX: 198
+    sizeY: 54
+  - name: Resume
+    posX: 635.4
+    posY: 239.1
+    sizeX: 126
+    sizeY: 42
+  - name: NewGame
+    posX: 662.7
+    posY: 294.8
+    sizeX: 126
+    sizeY: 42
+  - name: LoadGame
+    posX: 635.4
+    posY: 350.4
+    sizeX: 126
+    sizeY: 42
+  - name: Main Menu
+    posX: 161
+    posY: -1
+    sizeX: 960
+    sizeY: 900
+  - name: Options
+    posX: 500
+    posY: 250
+    sizeX: 224.9
+    sizeY: 324
+  - name: Back
+    posX: 50
+    posY: 280
+    sizeX: 121.3
+    sizeY: 34.5
+  textSize: 54
+  _textSize: 14
   selectionGridInt: 0
 --- !u!1 &2108481623
 GameObject:
