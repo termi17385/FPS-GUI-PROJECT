@@ -233,7 +233,6 @@ namespace FPSProject.Menu
 
         private void OnGUI()
         {
-            debugMode = true;
             if (debugMode == true)
             {
                 // keeps everything scaled to the native size
@@ -454,26 +453,28 @@ namespace FPSProject.Menu
 
                         #region DisplaySettings
                         case 2:
-                        GUI.BeginGroup(new Rect(0, 0, sX, sY));
-                        if (GUI.Button(new Rect(50, 0, 120, 20), "ResolutionDropDown"))
+                        Debug.Log("Display");
+                        GUI.BeginGroup(new Rect(0, 0, layoutOptions[9].sizeX, layoutOptions[9].sizeY));
+                        if (GUI.Button(new Rect(layoutOptions[10].posX, layoutOptions[10].posY, layoutOptions[10].sizeX, layoutOptions[10].sizeY), "ResolutionDropDown"))
                         {
                             sfx.Play(); // plays a sound effect when this button is pressed
+                            GetResolutions();
                             resDropDown = !resDropDown;  // enables or disables the dropdown
                         }
                         if (resDropDown)
                         {
-                            float scrollSize = 4.93f;
-                            _scrollView = GUI.BeginScrollView(new Rect(60, 30, 100, 100), _scrollView, new Rect(0, 0, 0, scrollSize), false, true);
+                            float scrollSize = layoutOptions[11].posX;
+                            _scrollView = GUI.BeginScrollView(new Rect(80, 50, 100, 150), _scrollView, new Rect(0, 0, 0, scrollSize), false, true);
                             for (int i = 0; i < resolutionArray.Length; i++)
                             {
                                 #region Size and Spacing
-                                float buttonSpacing = (i * 0.45f);
-                                float buttonWidth = 1.33f;
-                                float buttonHeight = 0.38f;
+                                float buttonSpacing = (i * layoutOptions[11].posY);
+                                float buttonWidth = layoutOptions[11].sizeX;
+                                float buttonHeight = layoutOptions[11].sizeY;
                                 #endregion
                                 if (GUI.Button(new Rect(0f, buttonSpacing, buttonWidth, buttonHeight), options[i]))
                                 {
-
+                                    sfx.Play();
                                 }
                             }
                             GUI.EndScrollView();

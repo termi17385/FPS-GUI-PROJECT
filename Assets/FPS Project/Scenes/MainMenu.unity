@@ -824,6 +824,26 @@ MonoBehaviour:
     posY: 280
     sizeX: 121.3
     sizeY: 34.5
+  - name: Group
+    posX: 0
+    posY: 0
+    sizeX: 500
+    sizeY: 500
+  - name: ResDropdown
+    posX: 44
+    posY: 8.6
+    sizeX: 133.8
+    sizeY: 31.19
+  - name: DropDownSizeAndSpacing
+    posX: 600
+    posY: 29.09
+    sizeX: 81.01
+    sizeY: 23.37
+  - name: 
+    posX: 0
+    posY: 0
+    sizeX: 0
+    sizeY: 0
   textSize: 54
   _textSize: 14
   selectionGridInt: 0
