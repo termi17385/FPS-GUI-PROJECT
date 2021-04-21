@@ -1,4 +1,5 @@
 using System.Collections;
+using FPSProject.Keybinds;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -21,8 +22,9 @@ namespace FPSProject.Menu
     [HideMonoScript]
     public class MenuManager : SerializedMonoBehaviour
     {
-
         #region Structs and properties
+
+        #region Percentage Display for audio
         /// <summary>
         /// displays the slider value as a number between 0 - 100
         /// </summary>
@@ -37,6 +39,7 @@ namespace FPSProject.Menu
         {
             get => Mathf.Round((sfxSliderVal + 60) / 80 * 100);
         }
+        #endregion
 
         #region Debugging
         #region MainMenu
@@ -56,17 +59,23 @@ namespace FPSProject.Menu
         #endregion
         #endregion
         #region Variables
-        [SerializeField] private AudioMixer mixer;
+        // audio Variables
         [SerializeField] private AudioSource sfx;
         [SerializeField] private AudioSource music;
+        [SerializeField] private AudioMixer mixer;
         
+        [SerializeField] private float musicSliderVal;
+        [SerializeField] private float sfxSliderVal;
+
+        // display Variables
         [SerializeField] private bool fullscreen;
-        [SerializeField] private Resolution[] resolutionArray; 
-        [SerializeField] private float tempResWidth;
-        [SerializeField] private float tempResHeight;
-        [SerializeField] private List<string> options = new List<string>(); 
-        
+        [SerializeField] private List<string> options = new List<string>();
+        private Resolution[] resolutionArray; 
         private int resolutionIndex;
+
+        // graphics Variables
+        [SerializeField] private string[] graphicalNames;
+
         public float resSpacing;
         public float scrolSpacing;
 
@@ -75,16 +84,21 @@ namespace FPSProject.Menu
         [SerializeField, ReadOnly]
         private bool optionsMenu = false;
 
-        [SerializeField] private float musicSliderVal;
-        [SerializeField] private float sfxSliderVal;
         
         #region Debug Variables
+        // universal bool for debugMode
         static bool debugMode = false;
-
+        
+        // bools for dropdowns
         private bool graphicsDropDown = false;
         private bool resDropDown = false;
+
+        // vectors for scrollview and native size
         private Vector2 _scrollView = Vector2.zero;
         private Vector2 nativeSize;
+
+        private float resWidth = 1280;
+        private float resHeight = 720;
 
         #region Position and Size
         [TitleGroup("DebugGUI")]
@@ -113,13 +127,36 @@ namespace FPSProject.Menu
         private int selectionGridInt = 0;
         private string[] selectionStrings = { "Audio", "Graphics", "Display", "KeyBindings" };
         #endregion
+        #region KeyBindings IMGUI
+        [SerializeField] private string bindingToMap;
+        [SerializeField] private string buttonText;
+        [SerializeField] private string[] _buttonText;
+        [SerializeField] private string[] bindingMap;
+        [SerializeField] private string bindingName;
+
+        private bool isRebinding = false;
+        #endregion
         #endregion
         #endregion
 
-        // Start is called before the first frame update
+        private void Awake()
+        {
+#if UNITY_EDITOR
+            debugMode = true;
+#else
+            debugMode = false;
+#endif
+        }
         void Start()
         {
             #region DebugStuff
+            if (string.IsNullOrEmpty(bindingToMap))
+            {
+                return;
+            }
+
+            Setup(bindingToMap);
+
             content = new GUIContent("MainMenu"); 
             style.alignment = TextAnchor.MiddleCenter;
 
@@ -131,8 +168,8 @@ namespace FPSProject.Menu
 
             #endregion
             playPressed = false;
-
             GetResolutions();
+            GetAndSetGraphics();
         }
 
         // Update is called once per frame
@@ -141,6 +178,20 @@ namespace FPSProject.Menu
             #region Debugging
             EnableDebugMode();
             SetFullScreen();
+            if (debugMode)
+            {
+                if (isRebinding)
+                {
+                    KeyCode pressed = BindingUtils.GetAnyPressedKey();
+                    if (pressed != KeyCode.None)
+                    {
+                        BindingManager.Rebind(bindingToMap, pressed);
+                        BindingUtils.UpdateTextWithBinding(bindingToMap, buttonText);
+
+                        isRebinding = false;
+                    }
+                }
+            }
             #endregion
         }
 
@@ -170,8 +221,8 @@ namespace FPSProject.Menu
 
                 #region Debugging
                 // used to check if the resolutions are being logged properly
-                Debug.Log(option);
-                Debug.Log(options[i]);
+                //Debug.Log(option);
+                //Debug.Log(options[i]);
                 #endregion
 
                 // checks to see if we are at the current resolution
@@ -188,6 +239,12 @@ namespace FPSProject.Menu
         {
             Resolution res = resolutionArray[resolutionIndex];
             Screen.SetResolution(res.width, res.height, fullscreen, 0);
+        }
+        #endregion
+        #region Graphics
+        private void GetAndSetGraphics()
+        {
+            graphicalNames = QualitySettings.names;
         }
         #endregion
         #region Audio
@@ -231,19 +288,34 @@ namespace FPSProject.Menu
             }
         }
 
+        private void Setup(string _toMap)
+        {
+            bindingToMap = _toMap;
+
+            bindingName = _toMap;
+
+            BindingUtils.UpdateTextWithBinding(bindingToMap, buttonText);
+            gameObject.SetActive(true);
+        }
+
+        private void OnClick()
+        {
+            isRebinding = true;
+        }
+
         private void OnGUI()
         {
             if (debugMode == true)
             {
                 // keeps everything scaled to the native size
-                nativeSize = new Vector2(tempResWidth, tempResHeight);                                          // used to set the native size of the image
+                nativeSize = new Vector2(resWidth, resHeight);                                          // used to set the native size of the image
                 Vector3 scale = new Vector3(Screen.width / nativeSize.x, Screen.height / nativeSize.y, 1.0f);   // gets the scale of the screen
                 GUI.matrix = Matrix4x4.TRS(new Vector3(0, 0, 0), Quaternion.identity, scale);                   // sets the matrix and scales the GUI accordingly
 
-                // scales text with the native size
+                                                                
                 GUIStyle style = new GUIStyle();
-                style.fontSize = (int)(textSize * ((float) Screen.width / (float)nativeSize.x));    // resizes the font
-                style.alignment = TextAnchor.UpperCenter;                                           // anchors the font to a specific part of the screen
+                style.fontSize = textSize;                      // resizes the font
+                style.alignment = TextAnchor.UpperCenter;       // anchors the font to a specific part of the screen
 
                 string[] names = {"PlayGame", "Options", "QuitToDesktop",
                 "Resume", "NewGame", "LoadGame"}; // names to be assigned to the buttons
@@ -337,38 +409,33 @@ namespace FPSProject.Menu
                     _style.fontSize = (int)(25.0f * ((float)Screen.width / (float)nativeSize.x));    // resizes the font
                     _style.alignment = TextAnchor.UpperCenter;
 
-                    audioTextStyle.fontSize = _textSize;
+                    audioTextStyle.fontSize = _textSize;            // handles the style and size of the audio text
 
+                    #region position and size
+                    // handles the position and size of the layout group
                     float layoutSizeX = layoutOptions[7].sizeX;
                     float layoutSizeY = layoutOptions[7].sizeY;
 
                     float layoutPosX = layoutOptions[7].posX;
                     float layoutPosY = layoutOptions[7].posY;
-
-                    float posX = 25f;
-                    float posY = 0;
-
-                    float pX = posX;
-                    float pY = posY;
-
-
-                    float sX = sizeX;
-                    float sY = sizeY;
-
-
+                    #endregion
 
                     //GUI.Box(new Rect(layoutPosX, layoutPosY, layoutSizeX, layoutSizeY), layoutOptions[7].name = "Options", _style);
 
                     #region VolumeDisplay
+                    // floats for music and sfx
                     float musicVolume;
                     float sfxVolume;
 
+                    // handles displaying the percentages for music and sfx
                     float musicPercentage = MusicSliderValDisplay;
                     float sfxPercentage = SfxSliderValDisplay;
 
+                    // gets the values from the audio mixer
                     mixer.GetFloat("Music", out musicVolume);
                     mixer.GetFloat("SFX", out sfxVolume);
 
+                    // formats a string for displaying mixer and percentages values on screen
                     string audioContent = string.Format("Music \nmixer:{0} \npercentage:{2} \n \nSFX \nmixer:{1} \npercentage: {3}",
                     musicVolume, sfxVolume, musicPercentage, sfxPercentage);
                     #endregion
@@ -412,11 +479,11 @@ namespace FPSProject.Menu
                         #region Audio
                         case 0:
                         GUILayout.Box("SFX");   // displays text for SFX
-                        sfxSliderVal = GUILayout.HorizontalSlider(sfxSliderVal, -60.0f, 20.0f);       // slider for controlling sound effects volume
+                        sfxSliderVal = GUILayout.HorizontalSlider(sfxSliderVal, -60.0f, 20.0f);         // slider for controlling sound effects volume
                         SFXSlider(sfxSliderVal);
 
                         GUILayout.Box("Music"); // displays text for Music
-                        musicSliderVal = GUILayout.HorizontalSlider(musicSliderVal, -60.0f, 20.0f); // slider for controlling music volume
+                        musicSliderVal = GUILayout.HorizontalSlider(musicSliderVal, -60.0f, 20.0f);     // slider for controlling music volume
                         MusicSlider(musicSliderVal);
 
                         GUI.BeginGroup(new Rect(0, 0, layoutSizeX, layoutSizeY)); // a group for holding text for music and sfx volume display
@@ -428,23 +495,31 @@ namespace FPSProject.Menu
 
                         #region Graphics
                         case 1:
-                        GUI.BeginGroup(new Rect(0, 0, sX, sY));
-                        if (GUI.Button(new Rect(50, 0, 120, 20), "GraphicsDropDown"))
+                        GetAndSetGraphics();
+                        GUI.BeginGroup(new Rect(0, 0, layoutOptions[9].sizeX, layoutOptions[9].sizeY));
+                        if (GUI.Button(new Rect(layoutOptions[10].posX, layoutOptions[10].posY, layoutOptions[10].sizeX, layoutOptions[10].sizeY), "Graphics"))
                         {
-                            sfx.Play();
-                            graphicsDropDown = !graphicsDropDown;
+                            sfx.Play(); // plays a sound effect when this button is pressed
+                            GetResolutions();
+                            graphicsDropDown = !graphicsDropDown;  // enables or disables the dropdown
                         }
                         if (graphicsDropDown)
                         {
-                            _scrollView = GUI.BeginScrollView(new Rect(60, 30, 100, 100), _scrollView, new Rect(0, 0, 0, 4 * (0.5f)), false, true);
-                            if (GUI.Button(new Rect(25, 0, 50, 20), "1"))
-                                sfx.Play();
-                            if (GUI.Button(new Rect(25, 40, 50, 20), "2"))
-                                sfx.Play();
-                            if (GUI.Button(new Rect(25, 80, 50, 20), "3"))
-                                sfx.Play();
-                            if (GUI.Button(new Rect(25, 120, 50, 20), "4"))
-                                sfx.Play();
+                            float scrollSize = layoutOptions[12].posX;
+                            _scrollView = GUI.BeginScrollView(new Rect(80, 50, 100, 150), _scrollView, new Rect(0, 0, 0, scrollSize), false, true);
+                            for (int i = 0; i < graphicalNames.Length; i++)
+                            {
+                                #region Size and Spacing
+                                float buttonSpacing = (i * layoutOptions[11].posY);
+                                float buttonWidth = layoutOptions[11].sizeX;
+                                float buttonHeight = layoutOptions[11].sizeY;
+                                #endregion
+                                if (GUI.Button(new Rect(0f, buttonSpacing, buttonWidth, buttonHeight), graphicalNames[i]))
+                                {
+                                    sfx.Play();
+                                    QualitySettings.SetQualityLevel(i, true);
+                                }
+                            }
                             GUI.EndScrollView();
                         }                                   // creates a scrollview for displaying a drop down of graphic options
                         GUI.EndGroup();
@@ -465,6 +540,8 @@ namespace FPSProject.Menu
                         {
                             float scrollSize = layoutOptions[11].posX;
                             _scrollView = GUI.BeginScrollView(new Rect(80, 50, 100, 150), _scrollView, new Rect(0, 0, 0, scrollSize), false, true);
+
+                            // creates a set of buttons in the dropdown for displaying resolution options for the player
                             for (int i = 0; i < resolutionArray.Length; i++)
                             {
                                 #region Size and Spacing
@@ -472,13 +549,15 @@ namespace FPSProject.Menu
                                 float buttonWidth = layoutOptions[11].sizeX;
                                 float buttonHeight = layoutOptions[11].sizeY;
                                 #endregion
+
                                 if (GUI.Button(new Rect(0f, buttonSpacing, buttonWidth, buttonHeight), options[i]))
                                 {
                                     sfx.Play();
+                                    SetResolution(i);
                                 }
                             }
                             GUI.EndScrollView();
-                        }   // creates a scrollview for displaying a drop down of Resolution options
+                        } 
                         else
                         {
                             // toggles fullscreen when the toggle is pressed
@@ -490,7 +569,29 @@ namespace FPSProject.Menu
 
                         #region KeyBinds
                         case 3: //KeyBindings
+                        // check if button is pressed
+                        // check what key is pressed after
+                        // set that key
+                        // save
+                        GUI.BeginGroup(new Rect(0, 0, layoutOptions[9].sizeX, layoutOptions[9].sizeY));
+                        for(int i = 0; i < _buttonText.Length; i++)
+                        {
+                            #region Size and Spacing
+                            float buttonSpacing = (i * layoutOptions[13].posY);
+                            float buttonSpacingX = layoutOptions[13].posX;
+                            float buttonWidth = layoutOptions[13].sizeX;
+                            float buttonHeight = layoutOptions[13].sizeY;
+                            #endregion
 
+                            if (GUI.Button(new Rect(buttonSpacingX, buttonSpacing,
+                            buttonWidth, buttonHeight), _buttonText[i]))
+                            {
+                                OnClick();
+                                bindingToMap = bindingMap[i];
+
+                            }
+                        }
+                        GUI.EndGroup();
                         break;
                         #endregion
                     }

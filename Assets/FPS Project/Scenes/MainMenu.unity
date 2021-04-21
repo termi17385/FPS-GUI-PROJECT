@@ -123,6 +123,60 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &57672624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 57672626}
+  - component: {fileID: 57672625}
+  m_Layer: 0
+  m_Name: BindingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &57672625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57672624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db04532024cdb9743b2cdaa0f7ad4f55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultBindings:
+  - name: Forward
+    value: 119
+  - name: Backward
+    value: 115
+  - name: Left
+    value: 97
+  - name: Right
+    value: 100
+  - name: Jump
+    value: 32
+--- !u!4 &57672626
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57672624}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 423.49478, y: 258.41434, z: -623.6004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &374881800
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,7 +661,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 4771094575702284841, guid: 497747f4de9a6ae4787ccb9240a56eee, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 51c35cd7972b52b49bcdb3f2f92f685a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: b0b1ecc76b53c91429ef8f3f15fb02a5, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -761,19 +815,18 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  mixer: {fileID: 24100000, guid: 497747f4de9a6ae4787ccb9240a56eee, type: 2}
   sfx: {fileID: 640064007}
-  music: {fileID: 0}
+  music: {fileID: 1474941685}
+  mixer: {fileID: 24100000, guid: 497747f4de9a6ae4787ccb9240a56eee, type: 2}
+  musicSliderVal: -60
+  sfxSliderVal: -60
   fullscreen: 0
-  tempResWidth: 1280
-  tempResHeight: 720
   options: []
+  graphicalNames: []
   resSpacing: 0
   scrolSpacing: 0
   playPressed: 0
   optionsMenu: 0
-  musicSliderVal: -60
-  sfxSliderVal: -60
   posX: 7
   posY: 1
   sizeX: 2.61
@@ -839,14 +892,34 @@ MonoBehaviour:
     posY: 29.09
     sizeX: 81.01
     sizeY: 23.37
-  - name: 
-    posX: 0
+  - name: Graphics Scrol
+    posX: 180
     posY: 0
     sizeX: 0
     sizeY: 0
+  - name: KeyBinds
+    posX: 67.4
+    posY: 44.1
+    sizeX: 80.25
+    sizeY: 36.4
   textSize: 54
   _textSize: 14
   selectionGridInt: 0
+  bindingToMap: 
+  buttonText: 
+  _buttonText:
+  - Forward
+  - Backward
+  - Left
+  - Right
+  - Jump
+  bindingMap:
+  - Forward
+  - Backward
+  - Left
+  - Right
+  - Jump
+  bindingName: 
 --- !u!1 &2108481623
 GameObject:
   m_ObjectHideFlags: 0
