@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FPSProject.NPC.Dialogue;
 
 namespace FPSProject.Player
 {
@@ -51,6 +52,23 @@ namespace FPSProject.Player
             PlayerJumping();
             MouseMovement();
             MoveHandsIntoPosition();
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                RaycastHit hit;
+                if(Physics.Raycast(transform.position, transform.forward,out hit, 3))
+                {
+                    print(hit.transform.name);
+                    if(hit.transform.tag == "NPC")
+                    {
+                        Dialogue npcDialogue = hit.transform.GetComponent<Dialogue>();
+                        if (npcDialogue)
+                        {
+                            DialogueManager.dM.LoadDialogue(npcDialogue);
+                        }
+                    }
+                }
+            }
         }
 
         private void MoveHandsIntoPosition()
@@ -175,6 +193,11 @@ namespace FPSProject.Player
        //    }
        //}
         #endregion
+
+
+
+
+
     }
 }
 
