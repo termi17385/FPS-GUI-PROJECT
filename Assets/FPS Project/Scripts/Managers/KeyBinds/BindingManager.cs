@@ -6,10 +6,12 @@ namespace FPSProject.Keybinds
 {
     public class BindingManager : MonoBehaviour
     {
-        private static BindingManager instance = null;
+        public static BindingManager instance = null;
         private Dictionary<string, Binding> bindingsMap = new Dictionary<string, Binding>(); // creates a dictionary for mapping the binding
-        [SerializeField] private List<Binding> defaultBindings = new List<Binding>(); // creates a list of default bindings
+        [SerializeField] public List<Binding> defaultBindings = new List<Binding>(); // creates a list of default bindings
         private List<Binding> bindingsList = new List<Binding>(); // creates a list of bindings
+
+        public List<Binding> GetBindings() => bindingsList;
 
         private void Awake()
         {

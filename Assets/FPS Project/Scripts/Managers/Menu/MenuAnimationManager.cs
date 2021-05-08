@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Animations;
 using Sirenix.OdinInspector;
 
 /* Changelog and error log
@@ -18,40 +19,33 @@ namespace FPSProject.Menu.Animations
     {
         #region Variables
         public static MenuAnimationManager menuAnimMan;
+        [SerializeField] private Animator anim;
     
         [SerializeField] private Image[] image;
         [SerializeField] private GameObject[] subMenu;
         [SerializeField] private Transform[] menuPositions;
 
         [SerializeField] private int index;
-        private float x;
+        private float openCount;
+        private float closeCount;
         #endregion
 
-        //[SerializeField] private bool subMenAnim = false;
-
-        // Start is called before the first frame update
         void Start() 
         { 
             if(menuAnimMan == null)menuAnimMan = this;
-             else Destroy(this);
+            else Destroy(this);
 
             index = 0;
         }
-
-        private void Update()
-        {
-            Transform pos1 = menuPositions[0];
-            Transform pos2 = menuPositions[1];
-            Transform menuPos = menuPositions[2];
-
-            Vector2 distToPos1 = Vector2.Distance(menuPos, pos1);
-            Vector2 distToPos2 = Vector2.Distance(menuPos, pos2);
-        }
-
+        
         public void DisplaySubMenu()
         {
             //index = 0;
             StartCoroutine(SubMenuAnimationOpen());
+        }
+        public void CloseSubMenu()
+        {
+            StartCoroutine(SubMenuAnimationClose());
         }
 
         /// <summary>
@@ -67,25 +61,23 @@ namespace FPSProject.Menu.Animations
             }
         }
 
-        private IEnumerator MoveMainMenu()
-        {
-              yield return null;
-        }
-
         /// <summary>
         /// Runs the animation for displaying the submenu <br/>
         /// when the coroutine is run (play pressed)
         /// </summary>
         private IEnumerator SubMenuAnimationOpen()
         {
+            openCount = 0;
+            anim.SetBool("Move", true);
+            yield return new WaitForSeconds(0.5f);
             while (true)
             {
                 //x += (100 * Time.deltaTime);
                 //yield return new WaitForSecondsRealtime(0.0000000000001f);
-                yield return new WaitForSeconds(-1);
-                x += 5.5f;
-                image[index].fillAmount = Mathf.Clamp01(x / 100);
-                if (x >= 100)
+                yield return new WaitForSecondsRealtime(0.02f);
+                openCount += 5.5f;
+                image[index].fillAmount = Mathf.Clamp01(openCount / 100);
+                if (openCount >= 100)
                 {
                     subMenu[index].SetActive(true);
                     if (index >= 2)
@@ -99,9 +91,36 @@ namespace FPSProject.Menu.Animations
                         break;
                     }
                     index++;
-                    x = 0;
+                    openCount = 0;
                 }
             }
         }
+        /// <summary>
+        /// Closes the subMenu
+        /// </summary>
+        private IEnumerator SubMenuAnimationClose()
+        {
+            closeCount = 100;
+            while (true)
+            {
+                //x += (100 * Time.deltaTime);
+                //yield return new WaitForSecondsRealtime(0.0000000000001f);
+                yield return new WaitForSecondsRealtime(0.02f);
+                closeCount -= 5.5f;
+                image[index].fillAmount = Mathf.Clamp01(closeCount / 100);  // "retracts" the lines
+                if (closeCount <= 0)
+                {
+                    subMenu[index].SetActive(false);                        // deactivates the buttons
+                    if (index <= 0)
+                    {
+                        break;
+                    }                                     // stops the loop when the index is at 0 
+                    index--;
+                    closeCount = 100;
+                }
+            }
+            anim.SetBool("Move", false);                                   // moves the menu back
+        }
+
     }
 }

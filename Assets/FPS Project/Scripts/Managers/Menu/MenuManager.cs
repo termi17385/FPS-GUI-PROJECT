@@ -1,19 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEditor;
-
-using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
-
-using Sirenix.OdinInspector;
-
-using FPSProject.Keybinds;
 using FPSProject.Menu.Animations;
-
-/*
- * FixLog
+using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using FPSProject.Keybinds;
+using System.Collections;
+using UnityEngine.Audio;
+using UnityEngine.UI;
+using UnityEngine;
+using UnityEditor;
+using TMPro;
+ 
+/* FixLog
  * 
  * need to fix OnGui Elements - error 1 (fixed)
  * for resolution and display 
@@ -24,6 +21,13 @@ using FPSProject.Menu.Animations;
  * 
  * fix text for OnGui
  * 
+ *  converted Fullscreen and audio to canvas
+ *  need to fix resolution and convert to canvas
+ *  overhaul player prefs
+ *  convert the rest to canvas
+ *  
+ *  fixed the resolution dup issues by clearing 
+ *  the list each time the method is called
  */
 
 namespace FPSProject.Menu
@@ -49,7 +53,6 @@ namespace FPSProject.Menu
             get => Mathf.Round((sfxSliderVal + 60) / 80 * 100);
         }
         #endregion
-
         #region Debugging
         #region MainMenu
         [System.Serializable]
@@ -70,21 +73,26 @@ namespace FPSProject.Menu
         #endregion
         #endregion
         #region Variables
-
+        //[SerializeField]
+        //private Button[] buttons = new Button[8];
         #region OdinStuff
         [TitleGroup("SettingsVariables")]
         [HorizontalGroup("SettingsVariables/Split")]
         [VerticalGroup("SettingsVariables/Split/Left")]
         #endregion
-
         #region AudioVariables
         // audio Variables
         [BoxGroup("SettingsVariables/Split/Left/Audio"), SerializeField] private AudioSource sfx;
         [BoxGroup("SettingsVariables/Split/Left/Audio"), SerializeField] private AudioSource music;
         [BoxGroup("SettingsVariables/Split/Left/Audio"), SerializeField] private AudioMixer mixer;
+        
+        [BoxGroup("SettingsVariables/Split/Left/Audio"), SerializeField] private TextMeshProUGUI musicText;
+        [BoxGroup("SettingsVariables/Split/Left/Audio"), SerializeField] private TextMeshProUGUI sfxText;
 
         [BoxGroup("SettingsVariables/Split/Left/AudioSliders")] public float musicSliderVal;
         [BoxGroup("SettingsVariables/Split/Left/AudioSliders")] public float sfxSliderVal;
+        [SerializeField] private Slider _music;
+        [SerializeField] private Slider _sfx;
         #endregion
         #region DisplayVariables
         // display Variables
@@ -92,6 +100,7 @@ namespace FPSProject.Menu
 
         [BoxGroup("SettingsVariables/Split/Right/Display"), SerializeField] private List<string> options = new List<string>();
         [BoxGroup("SettingsVariables/Split/Right/Display"), SerializeField] private Resolution[] resolutionArray;
+        [BoxGroup("SettingsVariables/Split/Right/Display"), SerializeField] private TMP_Dropdown resDown;
 
         [BoxGroup("SettingsVariables/Split/Right/Display"), SerializeField] private bool fullscreen;
 
@@ -100,18 +109,18 @@ namespace FPSProject.Menu
         #endregion
         #region Graphics Variables
         // graphics Variables
-        [BoxGroup("SettingsVariables/Split/Right/Graphics"), SerializeField] private string[] graphicalNames;
+        [BoxGroup("SettingsVariables/Split/Right/Graphics"),SerializeField] private string[] graphicalNames;
         [BoxGroup("SettingsVariables/Split/Left/Graphics"), SerializeField] private int graphicsIndex;
+        [BoxGroup("SettingsVariables/Split/Left/Graphics"), SerializeField] private TMP_Dropdown grapDown;
         #endregion
-
         #region Misc
         [SerializeField, ReadOnly]
         private bool playPressed = false;
         [SerializeField, ReadOnly]
         private bool optionsMenu = false;
+
+        public GameObject[] menus;
         #endregion
-
-
         #region Debug Variables
         // universal bool for debugMode
         static bool debugMode = false;
@@ -174,14 +183,22 @@ namespace FPSProject.Menu
         #endregion
         #endregion
 
-        private void Awake() => debugMode = false;
-
-        void Start()
+        #region Start and Update
+        private void Awake()
         {
-            #region Initialising Settings
             GetResolutions();
             GetGraphics();
+            
+            debugMode = false;
+            DropDownListener();
             LoadSettings();
+        }
+
+        private void Start()
+        {
+            menus[0].SetActive(true);
+            menus[1].SetActive(false);
+            #region Initialising Settings
             #endregion
             #region DebugStuff
             if (string.IsNullOrEmpty(bindingToMap))
@@ -202,11 +219,11 @@ namespace FPSProject.Menu
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             #region Methods
-            SetFullScreen();
             EnableDebugMode();
+            DisplayVolumeText();
             #endregion
             #region Debugging
             if (debugMode)
@@ -225,28 +242,39 @@ namespace FPSProject.Menu
             }
             #endregion
 
+            
             //MenuAnimationManager.menuAnimMan.DisplaySubMenu();
-        }                                                                                                   
-
+        }
+        #endregion
         #region Settings
         public void PlayerPressed()
         {
-            MenuAnimationManager.menuAnimMan.ResetSubMenuAnimation();
-            MenuAnimationManager.menuAnimMan.DisplaySubMenu();
+            if(!playPressed)
+            {
+                MenuAnimationManager.menuAnimMan.ResetSubMenuAnimation();
+                MenuAnimationManager.menuAnimMan.DisplaySubMenu();
+            }
+            else
+            {
+                MenuAnimationManager.menuAnimMan.CloseSubMenu();
+            }
+            playPressed = !playPressed;
         }
 
         #region Display
         /// <summary>
         /// sets whether the game is in fullscreen or not
         /// </summary>
-        public void SetFullScreen()
+        public void SetFullScreen(bool _fullScreen)
         {
+            fullscreen = _fullScreen;
             Screen.fullScreen = fullscreen;
         }
         #endregion
         #region Resolution
-        private void GetResolutions()
+        public void GetResolutions()
         {
+            options.Clear();  // makes sure the list is cleared beforehand
             List<Resolution> resolutions = new List<Resolution>();  // a list for storing the resolutions
             foreach (Resolution res in Screen.resolutions)    
             {
@@ -280,8 +308,41 @@ namespace FPSProject.Menu
                     resolutionIndex = i;
                 }
             }
-        }
 
+            resDown.ClearOptions();
+            resDown.AddOptions(options);
+        }
+        #region ListenerStuff
+        /// <summary>
+        /// Used to set listeners for the dropDowns
+        /// <br/> to detect when the player changes Values
+        /// </summary>
+        public void DropDownListener()
+        {
+            // add listener for the dropdown to detect when a value is changed
+            resDown.onValueChanged.AddListener(delegate{OnResolutionChange(resDown);});
+            grapDown.onValueChanged.AddListener(delegate{SetGraphics(grapDown.value);});
+
+            // used to debug the drop downs
+            Debug.LogWarning("First : " + grapDown.value);
+            Debug.LogWarning("First : " + resDown.value);
+        }
+        /// <summary>
+        /// used to change the resolution
+        /// </summary>
+        public void OnResolutionChange(TMP_Dropdown change)
+        {
+            // sets resolution when the dropdown is changed
+            SetResolution(change.value);
+
+            string _text = string.Format("Value : {0}", change.value);
+            Debug.LogWarning(_text);
+        }
+        #endregion
+        /// <summary>
+        /// Sets the resolution based on the index given
+        /// </summary>
+        /// <param name="resolutionIndex">A value for changing the resolution</param>
         public void SetResolution(int resolutionIndex)
         {
             Resolution res = resolutionArray[resolutionIndex];
@@ -291,7 +352,16 @@ namespace FPSProject.Menu
         #region Graphics
         private void GetGraphics()
         {
-            graphicalNames = QualitySettings.names;
+            List<string> _graphicalNames = new List<string>();  // creates a list for displaying the graphics
+            graphicalNames = QualitySettings.names;             // assigns the names to an array of string
+            _graphicalNames.Clear();                            // makes sure the list is clean
+            
+            // gets all the names from the array and converts to list
+            foreach(string name in graphicalNames)               
+            {_graphicalNames.Add(name);}
+
+            grapDown.ClearOptions();                            // makes sure the drop down is cleaned first
+            grapDown.AddOptions(_graphicalNames);               // assigns the names to the dropDown
         }
         /// <summary>
         /// Sets the graphics settings of the game
@@ -309,7 +379,8 @@ namespace FPSProject.Menu
         /// <param name="vol">the parametre for<br/>changing the volume</param>
         public void MusicSlider(float vol)
         {
-            mixer.SetFloat("Music", vol);
+            musicSliderVal = vol;
+            mixer.SetFloat("Music", musicSliderVal);
         }
 
         /// <summary>
@@ -318,22 +389,37 @@ namespace FPSProject.Menu
         /// <param name="vol">the parametre for<br/>changing the volume</param>
         public void SFXSlider(float vol)
         {
-            mixer.SetFloat("SFX", vol);
+            sfxSliderVal = vol;  // stores the float for the slider val so i can be converted to text
+            mixer.SetFloat("SFX", sfxSliderVal);
+        }
+
+        /// <summary>
+        /// Displays the volume amount as a string
+        /// </summary>
+        private void DisplayVolumeText()
+        {
+            musicText.text = string.Format("Music : {0}", MusicSliderValDisplay); 
+            sfxText.text = string.Format("SFX : {0}", SfxSliderValDisplay); 
+        }
+
+        /// <summary>
+        /// Plays sfx when buttons are pressed
+        /// </summary>
+        private void PlayButtonSFX()
+        {
+            sfx.Play();
         }
         #endregion
-
         #region Save and Loading
         public void SaveSettings()
         {
             #region Fullscreen
             PlayerPrefs.SetString("FullScreen", fullscreen.ToString()); // saves fullscreen bool as a string
             #endregion
-
             #region Indexes
-            PlayerPrefs.SetInt("ResIndex", resolutionIndex);
-            PlayerPrefs.SetInt("GraphicsIndex", graphicsIndex);
+            PlayerPrefs.SetInt("ResIndex", resDown.value);
+            PlayerPrefs.SetInt("GraphicsIndex", grapDown.value);
             #endregion
-
             #region Audio
             // save audio
             float musicVol;
@@ -343,8 +429,10 @@ namespace FPSProject.Menu
             float sfxVol;
             mixer.GetFloat("SFX", out sfxVol);
             PlayerPrefs.SetFloat("SFXVol", sfxVol);
-            #endregion 
-            // save keybinds
+            #endregion
+
+
+            // saves player prefs to disk
             PlayerPrefs.Save();
         }
 
@@ -355,23 +443,36 @@ namespace FPSProject.Menu
             string _fullscreen = PlayerPrefs.GetString("FullScreen"); // loads the string
             fullscreen = bool.Parse(_fullscreen); // then converts to bool
             #endregion
-
             #region Indexes
-            resolutionIndex = PlayerPrefs.GetInt("ResIndex");
-            graphicsIndex = PlayerPrefs.GetInt("GraphicsIndex");
+            resDown.value = PlayerPrefs.GetInt("ResIndex");
+            grapDown.value = PlayerPrefs.GetInt("GraphicsIndex");
 
-            SetResolution(resolutionIndex);
-            SetGraphics(graphicsIndex);
+            SetResolution(resDown.value);
+            SetGraphics(grapDown.value);
+
+            string debugTest = string.Format("\n Res : {0} \n Graph : {1}", resDown.value, grapDown.value);
+
+            Debug.Log(debugTest);
             #endregion
-
             #region Audio
             musicSliderVal = PlayerPrefs.GetFloat("MusicVol");
             sfxSliderVal = PlayerPrefs.GetFloat("SFXVol");
+
+            // makes sure the mixer is set on load
+            mixer.SetFloat("Music", musicSliderVal);
+            mixer.SetFloat("SFX", sfxSliderVal);
+
+            _music.value = musicSliderVal;
+            _sfx.value = sfxSliderVal;
             #endregion
         }
         #endregion
         #endregion
-
+        #region Misc
+        /// <summary>
+        /// Quits the application or exits play mode
+        /// <br/>depending on if in editor or in build
+        /// </summary>
         public void QuitGame()
         {
             #if UNITY_EDITOR                        // checks if we are in the Unity Editior
@@ -390,7 +491,6 @@ namespace FPSProject.Menu
                 debugMode = !debugMode;
             }
         }
-
         private void Setup(string _toMap)
         {
             bindingToMap = _toMap;
@@ -400,12 +500,10 @@ namespace FPSProject.Menu
             BindingUtils.UpdateTextWithBinding(bindingToMap, buttonText);
             gameObject.SetActive(true);
         }
-
         private void OnClick()
         {
             isRebinding = true;
         }
-
         private void OnGUI()
         {
             if (debugMode == true)
@@ -553,7 +651,6 @@ namespace FPSProject.Menu
                     {
                         Debug.Log("Back");
                         sfx.Play();
-                        SaveSettings();
                         graphicsDropDown = false;
                         resDropDown = false;
                         optionsMenu = !optionsMenu;
@@ -597,7 +694,6 @@ namespace FPSProject.Menu
 
                         break;
                         #endregion
-
                         #region Graphics
                         case 1:
                         GetGraphics();
@@ -630,7 +726,6 @@ namespace FPSProject.Menu
                         GUI.EndGroup();
                         break;
                         #endregion
-
                         #region DisplaySettings
                         case 2:
                         Debug.Log("Display");
@@ -670,7 +765,6 @@ namespace FPSProject.Menu
                         GUI.EndGroup();
                         break;
                         #endregion
-
                         #region KeyBinds
                         case 3: //KeyBindings
                         // check if button is pressed
@@ -709,6 +803,7 @@ namespace FPSProject.Menu
                 }
             }
         }
+        #endregion
         #endregion
     }
 }

@@ -1,5 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections;
+using FPSProject.Menu;
 using UnityEngine;
 
 namespace FPSProject.Weapons
@@ -22,17 +23,18 @@ namespace FPSProject.Weapons
 
         protected override void Update()
         {
+            if (PauseMenu.instance.paused == false)
+            {
+                // if player is paused of in free cam the player can't shoot
 
-            // if player is paused of in free cam the player can't shoot
+                //base.Update(); 
+                if (Input.GetButton("Fire1")) Shoot(); 
+                ViewRay();
 
-            //base.Update(); 
-            { if (Input.GetButton("Fire1")) { Shoot(); } ViewRay(); }
-
-            // runs the animation to aim down sights when the player holds right mouse
-            if(Input.GetKey(KeyCode.Mouse1)) 
-            {anim.SetBool("isADS", true);}
-            else{anim.SetBool("isADS", false);}
-            
+                // runs the animation to aim down sights when the player holds right mouse
+                if(Input.GetKey(KeyCode.Mouse1)) anim.SetBool("isADS", true);
+                else anim.SetBool("isADS", false);
+            }
         }
 
         protected override IEnumerator ShotEffect()

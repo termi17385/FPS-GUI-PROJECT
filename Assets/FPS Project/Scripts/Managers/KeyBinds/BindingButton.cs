@@ -8,10 +8,12 @@ namespace FPSProject.Keybinds
 {
     public class BindingButton : MonoBehaviour
     {
-        [SerializeField] private string bindingToMap;
+        public string bindingToMap;
         [SerializeField] private Button button;
         [SerializeField] private TextMeshProUGUI buttonText;
         [SerializeField] private TextMeshProUGUI bindingName;
+
+        void Awake() => button = GetComponent<Button>();
 
         private bool isRebinding = false;
 

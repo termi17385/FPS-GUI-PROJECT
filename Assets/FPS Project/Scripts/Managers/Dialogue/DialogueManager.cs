@@ -32,7 +32,7 @@ namespace FPSProject.NPC.Dialogue
             {
                  spawnedButton = Instantiate(buttonPrefab, dialogueButtonPanel).GetComponent<Button>();
                     spawnedButton.GetComponentInChildren<TextMeshProUGUI>().text = data.question;
-                        spawnedButton.onClick.AddListener(delegate{ButtonPressed(data.buttonID);});
+                        spawnedButton.onClick.AddListener(()=>ButtonPressed(data.buttonID));
             }
 
              spawnedButton = Instantiate(buttonPrefab, dialogueButtonPanel).GetComponent<Button>();

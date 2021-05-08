@@ -1,7 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using FPSProject.NPC.Dialogue;
+using System.Collections;
+using FPSProject.Menu;
+using UnityEngine;
 
 namespace FPSProject.Player
 {
@@ -47,11 +48,16 @@ namespace FPSProject.Player
         // Update is called once per frame
         void Update()
         {
-            grounded = GroundCheck();
-            PlayerMovement();
-            PlayerJumping();
-            MouseMovement();
-            MoveHandsIntoPosition();
+            PausedGame();
+
+            if(PauseMenu.instance.paused == false)
+            {
+                grounded = GroundCheck();
+                PlayerMovement();
+                PlayerJumping();
+                MouseMovement();
+                MoveHandsIntoPosition();
+            }
 
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -70,13 +76,23 @@ namespace FPSProject.Player
                 }
             }
         }
-
+        #region Misc and other Controls
         private void MoveHandsIntoPosition()
         {
             hands[0].transform.position = handPositions[0].transform.position;
             hands[1].transform.position = handPositions[1].transform.position;
         }
 
+        /// <summary>
+        /// Pauses the game when escape is pressed
+        /// </summary>
+        private void PausedGame()
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            PauseMenu.instance.PauseGame();
+        }
+        #endregion
+        #region Movement
         private void PlayerMovement()
         {
             #region The axis being used to move the player
@@ -145,7 +161,6 @@ namespace FPSProject.Player
             cc.Move(playerVelocity * Time.deltaTime);           // moves the character controller up and down which moves the player 
         }
 
-
         /// <summary>
         /// This method is used to handle mouse look <br/>
         /// It does this by getting the mouse axis's times'd by speed and <br/>
@@ -162,7 +177,7 @@ namespace FPSProject.Player
             transform.eulerAngles = new Vector2(0, rotation.y) * mouse_Speed;                   // Rotates the player around the y axis times'd by the mouse speed
             cam.transform.localRotation = Quaternion.Euler(rotation.x * mouse_Speed, 0, 0);     // Rotates the camera up and down the x axis times'd by mouse speed
         }
-
+        #endregion
         #region CollisonStuff
 
         private bool GroundCheck()
@@ -193,11 +208,6 @@ namespace FPSProject.Player
        //    }
        //}
         #endregion
-
-
-
-
-
     }
 }
 
