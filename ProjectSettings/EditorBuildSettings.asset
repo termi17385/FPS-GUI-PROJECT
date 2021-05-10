@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/FPS Project/Scenes/GameScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/FPS Project/Scenes/LoadingScreen.unity
+    guid: 6f272a76d6f99774ca8beb6d36175c49
   m_configObjects: {}

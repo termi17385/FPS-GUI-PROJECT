@@ -75,7 +75,7 @@ namespace FPSProject.Menu
         [NonSerialized] public static PauseMenu instance;
         [SerializeField] private GameObject[] menus = new GameObject[3];
         public bool paused;
-        private string[] sceneNames = {"MainMenu"};
+        private string sceneName = "LoadingScreen";
         #endregion
         #endregion
 
@@ -346,7 +346,8 @@ namespace FPSProject.Menu
 
         public void QuitToMenu()
         {
-            SceneManager.LoadScene(sceneNames[0]); 
+            PlayerPrefs.SetString("SceneName", "MainMenu");
+            SceneManager.LoadScene(sceneName); 
         }
         #endregion
     }

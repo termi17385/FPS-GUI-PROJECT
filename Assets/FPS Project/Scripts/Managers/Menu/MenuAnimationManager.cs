@@ -28,26 +28,42 @@ namespace FPSProject.Menu.Animations
         [SerializeField] private int index;
         private float openCount;
         private float closeCount;
-        #endregion
 
+        public bool canInteract = true;
+        #endregion
+        #region Start
         void Start() 
-        { 
-            if(menuAnimMan == null)menuAnimMan = this;
+        {
+            #region
+            if (menuAnimMan == null)menuAnimMan = this;
             else Destroy(this);
+            ResetSubMenuAnimation();
 
             index = 0;
+            canInteract = true;
+            openCount = 0;
+            closeCount = 100;
+            #endregion
+
         }
-        
+        #endregion
+
+        #region Menus
         public void DisplaySubMenu()
         {
             //index = 0;
             StartCoroutine(SubMenuAnimationOpen());
+            canInteract = false;
+            Debug.LogError("");
         }
         public void CloseSubMenu()
         {
             StartCoroutine(SubMenuAnimationClose());
+            canInteract = false;
+            Debug.LogError("");
         }
-
+        #endregion
+        #region Animations
         /// <summary>
         /// Loops through the menus and <br/>
         /// makes sure the lines are at 0.
@@ -67,7 +83,7 @@ namespace FPSProject.Menu.Animations
         /// </summary>
         private IEnumerator SubMenuAnimationOpen()
         {
-            openCount = 0;
+            openCount = 0;  
             anim.SetBool("Move", true);
             yield return new WaitForSeconds(0.5f);
             while (true)
@@ -94,6 +110,8 @@ namespace FPSProject.Menu.Animations
                     openCount = 0;
                 }
             }
+            index = 0;
+            canInteract = true;
         }
         /// <summary>
         /// Closes the subMenu
@@ -101,6 +119,7 @@ namespace FPSProject.Menu.Animations
         private IEnumerator SubMenuAnimationClose()
         {
             closeCount = 100;
+            index = 2;
             while (true)
             {
                 //x += (100 * Time.deltaTime);
@@ -120,7 +139,10 @@ namespace FPSProject.Menu.Animations
                 }
             }
             anim.SetBool("Move", false);                                   // moves the menu back
+            canInteract = true; 
+            index = 0;
         }
 
     }
+    #endregion
 }

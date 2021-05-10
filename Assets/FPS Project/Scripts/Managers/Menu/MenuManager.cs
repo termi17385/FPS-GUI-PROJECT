@@ -241,24 +241,18 @@ namespace FPSProject.Menu
                 }
             }
             #endregion
-
-            
             //MenuAnimationManager.menuAnimMan.DisplaySubMenu();
         }
         #endregion
         #region Settings
         public void PlayerPressed()
         {
-            if(!playPressed)
+            if(MenuAnimationManager.menuAnimMan.canInteract == true)
             {
-                MenuAnimationManager.menuAnimMan.ResetSubMenuAnimation();
-                MenuAnimationManager.menuAnimMan.DisplaySubMenu();
+                if(!playPressed) MenuAnimationManager.menuAnimMan.DisplaySubMenu();
+                else MenuAnimationManager.menuAnimMan.CloseSubMenu();
+                playPressed = !playPressed;
             }
-            else
-            {
-                MenuAnimationManager.menuAnimMan.CloseSubMenu();
-            }
-            playPressed = !playPressed;
         }
 
         #region Display
@@ -481,7 +475,11 @@ namespace FPSProject.Menu
 
             Application.Quit();                     // Quits application if we are in build
         }
-
+        public void LoadGameScene()
+        {
+            PlayerPrefs.SetString("SceneName", "GameScene");
+            SceneManager.LoadScene("LoadingScreen");
+        }
         #region Debugging
         public static void EnableDebugMode()
         {

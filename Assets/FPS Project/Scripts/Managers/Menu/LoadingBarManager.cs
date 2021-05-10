@@ -6,26 +6,25 @@ using UnityEngine.SceneManagement;
 
 public class LoadingBarManager : MonoBehaviour
 {
-    public GameObject loadingScreen;
-    public Image progressBar;
-    public Text progressText;
+    public string loadScene;
+    AsyncOperation loadingOperation;
+    [SerializeField] private Image loadingBar;
+    [SerializeField] private Text percentage;
 
-    IEnumerator LoadAsynchronously(int sceneIndex)
+    private void Awake() => loadScene = PlayerPrefs.GetString("SceneName");
+    private void Start() => loadingOperation = SceneManager.LoadSceneAsync(loadScene);
+
+    private void Update()
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
-        loadingScreen.SetActive(true);
-
-        while (!operation.isDone)
-        {
-            float progress = Mathf.Clamp01(operation.progress / 0.9f);
-            progressBar.fillAmount = progress;
-            progressText.text = progress * 100 + "%";
-            yield return null;
-        }                                                                                        
+        LoadingBar();
     }
 
-    public void LoadLevel(int sceneIndex)
+    private void LoadingBar()
     {
-        StartCoroutine(LoadAsynchronously(sceneIndex));
+        float loadingBarProgress = Mathf.Clamp01(loadingOperation.progress / 0.9f);
+        loadingBar.fillAmount = loadingBarProgress;
+        percentage.text = Mathf.Round(loadingBarProgress * 100) + "%";
+
+        Debug.LogError("Loading");
     }
 }
