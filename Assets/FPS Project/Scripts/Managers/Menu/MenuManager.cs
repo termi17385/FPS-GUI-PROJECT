@@ -7,6 +7,7 @@ using System.Collections;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 using UnityEngine;
+using System.Linq;
 using UnityEditor;
 using TMPro;
  
@@ -28,8 +29,13 @@ using TMPro;
  *  
  *  fixed the resolution dup issues by clearing 
  *  the list each time the method is called
+ *  
+ *  had to use linq to fix bug where some computers dont have native 60hz 
+ *  linq now filters out the duplicate data
+ *  
+ *  issue with fullscreen being convert to a 
+ *  string had to convert it to lowercase
  */
-
 namespace FPSProject.Menu
 {
     [HideMonoScript]
@@ -103,6 +109,7 @@ namespace FPSProject.Menu
         [BoxGroup("SettingsVariables/Split/Right/Display"), SerializeField] private TMP_Dropdown resDown;
 
         [BoxGroup("SettingsVariables/Split/Right/Display"), SerializeField] private bool fullscreen;
+        [BoxGroup("SettingsVariables/Split/Right/Display"), SerializeField] private Toggle screenToggle;
 
         [BoxGroup("SettingsVariables/Split/Right/Display"), SerializeField] private int refreshRate;
         [BoxGroup("SettingsVariables/Split/Right/Display"), SerializeField] private int resolutionIndex;
@@ -186,16 +193,20 @@ namespace FPSProject.Menu
         #region Start and Update
         private void Awake()
         {
+            Time.timeScale = 1f;
+            debugMode = false;
+
+            #region Method
             GetResolutions();
             GetGraphics();
-            
-            debugMode = false;
             DropDownListener();
             LoadSettings();
+            #endregion
         }
 
         private void Start()
         {
+            #region Stuff
             menus[0].SetActive(true);
             menus[1].SetActive(false);
             #region Initialising Settings
@@ -216,6 +227,7 @@ namespace FPSProject.Menu
 
             #endregion
             playPressed = false;
+            #endregion
         }
 
         // Update is called once per frame
@@ -273,12 +285,13 @@ namespace FPSProject.Menu
             foreach (Resolution res in Screen.resolutions)    
             {
                 // checks if the refreshrate is 60 then adds resolution to list
-                if (res.refreshRate == 60.0f)    
-                    resolutions.Add(res);
-                
-                //stores the resolutions in an array
-                resolutionArray = resolutions.ToArray();
+                if (res.refreshRate == 60.0f || res.refreshRate == 120.0f)    
+                    resolutions.Add(res);       
             }
+
+            //stores the resolutions in an array and filters out the duplicates
+            resolutionArray = Screen.resolutions.Select(resolutions => new Resolution { width = resolutions.width, height = resolutions.height}).Distinct().ToArray();
+            
             
             // loop to assign all resolutions to a string 
             // set the current resolution
@@ -408,7 +421,8 @@ namespace FPSProject.Menu
         public void SaveSettings()
         {
             #region Fullscreen
-            PlayerPrefs.SetString("FullScreen", fullscreen.ToString()); // saves fullscreen bool as a string
+            // converts the bool to string and lower case and saves fullscreen bool as a string
+            PlayerPrefs.SetString("FullScreen", fullscreen.ToString().ToLower());
             #endregion
             #region Indexes
             PlayerPrefs.SetInt("ResIndex", resDown.value);
@@ -433,9 +447,18 @@ namespace FPSProject.Menu
         public void LoadSettings()
         {
             #region Fullscreen
-            // Loading Fullscreen    
-            string _fullscreen = PlayerPrefs.GetString("FullScreen"); // loads the string
-            fullscreen = bool.Parse(_fullscreen); // then converts to bool
+            // Loading Fullscreen      
+            
+            //string _fullscreen = PlayerPrefs.GetString("FullScreen"); // loads the string
+            string text = PlayerPrefs.GetString("FullScreen");  // used to make sure that theres actually a value assigned
+            Debug.LogError("fullscreen? :" + text.ToString());  // debugs the value so we can check its not null
+
+            if(text != null)
+            {
+                fullscreen = bool.Parse(PlayerPrefs.GetString("FullScreen").ToLower()); // converts the string to lowercase then to a bool
+                screenToggle.isOn = fullscreen;
+                SetFullScreen(fullscreen);
+            } 
             #endregion
             #region Indexes
             resDown.value = PlayerPrefs.GetInt("ResIndex");
@@ -443,7 +466,6 @@ namespace FPSProject.Menu
 
             SetResolution(resDown.value);
             SetGraphics(grapDown.value);
-
             string debugTest = string.Format("\n Res : {0} \n Graph : {1}", resDown.value, grapDown.value);
 
             Debug.Log(debugTest);
@@ -451,13 +473,14 @@ namespace FPSProject.Menu
             #region Audio
             musicSliderVal = PlayerPrefs.GetFloat("MusicVol");
             sfxSliderVal = PlayerPrefs.GetFloat("SFXVol");
-
-            // makes sure the mixer is set on load
-            mixer.SetFloat("Music", musicSliderVal);
-            mixer.SetFloat("SFX", sfxSliderVal);
-
+            
             _music.value = musicSliderVal;
             _sfx.value = sfxSliderVal;
+
+            // makes sure the mixer is set on load
+            mixer.SetFloat("Music", _music.value);
+            mixer.SetFloat("SFX", _sfx.value);
+
             #endregion
         }
         #endregion
@@ -472,6 +495,7 @@ namespace FPSProject.Menu
             #if UNITY_EDITOR                        // checks if we are in the Unity Editior
             EditorApplication.ExitPlaymode();       // if true then exit playmode
             #endif                                  // end if
+            PlayerPrefs.SetInt("FirstTime", 0);
 
             Application.Quit();                     // Quits application if we are in build
         }

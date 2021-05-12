@@ -5,6 +5,7 @@ using UnityEngine.Audio;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
+using System.Linq;
 using TMPro;
 
 /* ChangeLog
@@ -171,33 +172,40 @@ namespace FPSProject.Menu
         /// Used to get the resolutions store them in an array and list <br/>
         /// then convert them to user friendly text to display on the dropdown
         /// </summary>
-        private void GetResolutions()
+        public void GetResolutions()
         {
-            // make sure the options list is cleared so that we dont get dupes
-            options.Clear();
-            List<Resolution> resolutions = new List<Resolution>(); // stores the filtered resolutions
-            // loop through all resolutions and only add the ones with 60hz
-            foreach(Resolution res in Screen.resolutions)
+            options.Clear();  // makes sure the list is cleared beforehand
+            List<Resolution> resolutions = new List<Resolution>();  // a list for storing the resolutions
+            foreach (Resolution res in Screen.resolutions)
             {
-                if(res.refreshRate == 60.0f)
+                // checks if the refreshrate is 60 then adds resolution to list
+                if (res.refreshRate == 60.0f || res.refreshRate == 120.0f)
                     resolutions.Add(res);
-
-                // stores the resolutions to the array
-                resolutionArray = resolutions.ToArray();
             }
-            
-            // assign all resolutions to a user friendly string
+
+            //stores the resolutions in an array and filters out the duplicates
+            resolutionArray = Screen.resolutions.Select(resolutions => new Resolution { width = resolutions.width, height = resolutions.height }).Distinct().ToArray();
+
+
+            // loop to assign all resolutions to a string 
             // set the current resolution
-            for(int i = 0; i < resolutionArray.Length; i++)
+            for (int i = 0; i < resolutionArray.Length; i++)
             {
-                string option = resolutionArray[i].width + "x" + 
-                resolutionArray[i].height;
-                
+                // formats the resolution into a user friendly format then adds that the the list of options
+                string option = resolutionArray[i].width + "x" + resolutionArray[i].height;
                 options.Add(option);
 
+                #region Debugging
+                // used to check if the resolutions are being logged properly
+                //Debug.Log(option);
+                //Debug.Log(options[i]);
+                #endregion
+
+                // checks to see if we are at the current resolution
                 if (resolutionArray[i].width == Screen.currentResolution.width &&
                 resolutionArray[i].height == Screen.currentResolution.height)
                 {
+                    // then sets the index to that value
                     resolutionIndex = i;
                 }
             }
