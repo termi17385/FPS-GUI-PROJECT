@@ -140,8 +140,7 @@ namespace FPSProject.Menu
         private Vector2 _scrollView = Vector2.zero;
         private Vector2 nativeSize;
 
-        private float resWidth = 1280;
-        private float resHeight = 720;
+        private Vector2 res = new Vector2 (1280, 720);
 
         #region Position and Size
         //[HorizontalGroup("DebugGUI/Split", Width = 0.5f)]
@@ -531,7 +530,7 @@ namespace FPSProject.Menu
             if (debugMode == true)
             {
                 // keeps everything scaled to the native size
-                nativeSize = new Vector2(resWidth, resHeight);                                          // used to set the native size of the image
+                nativeSize = new Vector2(res.x, res.y);                                          // used to set the native size of the image
                 Vector3 scale = new Vector3(Screen.width / nativeSize.x, Screen.height / nativeSize.y, 1.0f);   // gets the scale of the screen
                 GUI.matrix = Matrix4x4.TRS(new Vector3(0, 0, 0), Quaternion.identity, scale);                   // sets the matrix and scales the GUI accordingly
 

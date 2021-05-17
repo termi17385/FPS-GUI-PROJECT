@@ -1464,13 +1464,12 @@ MonoBehaviour:
   turnSmoothVelocity: 0
   cam: {fileID: 7572929515245126424}
   cc: {fileID: 8896823552684735296}
-  pause: {fileID: 0}
   playerVelocity: {x: 0, y: 0, z: 0}
   grounded: 1
-  gm: {fileID: 0}
+  isTalking: 0
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   handPositions:
   - {fileID: 904251567539590372}
   - {fileID: 6507010554451003272}
@@ -1489,6 +1488,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c64771d99bbf4e74990aeccd59d9adcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   healthBar: {fileID: 0}
   detection: 0
   detectionBar: {fileID: 0}

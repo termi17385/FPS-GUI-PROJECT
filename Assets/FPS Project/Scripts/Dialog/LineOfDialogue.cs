@@ -10,6 +10,9 @@ namespace FPSProject.NPC.Dialogue
     {
         [TextArea(4,6), FoldoutGroup("DialogueStuff")]
         public string question, response;
-        public int buttonID;
+        public float minAproval = -1f;
+        [System.NonSerialized] public int buttonID;
+
+        public Dialogue nextDialogue;
     }
 }

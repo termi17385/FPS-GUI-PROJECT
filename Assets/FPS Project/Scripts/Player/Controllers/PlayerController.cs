@@ -31,6 +31,7 @@ namespace FPSProject.Player
         [SerializeField] private CharacterController cc;
         [SerializeField] private Vector3 playerVelocity;
         [SerializeField] private bool grounded = false;
+        [SerializeField] private bool isTalking = false;
 
         [SerializeField] private LayerMask groundLayer;
 
@@ -57,25 +58,46 @@ namespace FPSProject.Player
                 PlayerJumping();
                 MouseMovement();
                 MoveHandsIntoPosition();
+                if(Cursor.lockState == CursorLockMode.None)
+                Cursor.lockState = CursorLockMode.Locked;
             }
 
+            TalkToNPC();
+        }
+
+        private void TalkToNPC()
+        {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                isTalking = !isTalking;
                 RaycastHit hit;
-                if(Physics.Raycast(transform.position, transform.forward,out hit, 3))
+                if (Physics.Raycast(transform.position, transform.forward, out hit, 3))
                 {
                     print(hit.transform.name);
-                    if(hit.transform.tag == "NPC")
+                    if ((hit.transform.tag == "NPC" && isTalking))
                     {
                         Dialogue npcDialogue = hit.transform.GetComponent<Dialogue>();
                         if (npcDialogue)
-                        {
+                        {                                                 
                             DialogueManager.dM.LoadDialogue(npcDialogue);
+                            PauseMenu.instance.paused = true;
+                            Cursor.lockState = CursorLockMode.None;
                         }
                     }
+                    //else if ((hit.transform.tag == "NPC" && isTalking))
+                    //{
+                    //    Dialogue npcDialogue = hit.transform.GetComponent<Dialogue>();
+                    //    if (npcDialogue)
+                    //    {
+                    //        DialogueManager.dM.;
+                    //    }
+                    //}
                 }
             }
+
+            Debug.DrawRay(transform.position, (transform.forward * 3f), Color.red);
         }
+
         #region Misc and other Controls
         private void MoveHandsIntoPosition()
         {

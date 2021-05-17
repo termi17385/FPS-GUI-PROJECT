@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Sirenix.OdinInspector;
+using FPSProject.Menu;
 
 namespace FPSProject.NPC.Dialogue
 {
@@ -11,6 +12,7 @@ namespace FPSProject.NPC.Dialogue
     {  
         public static DialogueManager dM;
         private Dialogue loadedDialogue;
+        [SerializeField] private TextMeshProUGUI responseText;
 
         [SerializeField] GameObject buttonPrefab;
         [SerializeField] Transform dialogueButtonPanel;
@@ -28,31 +30,58 @@ namespace FPSProject.NPC.Dialogue
                     ClearButtons();
 
             Button spawnedButton;
+            int i = 0;
             foreach(LineOfDialogue data in dialogue.dialogueOptions)
             {
-                 spawnedButton = Instantiate(buttonPrefab, dialogueButtonPanel).GetComponent<Button>();
+                float? currentApproval = FactionManager.instance.FactionsApproval(loadedDialogue.faction);
+                if(currentApproval != null && currentApproval > data.minAproval)
+                {
+                    spawnedButton = Instantiate(buttonPrefab, dialogueButtonPanel).GetComponent<Button>();
                     spawnedButton.GetComponentInChildren<TextMeshProUGUI>().text = data.question;
-                        spawnedButton.onClick.AddListener(()=>ButtonPressed(data.buttonID));
+                    data.buttonID = i;
+                    spawnedButton.onClick.AddListener(() => ButtonPressed(data.buttonID));
+                    i++;
+                }
             }
 
-             spawnedButton = Instantiate(buttonPrefab, dialogueButtonPanel).GetComponent<Button>();
-                    spawnedButton.GetComponentInChildren<TextMeshProUGUI>().text = dialogue.goodBye.question;
-                        spawnedButton.onClick.AddListener(EndConversation);
+            spawnedButton = Instantiate(buttonPrefab, dialogueButtonPanel).GetComponent<Button>();
+            spawnedButton.GetComponentInChildren<TextMeshProUGUI>().text = dialogue.goodBye.question;
+            spawnedButton.onClick.AddListener(EndConversation);
 
             print(dialogue.greeting);
+            DisplayResponse(loadedDialogue.greeting);
         }
 
         private void EndConversation()
         {
             ClearButtons();
-            transform.GetChild(0).gameObject.SetActive(false);
+            DisplayResponse(loadedDialogue.goodBye.response);
+            if(loadedDialogue.goodBye.nextDialogue != null)
+            {
+                LoadDialogue(loadedDialogue.goodBye.nextDialogue);
+            }
+            else
+            {
+                if(PauseMenu.instance != null) 
+                {
+                    PauseMenu.instance.paused = false;
+                    Cursor.lockState = CursorLockMode.None;
+                }
+                transform.GetChild(0).gameObject.SetActive(false);
+            }
 
-            print(loadedDialogue.goodBye.response);
         }
 
         private void ButtonPressed(int index)
         {
-            print(loadedDialogue.dialogueOptions[index].response);
+            if(loadedDialogue.dialogueOptions[index].nextDialogue != null)
+            {
+                LoadDialogue(loadedDialogue.dialogueOptions[index].nextDialogue);
+            }
+            else
+            {
+                DisplayResponse(loadedDialogue.dialogueOptions[index].response);
+            }
         }
 
         private void ClearButtons()
@@ -61,6 +90,11 @@ namespace FPSProject.NPC.Dialogue
             {
                 Destroy(child.gameObject);
             }
+        }
+
+        private void DisplayResponse(string response)
+        {
+            responseText.text = response;
         }
     }
 }

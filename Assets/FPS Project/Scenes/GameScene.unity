@@ -364,6 +364,78 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7685614145181113071, guid: 68a1567d525faf74b84c7f058ca5c48f, type: 3}
   m_PrefabInstance: {fileID: 156501726}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &203138918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 203138920}
+  - component: {fileID: 203138919}
+  m_Layer: 0
+  m_Name: FactionsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &203138919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203138918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81dc50b5eebbef54696aef042662b395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: factions
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[Factions,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+--- !u!4 &203138920
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203138918}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &319832982
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,6 +1099,58 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1244734522594079850, guid: ba1bb0b276761c647892e8db65a1b673, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837522610131082735, guid: ba1bb0b276761c647892e8db65a1b673, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837522610131082735, guid: ba1bb0b276761c647892e8db65a1b673, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837522610263740116, guid: ba1bb0b276761c647892e8db65a1b673, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837522610263740116, guid: ba1bb0b276761c647892e8db65a1b673, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837522610385619130, guid: ba1bb0b276761c647892e8db65a1b673, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837522610385619130, guid: ba1bb0b276761c647892e8db65a1b673, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837522610385619130, guid: ba1bb0b276761c647892e8db65a1b673, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837522610385619130, guid: ba1bb0b276761c647892e8db65a1b673, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837522610503669212, guid: ba1bb0b276761c647892e8db65a1b673, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837522610503669212, guid: ba1bb0b276761c647892e8db65a1b673, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837522610694590425, guid: ba1bb0b276761c647892e8db65a1b673, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837522610694590425, guid: ba1bb0b276761c647892e8db65a1b673, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5837522610908821760, guid: ba1bb0b276761c647892e8db65a1b673, type: 3}
       propertyPath: m_Name
       value: Dialog Canvas
@@ -2274,6 +2398,7 @@ GameObject:
   - component: {fileID: 1311574809}
   - component: {fileID: 1311574808}
   - component: {fileID: 1311574812}
+  - component: {fileID: 1311574813}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: NPC
@@ -2379,18 +2504,57 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  faction: TheSettlementClan
   greeting: Hey you're finally awake
   goodBye:
     question: Cya
     response: BYE
-    buttonID: 0
+    minAproval: -1
+    nextDialogue: {fileID: 0}
   dialogueOptions:
-  - question: hmmm
-    response: what
-    buttonID: 0
-  - question: idk
+  - question: Hi
+    response: 
+    minAproval: -1
+    nextDialogue: {fileID: 1311574813}
+  - question: Go away Preston
     response: huh
-    buttonID: 0
+    minAproval: -1
+    nextDialogue: {fileID: 0}
+  firstDialogue: 0
+--- !u!114 &1311574813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311574807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44aae6a378114a246af55eae9acdee96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  faction: TheSettlementClan
+  greeting: Another Settlement Needs your help Should I mark it on the map?
+  goodBye:
+    question: No
+    response: BUt TheY nEeD hElp
+    minAproval: -1
+    nextDialogue: {fileID: 0}
+  dialogueOptions:
+  - question: Yes
+    response: Alright
+    minAproval: -1
+    nextDialogue: {fileID: 0}
+  firstDialogue: 0
 --- !u!114 &1690851650 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7685614144335837624, guid: 68a1567d525faf74b84c7f058ca5c48f, type: 3}
