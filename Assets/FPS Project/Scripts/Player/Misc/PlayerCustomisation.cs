@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 
 namespace FPSProject.Customisation
 {
-    //[ExecuteInEditMode]
+    [ExecuteInEditMode]
     public class PlayerCustomisation : MonoBehaviour
     {
         #region
@@ -20,6 +20,8 @@ namespace FPSProject.Customisation
         }
 
         public bool runInEditor;
+        [SerializeField] private bool statsScreen;
+        private bool allStatsAssigned;
 
         [SerializeField]
         private List<GUILayout> layouts = new List<GUILayout>();
@@ -341,6 +343,40 @@ namespace FPSProject.Customisation
             Mage,
         }
 
+        /// <summary>
+        /// Used to assign the characters stat. <br/>
+        /// this method handles incrememting the points <br/>
+        /// the player will not be able to assign more then 20 points <br/>
+        /// to the character
+        /// </summary>
+        /// <param name="points">how much to increment by</param>
+        /// <param name="ID">the index of the stat</param>
+        public void AssignStats(int points, int ID)
+        {
+            characterStats[ID].tempStats += points;
+            
+            // make sure the player cant add more then
+            // the max value of the base and temp stat combined
+            int baseStat = characterStats[ID].baseStats;
+            int tempStat = characterStats[ID].tempStats;
+
+            int maxValue = 20 - baseStat;
+            
+            if (tempStat >= maxValue) characterStats[ID].tempStats = maxValue;
+            if(tempStat <= maxValue) statPoints -= points;
+
+            // make sure that the player cant assign negative temp stat points
+            if (tempStat <= 0) characterStats[ID].tempStats = 0;
+            #region StatPoints
+            if (statPoints <= 0) statPoints = 0;
+            if (statPoints >= 10) statPoints = 10;
+            #endregion
+            
+            // check if the player has used all the stats they have avaliable
+            if (statPoints <= 0) allStatsAssigned = true;
+            else if (statPoints >= 1) allStatsAssigned = false;
+        }   
+
 
         /// <summary>
         /// Temporay GUI used for customising the characters look
@@ -348,78 +384,131 @@ namespace FPSProject.Customisation
         private void OnGUI()
         {
             #region Redundant
-            //if (runInEditor)
-            //{
-            //var nativeSize = new Vector2(res.x, res.y);
-            //
-            //Vector3 scale = new Vector3(Screen.width / nativeSize.x, Screen.height / nativeSize.y, 1.0f);
-            //var matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, scale);
-            #endregion
-            Vector2 res = new Vector2(1920, 1080);
-            GUI.matrix = IMGUIUtils.IMGUIMatrix(res);
-
-            #region Styles
-            GUIStyle _style = new GUIStyle(GUI.skin.box);
-            _style.fontSize = 50;
-            _style.alignment = TextAnchor.UpperCenter;
-            #endregion
-            #region Group Variables
-            Vector2 groupOneLayoutPosition = layouts[0].position;
-            Vector2 groupOneLayoutSize = layouts[0].size;
-
-            Vector2 groupTwoLayoutPostion = layouts[1].position;
-            Vector2 groupTwoLayoutSize = layouts[1].size;
-                
-            Vector2 buttonPos = layouts[3].position;
-            Vector2 buttonSize = layouts[3].size;
-            Vector2 _buttonPos = layouts[4].position;
-            Vector2 _buttonSize = layouts[4].size;
-            #endregion
-            #region Box and Button Variables
-            Vector2 _position = layouts[2].position;
-            Vector2 _size = layouts[2].size;
-            #endregion
-            #region Rectangles
-            Rect groupOne = new Rect(groupOneLayoutPosition.x, groupOneLayoutPosition.y, groupOneLayoutSize.x, groupOneLayoutSize.y);
-            Rect groupOneBox = new Rect(0, 0, groupOneLayoutSize.x, groupOneLayoutSize.y);
-            Rect groupTwo = new Rect(groupTwoLayoutPostion.x, groupTwoLayoutPostion.y, groupTwoLayoutSize.x, groupTwoLayoutSize.y);
-            Rect groupTwoBox = new Rect(0, 0, groupTwoLayoutSize.x, groupTwoLayoutSize.y);
-            #endregion
-            #region Styles
-            GUIStyle matNameStyle = new GUIStyle(GUI.skin.box);
-            matNameStyle.fontSize = 25;
-            matNameStyle.alignment = TextAnchor.MiddleCenter;
-            #endregion
-            #region TextureCustomisation
-            GUI.BeginGroup(groupOne);
-            GUI.Box(groupOneBox, "Textures", _style);
-
-            for(int i = 0; i < matName.Length; i++)
+            if (runInEditor)
             {
-                #region Variables
-                var x = (i * 55);
-                Rect buttonRectLeft = new Rect(buttonPos.x, buttonPos.y + x, buttonSize.x, buttonSize.y);
-                Rect buttonRectRight = new Rect(_buttonPos.x, _buttonPos.y + x, _buttonSize.x, _buttonSize.y);
+                //var nativeSize = new Vector2(res.x, res.y);
+                //
+                //Vector3 scale = new Vector3(Screen.width / nativeSize.x, Screen.height / nativeSize.y, 1.0f);
+                //var matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, scale);
                 #endregion
-                GUI.Box(new Rect(_position.x, _position.y + x, _size.x, _size.y), matName[i], matNameStyle);
-                if(GUI.Button(buttonRectLeft, ">", matNameStyle))
-                {
-                    SetTexture(matName[i], 1);
-                }   
-                if(GUI.Button(buttonRectRight, "<", matNameStyle))
-                {
-                    SetTexture(matName[i], -1);
-                }
-            }
-            GUI.EndGroup();
-            #endregion
-            #region GroupTwo
-            GUI.BeginGroup(groupTwo);
-            GUI.Box(groupTwoBox, "Testing Text", _style);
+                Vector2 res = new Vector2(1920, 1080);
+                GUI.matrix = IMGUIUtils.IMGUIMatrix(res);
 
-            GUI.EndGroup();
-            #endregion 
-            //}
+                #region Styles
+                GUIStyle _style = new GUIStyle(GUI.skin.box);
+                _style.fontSize = 50;
+                _style.alignment = TextAnchor.UpperCenter;
+                #endregion
+                #region Group Variables
+                Vector2 groupOneLayoutPosition = layouts[0].position;
+                Vector2 groupOneLayoutSize = layouts[0].size;
+
+                Vector2 groupTwoLayoutPostion = layouts[1].position;
+                Vector2 groupTwoLayoutSize = layouts[1].size;
+                
+                Vector2 buttonPos = layouts[3].position;
+                Vector2 buttonSize = layouts[3].size;
+                Vector2 _buttonPos = layouts[4].position;
+                Vector2 _buttonSize = layouts[4].size;
+                #endregion
+                #region Box and Button Variables
+                Vector2 _position = layouts[2].position;
+                Vector2 _size = layouts[2].size;
+                #endregion
+                #region Rectangles
+                Rect groupOne = new Rect(groupOneLayoutPosition.x, groupOneLayoutPosition.y, groupOneLayoutSize.x, groupOneLayoutSize.y);
+                Rect groupOneBox = new Rect(0, 0, groupOneLayoutSize.x, groupOneLayoutSize.y);
+                Rect groupTwo = new Rect(groupTwoLayoutPostion.x, groupTwoLayoutPostion.y, groupTwoLayoutSize.x, groupTwoLayoutSize.y);
+                Rect groupTwoBox = new Rect(0, 0, groupTwoLayoutSize.x, groupTwoLayoutSize.y);
+
+                Rect dropDownButtons = new Rect(layouts[6].position.x, layouts[6].position.y, layouts[6].size.x, layouts[6].size.y);
+                #endregion
+                #region Styles
+                GUIStyle matNameStyle = new GUIStyle(GUI.skin.box);
+                GUIStyle textFieldStyle = new GUIStyle(GUI.skin.box);
+                matNameStyle.fontSize = 25;
+                textFieldStyle.fontSize = 25;
+                matNameStyle.alignment = TextAnchor.MiddleCenter;
+                #endregion
+                #region TextureCustomisation
+                GUI.BeginGroup(groupOne);
+                GUI.Box(groupOneBox, "Textures", _style);
+
+                for(int i = 0; i < matName.Length; i++)
+                {
+                    #region Variables
+                    var x = (i * 55);
+                    Rect buttonRectLeft = new Rect(buttonPos.x, buttonPos.y + x, buttonSize.x, buttonSize.y);
+                    Rect buttonRectRight = new Rect(_buttonPos.x, _buttonPos.y + x, _buttonSize.x, _buttonSize.y);
+                    #endregion
+                    GUI.Box(new Rect(_position.x, _position.y + x, _size.x, _size.y), matName[i], matNameStyle);
+                    if(GUI.Button(buttonRectLeft, ">", matNameStyle))
+                    {
+                        SetTexture(matName[i], 1);
+                    }   
+                    if(GUI.Button(buttonRectRight, "<", matNameStyle))
+                    {
+                        SetTexture(matName[i], -1);
+                    }
+                }
+                GUI.EndGroup();
+                #endregion
+                #region GroupTwo
+                Rect button3 = new Rect(layouts[15].position.x, layouts[15].position.y, layouts[15].size.x, layouts[15].size.y);
+                GUI.BeginGroup(groupTwo);
+                GUI.Box(groupTwoBox, "Class and Stats", _style);
+                if(GUI.Button(button3, "Swap Menu", matNameStyle)) statsScreen = !statsScreen;
+                if (!statsScreen)
+                {
+                    #region ScrollViewPositionAndScale
+                    Rect scrolview = new Rect(layouts[7].position.x, layouts[7].position.y, layouts[7].size.x, layouts[7].size.y);
+                    Rect viewRect = new Rect(layouts[8].position.x, layouts[8].position.y, layouts[8].size.x, layouts[8].size.y);
+                    #endregion
+                    if (GUI.Button(dropDownButtons, classButton, matNameStyle)) showDropdown = !showDropdown;
+                    if (showDropdown)
+                    {
+                        scrollPos = GUI.BeginScrollView(scrolview, scrollPos, viewRect, false, true);
+                        for (int i = 0; i < selectedClass.Length; i++)
+                        {
+                            #region
+                            Rect x = new Rect(layouts[10].position.x, layouts[10].position.y * i, layouts[10].size.x, layouts[10].size.y);
+                            #endregion
+                            if (GUI.Button(x, selectedClass[i], matNameStyle))
+                            {
+                                ChooseClass(i);
+                                classButton = selectedClass[i];
+                                Debug.Log(i.ToString());
+                            }                  
+                        }
+                        GUI.EndScrollView();
+                    }
+                    characterName = GUI.TextField(new Rect(layouts[5].position.x, layouts[5].position.y, layouts[5].size.x, layouts[5].size.y), characterName, textFieldStyle);
+                }
+                if (statsScreen)
+                {
+                    #region
+                    Rect _box = new Rect(layouts[16].position.x, layouts[16].position.y, layouts[16].size.x, layouts[16].size.y);
+                    GUI.Box(_box, string.Format("points : {0}", statPoints), matNameStyle);
+                    Rect groupSize = new Rect(layouts[12].position.x, layouts[12].position.y, layouts[12].size.x, layouts[12].size.y);
+                    #endregion
+                    GUI.BeginGroup(groupSize);
+                    for (int i = 0; i < characterStats.Length; i++)
+                    {
+                        #region 
+                        string statName = string.Format("{0} : {1}",characterStats[i].baseStatsName, (characterStats[i].baseStats + characterStats[i].tempStats));
+                        Rect button1 = new Rect(layouts[13].position.x, layouts[13].position.y * i, layouts[13].size.x, layouts[13].size.y);
+                        Rect button2 = new Rect(layouts[14].position.x, layouts[14].position.y * i, layouts[14].size.x, layouts[14].size.y);
+                        Rect BoxPosSize = new Rect(layouts[11].position.x, layouts[11].position.y * i, layouts[11].size.x, layouts[11].size.y);
+                        #endregion
+                        GUI.Box(BoxPosSize, statName, matNameStyle);
+                        if(GUI.Button(button1, "+", matNameStyle)) if(!allStatsAssigned) AssignStats(1, i);
+                        if(GUI.Button(button2, "-", matNameStyle)) AssignStats(-1, i);
+                    }
+                    GUI.EndGroup();
+                }
+                GUI.EndGroup();
+                #endregion 
+            }
         }
     }
 }
