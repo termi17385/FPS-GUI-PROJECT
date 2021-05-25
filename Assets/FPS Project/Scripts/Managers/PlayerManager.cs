@@ -1,257 +1,122 @@
+using FPSProject.Player.inventory;
+using System.Collections.Generic;
+using FPSProject.Player.stats;
+using Sirenix.OdinInspector;
+using UnityEngine.Events;
+using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
-using FPSProject.Player.stats;
-using FPSProject.Player.inventory;
-using Sirenix.OdinInspector;
 
 namespace FPSProject.Player.Manager
 {
     public class PlayerManager : SerializedMonoBehaviour
     {
-        #region Properties
-        /// <summary>
-        /// Clamps the health of the player <br/>
-        /// between 0 and 1 so it can be used for <br/>
-        /// the health bar
-        /// </summary>
-        public float PlayerHeatlh
-        {
-            get {return (Mathf.Clamp01(health / maxHealth));}
-            set {health = value;}
-        }
-        /// <summary>
-        /// Clamps the detectionMeter of the player <br/>
-        /// between 0 and 1 so it can be used for <br/>
-        /// the detection bar
-        /// </summary>
-        public float DetectionMeter
-        {
-            get {return (Mathf.Clamp01(detection / maxDetection));}
-            set {detection = value;}
-        }
-        #endregion
         #region Variables
-        #region Health
-        [Header("Health")]
-        private float health;
-        protected float maxHealth = 100;
-        [SerializeField] private Image healthBar;
+        
+
+        #region Arrays, Lists and Events
+
+        #region Stats, class and race data
+        [Title("Character Data")]
+        #region Race, class and name
+        public string classType;
+        public string raceType;
+        public string characterName;
         #endregion
-        #region Stealth
-        [SerializeField] private float detection;
-        private float maxDetection = 100;
-        [SerializeField] private Image detectionBar;
-        #endregion
-
-        [SerializeField] private float heathDisplay;
-        private string assignClass;
-
-        public int medkits;
-
-        public TextMeshProUGUI number;
-        public TextMeshProUGUI medKitsText;
-
-        [SerializeField] public PlayerStats pStats = new PlayerStats();
-        [SerializeField] public PlayerInventory pInv = new PlayerInventory();
-
-        [SerializeField] private Transform LKP;  // Last Known Position;
-
-        #region Class Abilities
-        [Header("Class Abilites")]
-        [Tooltip("activates the Cloaking ability")]
-        [SerializeField] private bool isCloaked;
-        [Tooltip("activates the Tracking ability")]
-        [SerializeField] private bool isTracking;
-        [Tooltip("activates the Shield ability")]
-        [SerializeField] private bool deployShield;
-        [Tooltip("activates the Dash ability")]
-        [SerializeField] private bool canDash;
-        [Tooltip("Swaps to the FireBall ability")]
-        [SerializeField] private bool fireBall;
-        [Tooltip("Swaps to the MagicMissile ability")] 
-        [SerializeField] private bool magicMissile;
+        #region Stats
+        [System.Serializable] public struct _PlayerStats
+        {
+            public string name;
+            public int value;
+        }
+        public List<_PlayerStats> _pStats = new List<_PlayerStats>();
         #endregion
         #endregion
         
-        #region Start and Update
-        private void Awake()
-        {
-            AssignNames();
-            LoadStatsAndClasses();
-        }
-
-        // Start is called before the first frame update
-        void Start()
-        {
-            PlayerHeatlh = maxHealth;
-            DetectionMeter = 0;
-            //number.text = string.Format("{0}/{1}", health, maxHealth);
-        }
-        private void LateUpdate()
-        {
-            #region SettingStuff
-            SetHealth();
-            SetDetection();
-            #endregion
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            AssignClass(assignClass);
-            heathDisplay = PlayerHeatlh;
-            //medKitsText.text = string.Format("{0}", medkits);
-        }
+        [Title("LoadDataEvent")]
+        [SerializeField] UnityEvent LoadCustomisationData;
+        [Title("Text Elements")]
+        [FoldoutGroup("Arrays"), SerializeField]
+        TextMeshProUGUI[] statsText;
+        [FoldoutGroup("Arrays"), SerializeField]
+        TextMeshProUGUI[] characterInfo;
         #endregion
-        #region Player Leveling
-        #region Loading Values
-        public void LoadStatsAndClasses()
+        #endregion
+
+
+        protected virtual void Start()
         {
-            var x = pStats.stats.Length;
-            
-            for (int i = 0; i < x; i++)
+            LoadCustomisationData.Invoke();
+            DisplayStats();
+        }
+        private void DisplayStats()
+        {
+            for(int i = 0; i < _pStats.Count; i++)
             {
-                // assigns the stat value match name of the stat
-                pStats.stats[i].statsNum = PlayerPrefs.GetInt(pStats.stats[i].statNames);
+                string debugText = string.Format("name: {0}" +
+                "\nvalue: {1}",_pStats[i].name, _pStats[i].value);
+
+                Debug.Log(debugText);
+
+                statsText[i].text = string.Format("{0}: {1}", _pStats[i].name, _pStats[i].value);
             }
 
-            // load the class of the player
-            assignClass = PlayerPrefs.GetString("CharacterClass");
+            characterInfo[0].text = characterName;
+            characterInfo[1].text = classType;
+            characterInfo[2].text = raceType;
+
+            characterInfo[3].text = AssignDescription(classType);
         }
 
-        public void AssignClass(string className)
+        /// <summary>
+        /// handles displaying the descriptions of the classes
+        /// </summary>
+        /// <param name="classType">The class the player loads in as</param>
+        /// <returns>A description of the class</returns>
+        private string AssignDescription(string classType)
         {
-            switch (className)
+            string description = "";
+
+            switch (classType)
             {
                 case "Stealth":
-                StealthClass();
-                pStats.characterClass = 
-                PlayerStats.CharacterClass.Stealth;
+                return description = string.Format
+                ("<b>Description:</b> The stealth class is sneaky and quick able to take down enemies undetected \n \n" +
+                "<b>Class Ablities:</b> this class can cloak hidding from enemies for a short period of time \n \n" +
+                "<b>Class Bonus:</b> less chance of being detected faster movement when crouched");
                 break;
                 
                 case "Tank":
-                TankClass();
-                pStats.characterClass = 
-                PlayerStats.CharacterClass.Tank;
+                return description = string.Format
+                ("<b>Description:</b> The Tank class is strong and slow able to take a lot of hits before dying \n \n" +
+                "<b>Class Ablities:</b> this class can activate an energy shield for a short period of time allowing them to absorb damage \n \n" +
+                "<b>Class Bonus:</b> Increase health and damage but lower speed and stamina");
                 break;
-                
+
                 case "Hunter":
-                HunterClass();
-                pStats.characterClass = 
-                PlayerStats.CharacterClass.Hunter;
+                return description = string.Format
+                ("<b>Description:</b> The hunter class is faster then the stealth class but not as sneaky able to move fast and jump further \n \n" +
+                "<b>Class Ablities:</b> class comes equiped with the ability to mark enemy targets seeing them through walls \n \n" +
+                "<b>Class Bonus:</b> increased jump range and faster movement speed also less chance to be spotted");
                 break;
                 
                 case "SprintyBoi":
-                SprintyBoiClass();
-                pStats.characterClass = 
-                PlayerStats.CharacterClass.SprintyBoi;
+                return description = string.Format
+                ("<b>Description:</b> The sprintyboi class is well just that he runs fast and thats it \n \n" +
+                "<b>Class Ablities:</b> increased speed and bullet time <i> maybe </i> \n \n" +
+                "<b>Class Bonus:</b> fast reload fast sprint high stamina");
                 break;
-
+                
                 case "Mage":
-                MageClass();
-                pStats.characterClass = 
-                PlayerStats.CharacterClass.Mage;
+                return description = string.Format
+                ("<b>Description:</b> The mage class is cunning and smart able to get great deals on potions and spells \n \n" +
+                "<b>Class Ablities:</b> ability to teleport, shoot fireballs and self heal \n \n" +
+                "<b>Class Bonus:</b> increased mana regen and great deals on potions");
                 break;
-            } 
+            }
+            return null;
         }
-        public void AssignNames()
-        {
-            pStats.stats[0].statNames = "Charisma";
-            pStats.stats[1].statNames = "Intelligence";
-            pStats.stats[2].statNames = "Strength";
-            pStats.stats[3].statNames = "Dexterity";
-            pStats.stats[4].statNames = "Constitution";
-            pStats.stats[5].statNames = "Agility";
-        }
-        #endregion
-        #region Player Classes
-        private void StealthClass()
-        {
-            // The player is less likely to be detected
-            // Player has a faster crouch speed then normal
-            // The player can cloak and enemies will go to last known pos
-            // look around then go back to patrol
-        }
-
-        private void HunterClass()
-        {
-            // The player can set a target to be tracked seeing them through walls
-            // The player has higher resistance to special damage
-            // Faster movement and higher jumping
-        }
-
-        private void TankClass()
-        {
-            // The player can activate a shield around themselve
-            // The player has more health 
-            // The player is slightly slower but more stamina
-        }
-
-        private void SprintyBoiClass()
-        {
-            // fast movement
-            // speed reload
-            // dash ability
-        }
-
-        private void MageClass()
-        {
-           // Fire ball ability
-           // faster heal buff
-           // attack resistance
-        }
-        #endregion
-        #endregion
-        #region Methods
-        #region Health
-        /// <summary>
-        /// Used to damage the player
-        /// </summary>
-        /// <param name="dmg">how much to damage the player by</param>
-        public void Damage(float dmg)
-        {
-            PlayerHeatlh -= dmg;
-            if (health <= 0){PlayerHeatlh = 0;}  // kill the player
-
-            number.text = string.Format("{0}/{1}", PlayerHeatlh, maxHealth);
-        }
-
-        /// <summary>
-        /// Used to heal the player
-        /// </summary>
-        /// <param name="heal">how much to heal the player by</param>
-        public void Heal(float heal)
-        {
-            PlayerHeatlh += heal;
-            if (health >= maxHealth){PlayerHeatlh = maxHealth;}
-
-            number.text = string.Format("{0}/{1}", PlayerHeatlh, maxHealth);
-        }
-
-        public void SetHealth()
-        {
-            //healthBar.fillAmount = PlayerHeatlh;
-        }
-        #endregion
-        #region Detection
-        private void SetDetection()
-        {
-            //detectionBar.fillAmount = DetectionMeter;
-        }
-
-        public void DetectionMeterSpotted(float amt)
-        {
-            detection += amt * Time.deltaTime;
-            if (detection >= maxDetection){detection = 100;}
-        }
-        public void DetectionMeterHidden(float amt)
-        {
-            detection -= amt * Time.deltaTime;
-            if (detection <= 0){detection = 0;}
-        }
-        #endregion
-        #endregion
     }
 }
 

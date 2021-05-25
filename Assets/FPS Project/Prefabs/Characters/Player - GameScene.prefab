@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 81852993}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: hand1
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -39,7 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 104931303}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: hand2
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
@@ -69,7 +69,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1783016899300593780}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Warrior
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 5926360056843337619}
   - component: {fileID: 5761669887280837600}
   - component: {fileID: 6453458395773932292}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,7 +264,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7391182868698877488}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,7 +295,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1232686090853317624}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 R Calf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -326,7 +326,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1462891492483999042}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +358,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3264519303374989753}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 L UpperArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -390,7 +390,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3112247271020689227}
   - component: {fileID: 8683566624465344235}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Mesh
   m_TagString: Mesh
   m_Icon: {fileID: 0}
@@ -499,7 +499,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3757882086228738710}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 HeadNub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -529,7 +529,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1418332593358524172}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 Spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -563,7 +563,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1756157266349233461}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -594,7 +594,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4807050554913690894}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 Footsteps
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -720,7 +720,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 476348034969652762}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 R UpperArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -751,7 +751,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3457422208856257569}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 L Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -782,7 +782,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2679327541684728916}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 R Thigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -813,7 +813,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 525247257154277666}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 Pelvis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -844,7 +844,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6182022891055218230}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 L Toe0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -875,7 +875,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6554826215749792730}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 L Thigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -906,7 +906,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5498747879734903891}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 L Toe0Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -936,7 +936,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8452233459437813652}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 R Forearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -967,7 +967,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7774501876142514586}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 R Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -997,7 +997,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4572935038874448071}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 L Clavicle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1029,7 +1029,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8568364548018744696}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 L Forearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1061,7 +1061,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7710745443876515099}
   - component: {fileID: 3068097673861783449}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: miniMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1134,7 +1134,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7224553019612940290}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 L Calf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1166,7 +1166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7572929515055413049}
   - component: {fileID: 3611070078294795074}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: GunHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1220,7 +1220,7 @@ GameObject:
   - component: {fileID: 7572929515245126424}
   - component: {fileID: 7572929515245126431}
   - component: {fileID: 7572929515245126430}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -1273,7 +1273,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 503
+    m_Bits: 311
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1302,7 +1302,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3405424776891515267}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 R Toe0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1333,7 +1333,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7530686544702568817}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 R Toe0Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1363,7 +1363,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8691207636530732223}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 R Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1396,8 +1396,9 @@ GameObject:
   - component: {fileID: 8896823552684735297}
   - component: {fileID: 8896823552684735296}
   - component: {fileID: 8896823552684735299}
-  - component: {fileID: 3611070078699241632}
-  m_Layer: 8
+  - component: {fileID: 697671658}
+  - component: {fileID: 697671659}
+  m_Layer: 0
   m_Name: Player - GameScene
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1469,14 +1470,27 @@ MonoBehaviour:
   isTalking: 0
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 311
   handPositions:
   - {fileID: 904251567539590372}
   - {fileID: 6507010554451003272}
   hands:
   - {fileID: 4572935038874448071}
   - {fileID: 8139374381161283994}
---- !u!114 &3611070078699241632
+--- !u!135 &697671658
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8896823552684735298}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: -1.14, z: 0}
+--- !u!114 &697671659
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1485,7 +1499,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8896823552684735298}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c64771d99bbf4e74990aeccd59d9adcd, type: 3}
+  m_Script: {fileID: 11500000, guid: 68337ea8352bda04ba67ecd6f0601173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
@@ -1496,36 +1510,28 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
-  healthBar: {fileID: 0}
-  detection: 0
-  detectionBar: {fileID: 0}
-  heathDisplay: 0
-  medkits: 0
-  number: {fileID: 0}
-  medKitsText: {fileID: 0}
-  pStats:
-    stats:
-    - statNames: 
-      statsNum: 0
-    - statNames: 
-      statsNum: 0
-    - statNames: 
-      statsNum: 0
-    - statNames: 
-      statsNum: 0
-    - statNames: 
-      statsNum: 0
-    - statNames: 
-      statsNum: 0
-    characterClass: 0
-  LKP: {fileID: 8962284890739848909, guid: f3e43c35a552121488c3cd3f9478203a, type: 3}
-  isCloaked: 0
-  isTracking: 0
-  deployShield: 0
-  canDash: 0
-  fireBall: 0
-  magicMissile: 0
+    SerializationNodes:
+    - Name: playerStats
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.Int32,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  cManager: {fileID: 0}
 --- !u!1 &8907863385630667395
 GameObject:
   m_ObjectHideFlags: 0
@@ -1535,7 +1541,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8139374381161283994}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 R Clavicle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1567,7 +1573,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2721120622780559852}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bip001 L Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1597,51 +1603,51 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 697324034752136455, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1131035752175413894, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1841167531653340131, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1841167531653340133, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1841167531653340135, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1841167531653340137, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1991427497685818340, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2626501612553391228, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3954826982065766017, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4240689856130243205, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5282394593864300168, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5398770960948655154, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5873115729168999340, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Name
@@ -1649,24 +1655,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5873115729168999340, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5961906319301202328, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6165987851481053845, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6247516565049998937, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: anim
       value: 
       objectReference: {fileID: 3611070078294795074}
     - target: {fileID: 6247516565049998937, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
+      propertyPath: gunAnim
+      value: 
+      objectReference: {fileID: 808463576450985326}
+    - target: {fileID: 6247516565049998937, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: fireRate
       value: 0.15
       objectReference: {fileID: 0}
+    - target: {fileID: 6247516565049998937, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
+      propertyPath: gunSound
+      value: 
+      objectReference: {fileID: 518719437156441580}
     - target: {fileID: 6247516565049998937, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: bulletSpeed
       value: 150
@@ -1725,31 +1739,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6719395325115861064, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6719395325590921855, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6719395325878378764, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6749166596361153574, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6819654237382315442, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8040763148578704366, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8873104943531901168, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
@@ -1761,6 +1775,11 @@ Transform:
 --- !u!4 &904251567539590372 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7503619508285532733, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
+  m_PrefabInstance: {fileID: 7254940754991480537}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &808463576450985326 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8040763148274668471, guid: 8e8321deb49eb6e4fa01c274133faa1f, type: 3}
   m_PrefabInstance: {fileID: 7254940754991480537}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &4495741564946319311 stripped

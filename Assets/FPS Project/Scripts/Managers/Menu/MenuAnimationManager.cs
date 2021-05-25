@@ -54,13 +54,11 @@ namespace FPSProject.Menu.Animations
             //index = 0;
             StartCoroutine(SubMenuAnimationOpen());
             canInteract = false;
-            Debug.LogError("");
         }
         public void CloseSubMenu()
         {
             StartCoroutine(SubMenuAnimationClose());
             canInteract = false;
-            Debug.LogError("");
         }
         #endregion
         #region Animations

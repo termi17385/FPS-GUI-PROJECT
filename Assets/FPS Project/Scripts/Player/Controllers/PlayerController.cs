@@ -9,6 +9,7 @@ namespace FPSProject.Player
     public class PlayerController : MonoBehaviour
     {
         #region Variables
+        [SerializeField] private GameObject inventoryMenu;
         public float walkSpeed;
         [SerializeField] private float moveSpeed;
         [SerializeField] private float sprintSpeed;
@@ -32,6 +33,7 @@ namespace FPSProject.Player
         [SerializeField] private Vector3 playerVelocity;
         [SerializeField] private bool grounded = false;
         [SerializeField] private bool isTalking = false;
+        [SerializeField] private bool inventoryOpened = false;
 
         [SerializeField] private LayerMask groundLayer;
 
@@ -49,9 +51,17 @@ namespace FPSProject.Player
         // Update is called once per frame
         void Update()
         {
-            PausedGame();
+            if(inventoryMenu.activeSelf == true)
+            {
+                PauseMenu.instance.paused = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
 
-            if(PauseMenu.instance.paused == false)
+            PausedGame();
+            TalkToNPC();
+            OpenInventory();
+
+            if (PauseMenu.instance.paused == false)
             {
                 grounded = GroundCheck();
                 PlayerMovement();
@@ -61,8 +71,25 @@ namespace FPSProject.Player
                 if(Cursor.lockState == CursorLockMode.None)
                 Cursor.lockState = CursorLockMode.Locked;
             }
+        }
 
-            TalkToNPC();
+        private void OpenInventory()
+        {
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                inventoryOpened = !inventoryOpened;
+                if (inventoryOpened)
+                {
+                    PauseMenu.instance.paused = true;
+                    Cursor.lockState = CursorLockMode.None;
+                }
+                if (!inventoryOpened)
+                {
+                    PauseMenu.instance.paused = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
+                inventoryMenu.SetActive(!inventoryMenu.activeSelf);
+            }
         }
 
         private void TalkToNPC()
@@ -206,29 +233,33 @@ namespace FPSProject.Player
         {
             RaycastHit hit;
             Vector3 pos = transform.position + cc.center;
-
-            if (Physics.SphereCast(pos, cc.height / 2.5f, -transform.up, out hit, 0.5f, groundLayer))
+                           
+            //Physics.SphereCast(pos, 0.5f, Vector3.up, out hit, 0.5f, groundLayer))
+            if (Physics.SphereCast(pos, cc.height / 2, -transform.up, out hit, 0.1f))
             {
-                return true;
-                Debug.Log("WE HAVE REACHED GROUND");
+                if (hit.collider.gameObject.CompareTag("Ground"))
+                {
+                    Debug.Log("WE HAVE REACHED GROUND");
+                    return true;
+                }
             }
             return false;
         }
 
-       //private void OnTriggerEnter(Collider other)
-       //{
-       //    if (other.gameObject.tag == "Ground")
-       //    {
-       //        grounded = true;
-       //    }
-       //}
-       //private void OnTriggerExit(Collider other)
-       //{
-       //    if (other.gameObject.tag == "Ground")  
-       //    {
-       //        grounded = false;
-       //    }
-       //}
+        //private void OnTriggerEnter(Collider other)
+        //{
+        //    if (other.gameObject.tag == "Ground")
+        //    {
+        //        grounded = true;
+        //    }
+        //}
+        //private void OnTriggerExit(Collider other)
+        //{
+        //    if (other.gameObject.tag == "Ground")  
+        //    {
+        //        grounded = false;
+        //    }
+        //}
         #endregion
     }
 }

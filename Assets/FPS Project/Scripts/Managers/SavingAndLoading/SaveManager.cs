@@ -5,11 +5,12 @@ using UnityEngine;
 using System.IO;
 using System;
 
-public class BinarySaving : MonoBehaviour
+public class SaveManager : MonoBehaviour
 {
-    public static BinarySaving instance;
+    public static SaveManager instance;
     string filePath;
 
+    #region Start and Awake
     void Awake() => filePath = Application.persistentDataPath + "/sav.cust";
 
     private void Start()
@@ -17,6 +18,7 @@ public class BinarySaving : MonoBehaviour
         if(instance == null) instance = this;
         else Destroy(gameObject);
     }
+    #endregion
 
     public void SaveCustomisationData(CustomisationDataManager data)
     {
@@ -25,7 +27,9 @@ public class BinarySaving : MonoBehaviour
 
         _formatter.Serialize(_stream, data);    // serialises the data
         _stream.Close();                        // closes the stream
+        Debug.LogError(filePath);
     } 
+
     public CustomisationDataManager LoadCustomisationData()
     {
         // if the file is found

@@ -452,7 +452,7 @@ namespace FPSProject.Menu
             string text = PlayerPrefs.GetString("FullScreen");  // used to make sure that theres actually a value assigned
             Debug.LogError("fullscreen? :" + text.ToString());  // debugs the value so we can check its not null
 
-            if(text != null)
+            if(text != "")
             {
                 fullscreen = bool.Parse(PlayerPrefs.GetString("FullScreen").ToLower()); // converts the string to lowercase then to a bool
                 screenToggle.isOn = fullscreen;
@@ -501,6 +501,12 @@ namespace FPSProject.Menu
         public void LoadGameScene()
         {
             PlayerPrefs.SetString("SceneName", "GameScene");
+            SceneManager.LoadScene("LoadingScreen");
+        }
+
+        public void NewGame()
+        {
+            PlayerPrefs.SetString("SceneName", "Customisation");
             SceneManager.LoadScene("LoadingScreen");
         }
         #region Debugging
