@@ -76,6 +76,7 @@ namespace FPSProject.Menu
         [NonSerialized] public static PauseMenu instance;
         [SerializeField] private GameObject[] menus = new GameObject[3];
         public bool paused;
+        public bool death;
         private string sceneName = "LoadingScreen";
         #endregion
         #endregion
@@ -83,6 +84,7 @@ namespace FPSProject.Menu
         #region Start, Update and menu methods
         void Awake()
         {
+            death = false;
             GetResolutions();
             SetupListeners();
             GetGraphics();
@@ -324,8 +326,7 @@ namespace FPSProject.Menu
             SetGraphics(graphicsDropDown.value);
 
             // makes sure that the drop downs are loaded with the correct values
-            string debugTest = string.Format("\n Res : {0} \n Graph : {1}", 
-                resDropDown.value, graphicsDropDown.value);
+            string debugTest = $"\n Res : {resDropDown.value} \n Graph : {graphicsDropDown.value}";
 
             Debug.Log(debugTest);
             #endregion

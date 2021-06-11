@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -11,5 +9,5 @@ public class Quest
     
     public int minLevel = 1;
     public float xpReward = 50;
-
+    public int id;
 }

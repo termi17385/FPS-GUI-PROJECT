@@ -42,7 +42,6 @@ namespace FPSProject.Menu
     public class MenuManager : SerializedMonoBehaviour
     {
         #region Structs and properties
-
         #region Percentage Display for audio
         /// <summary>
         /// displays the slider value as a number between 0 - 100
@@ -129,9 +128,6 @@ namespace FPSProject.Menu
         public GameObject[] menus;
         #endregion
         #region Debug Variables
-        // universal bool for debugMode
-        static bool debugMode = false;
-        
         // bools for dropdowns
         private bool graphicsDropDown = false;
         private bool resDropDown = false;
@@ -193,14 +189,14 @@ namespace FPSProject.Menu
         private void Awake()
         {
             Time.timeScale = 1f;
-            debugMode = false;
-
             #region Method
             GetResolutions();
             GetGraphics();
             DropDownListener();
             LoadSettings();
             #endregion
+
+            Debugging.DisableOnStart();
         }
 
         private void Start()
@@ -218,12 +214,6 @@ namespace FPSProject.Menu
             Setup(bindingToMap);
             content = new GUIContent("MainMenu"); 
             style.alignment = TextAnchor.MiddleCenter;
-
-
-#if UNITY_EDITOR
-            debugMode = true;
-#endif
-
             #endregion
             playPressed = false;
             #endregion
@@ -237,7 +227,7 @@ namespace FPSProject.Menu
             DisplayVolumeText();
             #endregion
             #region Debugging
-            if (debugMode)
+            if (Debugging.debugMode)
             {
                 if (isRebinding)
                 {
@@ -515,8 +505,8 @@ namespace FPSProject.Menu
             bool enable = Input.GetKeyDown(KeyCode.F2);
             if (enable == true)
             {
-                debugMode = !debugMode;
-            }
+                Debugging.EnableDebugMode();
+            }  
         }
         private void Setup(string _toMap)
         {
@@ -533,7 +523,7 @@ namespace FPSProject.Menu
         }
         private void OnGUI()
         {
-            if (debugMode == true)
+            if (Debugging.debugMode == true)
             {
                 // keeps everything scaled to the native size
                 nativeSize = new Vector2(res.x, res.y);                                          // used to set the native size of the image

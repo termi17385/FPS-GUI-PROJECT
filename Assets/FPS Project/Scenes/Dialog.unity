@@ -252,19 +252,17 @@ MonoBehaviour:
 
 '
     minAproval: -1
-    buttonID: 3
-    firstDialogue: 0
+    nextDialogue: {fileID: 0}
   dialogueOptions:
   - question: How are you?
     response: horrible
     minAproval: -1
-    buttonID: 0
-    firstDialogue: 0
+    nextDialogue: {fileID: 0}
   - question: What do you know about the settlements?
     response: I hate settlements
     minAproval: -1
-    buttonID: 1
-    firstDialogue: 0
+    nextDialogue: {fileID: 0}
+  firstDialogue: 0
 --- !u!135 &136640030
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -338,7 +336,7 @@ GameObject:
   - component: {fileID: 253729249}
   - component: {fileID: 253729248}
   m_Layer: 0
-  m_Name: Directional Light
+  m_Name: light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -483,19 +481,17 @@ MonoBehaviour:
 
 '
     minAproval: -1
-    buttonID: 3
-    firstDialogue: 0
+    nextDialogue: {fileID: 0}
   dialogueOptions:
   - question: How are you?
     response: horrible
     minAproval: -1
-    buttonID: 0
-    firstDialogue: 0
+    nextDialogue: {fileID: 0}
   - question: What do you know about the settlements?
     response: I hate settlements
     minAproval: -1
-    buttonID: 1
-    firstDialogue: 0
+    nextDialogue: {fileID: 0}
+  firstDialogue: 0
 --- !u!135 &1505414022
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -704,19 +700,17 @@ MonoBehaviour:
 
 '
     minAproval: -1
-    buttonID: 3
-    firstDialogue: 0
+    nextDialogue: {fileID: 0}
   dialogueOptions:
   - question: How are you?
     response: horrible
     minAproval: -1
-    buttonID: 0
-    firstDialogue: 0
+    nextDialogue: {fileID: 0}
   - question: What do you know about the settlements?
     response: I hate settlements
     minAproval: -1
-    buttonID: 1
-    firstDialogue: 0
+    nextDialogue: {fileID: 0}
+  firstDialogue: 0
 --- !u!135 &1868188213
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -842,19 +836,17 @@ MonoBehaviour:
 
 '
     minAproval: -1
-    buttonID: 3
-    firstDialogue: 0
+    nextDialogue: {fileID: 0}
   dialogueOptions:
   - question: How are you?
     response: horrible
     minAproval: -1
-    buttonID: 0
-    firstDialogue: 0
+    nextDialogue: {fileID: 0}
   - question: What do you know about the settlements?
     response: I hate settlements
     minAproval: -1
-    buttonID: 1
-    firstDialogue: 0
+    nextDialogue: {fileID: 0}
+  firstDialogue: 0
 --- !u!135 &2076536225
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1046,19 +1038,17 @@ MonoBehaviour:
 
 '
     minAproval: -1
-    buttonID: 3
-    firstDialogue: 0
+    nextDialogue: {fileID: 0}
   dialogueOptions:
   - question: How are you?
     response: horrible
     minAproval: -1
-    buttonID: 0
-    firstDialogue: 0
+    nextDialogue: {fileID: 0}
   - question: What do you know about the settlements?
     response: I hate settlements
     minAproval: -1
-    buttonID: 1
-    firstDialogue: 0
+    nextDialogue: {fileID: 0}
+  firstDialogue: 0
 --- !u!1001 &5837522610495962020
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,21 +1,54 @@
 using System.Collections.Generic;
+using FPSProject.Player.Manager;
 using FPSProject.NPC.Dialogue;
 using System.Collections;
+using FPSProject.Keybinds;
 using FPSProject.Menu;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace FPSProject.Player
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : SerializedMonoBehaviour
     {
+        #region Properties
+        /// <summary>
+        /// Handles the controls for left and right movement
+        /// </summary>
+        int GetAxisLeftRight
+        {
+            get
+            {
+                int getAxisRight = BindingManager.BindingHeld("Right") ? 1 : 0;
+                int getAxisLeft = BindingManager.BindingHeld("Left") ? -1 : 0;
+                return getAxisRight + getAxisLeft;
+            }
+        }
+        /// <summary>
+        /// Handles the controls for forward and backward
+        /// </summary>
+        int GetAxisForwardBack
+        {
+            get
+            {
+                int getAxisForward = BindingManager.BindingHeld("Forward") ? 1 : 0;
+                int getAxisBackward = BindingManager.BindingHeld("Backward") ? -1 : 0;
+                return getAxisForward + getAxisBackward;
+            }
+        }
+        #endregion
+        
         #region Variables
         [SerializeField] private GameObject inventoryMenu;
-        public float walkSpeed;
-        [SerializeField] private float moveSpeed;
-        [SerializeField] private float sprintSpeed;
-        public float jumpHeight;
+        [SerializeField] private PlayerManager pManager;
+        [ReadOnly] public float moveSpeed;
         [SerializeField] private float gravity = -9.81f;
         [SerializeField, Min(1)] private float gravMultiplier;
+
+        [HideInInspector]public float sprintSpeed;
+        [HideInInspector]public float crouchSpeed;
+        [HideInInspector]public float walkSpeed;
+        [SerializeField]public float jumpHeight;
 
         #region MouseStuff
         [Min(0)]
@@ -41,41 +74,60 @@ namespace FPSProject.Player
         [SerializeField] private Transform[] hands;
         #endregion
 
+        #region  Start and Update
         // Start is called before the first frame update
         void Start()
         {
             cc = GetComponent<CharacterController>();
             Cursor.lockState = CursorLockMode.Locked;
+            Debugging.DisableOnStart();
+            crouchSpeed = 2;
         }
-
         // Update is called once per frame
         void Update()
         {
-            if(inventoryMenu.activeSelf == true)
+            if (!PauseMenu.instance.death)
             {
-                PauseMenu.instance.paused = true;
-                Cursor.lockState = CursorLockMode.None;
-            }
+                bool enableOrDisable = Input.GetKeyDown(KeyCode.F2);
+                if (enableOrDisable) Debugging.EnableDebugMode();
 
-            PausedGame();
-            TalkToNPC();
-            OpenInventory();
+                if (inventoryMenu.activeSelf == true)
+                {
+                    PauseMenu.instance.paused = true;
+                    Cursor.lockState = CursorLockMode.None;
+                }
 
-            if (PauseMenu.instance.paused == false)
-            {
-                grounded = GroundCheck();
-                PlayerMovement();
-                PlayerJumping();
-                MouseMovement();
-                MoveHandsIntoPosition();
-                if(Cursor.lockState == CursorLockMode.None)
-                Cursor.lockState = CursorLockMode.Locked;
+                PausedGame();
+                TalkToNPC();
+                OpenInventory();
+
+                if (PauseMenu.instance.paused == false)
+                {
+                    grounded = GroundCheck();
+                    PlayerMovement();
+                    PlayerJumping();
+                    MoveHandsIntoPosition();
+
+                    if (!Debugging.debugMode)
+                    {
+                        if (Cursor.lockState == CursorLockMode.None)
+                            Cursor.lockState = CursorLockMode.Locked;
+                        MouseMovement();
+                    }
+                    else if (Debugging.debugMode)
+                    {
+                        if (Cursor.lockState == CursorLockMode.Locked)
+                            Cursor.lockState = CursorLockMode.None;
+                    }
+                }
             }
         }
-
+        #endregion
+       
+        #region quest and inventory
         private void OpenInventory()
         {
-            if (Input.GetKeyDown(KeyCode.I))
+            if(BindingManager.BindingPressed("Inventory"))
             {
                 inventoryOpened = !inventoryOpened;
                 if (inventoryOpened)
@@ -87,14 +139,15 @@ namespace FPSProject.Player
                 {
                     PauseMenu.instance.paused = false;
                     Cursor.lockState = CursorLockMode.Locked;
+                    pManager.saved = true;
                 }
+                inventoryMenu.GetComponent<InventoryMenuManager>().OnClick(0);
                 inventoryMenu.SetActive(!inventoryMenu.activeSelf);
             }
         }
-
         private void TalkToNPC()
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (BindingManager.BindingPressed("Interact"))
             {
                 isTalking = !isTalking;
                 RaycastHit hit;
@@ -124,6 +177,7 @@ namespace FPSProject.Player
 
             Debug.DrawRay(transform.position, (transform.forward * 3f), Color.red);
         }
+        #endregion
 
         #region Misc and other Controls
         private void MoveHandsIntoPosition()
@@ -138,19 +192,15 @@ namespace FPSProject.Player
         private void PausedGame()
         {
             if(Input.GetKeyDown(KeyCode.Escape))
-            PauseMenu.instance.PauseGame();
+             PauseMenu.instance.PauseGame();
         }
         #endregion
         #region Movement
+        // ReSharper disable Unity.PerformanceAnalysis
         private void PlayerMovement()
         {
-            #region The axis being used to move the player
-            float h = Input.GetAxisRaw("Horizontal");      // left and right axis (a and d)
-            float v = Input.GetAxisRaw("Vertical");        // up and down axis ( w and s)
-            #endregion
-
-            Vector3 direction = new Vector3(h, 0, v).normalized;
-
+            Vector3 direction = new Vector3(GetAxisLeftRight, 
+                0, GetAxisForwardBack).normalized;
             // if the length of the players move direction is more then 0.1
             if (direction.magnitude >= 0.1f)
             {
@@ -167,20 +217,9 @@ namespace FPSProject.Player
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;        // rotates the player to always be facing forward and keeps the movement going forward
                 #endregion
 
-                if (Input.GetKey(KeyCode.LeftShift))
-                {
-                    moveSpeed = sprintSpeed;
-                }
-                else
-                {
-                    moveSpeed = walkSpeed;
-                }
-
-                cc.Move(moveDir * moveSpeed * Time.deltaTime); // moves the player times'd be speed and Time.deltaTime
-            }
-            else
-            {
-                Debug.Log("stop");  // used to see when the player actually stops        
+                moveSpeed = BindingManager.BindingHeld("Sprint") ? sprintSpeed : walkSpeed;
+                moveSpeed = BindingManager.BindingHeld("Crouch") ? crouchSpeed : moveSpeed;
+                cc.Move(moveDir * (moveSpeed * Time.deltaTime)); // moves the player times'd be speed and Time.deltaTime
             }
         }
 
@@ -198,7 +237,7 @@ namespace FPSProject.Player
             }
 
             // checks if the player pressed the jump button (space) and if they are ground
-            if (Input.GetButtonDown("Jump") && grounded)
+            if (BindingManager.BindingPressed("Jump") && grounded)
             {
                 // if true the players velocity adds the sqrt of the jumpheight times'd by -3.0f and gravity
                 playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravity);
@@ -239,7 +278,6 @@ namespace FPSProject.Player
             {
                 if (hit.collider.gameObject.CompareTag("Ground"))
                 {
-                    Debug.Log("WE HAVE REACHED GROUND");
                     return true;
                 }
             }

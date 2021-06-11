@@ -9,6 +9,7 @@ TagManager:
   - FreeCam
   - Ground
   - NPC
+  - Target
   layers:
   - Default
   - TransparentFX
@@ -16,10 +17,10 @@ TagManager:
   - Ignore
   - Water
   - UI
-  - 
-  - 
+  - RayIgnore
+  - MiniMapIgnore
   - Ground
-  - 
+  - PlayerIgnore
   - 
   - 
   - 

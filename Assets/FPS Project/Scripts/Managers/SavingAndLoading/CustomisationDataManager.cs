@@ -1,4 +1,5 @@
 using FPSProject.Customisation;
+using UnityEngine;
 using System;
 
 [Serializable]
@@ -46,19 +47,26 @@ public class CustomisationDataManager
         characterName = _statsData.characterName;
         #endregion
         #region save textures
-        textures[0].textureName = "skin";
-        textures[1].textureName = "eyes";
-        textures[2].textureName = "mouth";
-        textures[3].textureName = "hair";
-        textures[4].textureName = "armour";
-        textures[5].textureName = "clothes";
+        textures[0].textureName = "Skin";
+        textures[1].textureName = "Eyes";
+        textures[2].textureName = "Mouth";
+        textures[3].textureName = "Hair";
+        textures[4].textureName = "Armour";
+        textures[5].textureName = "Clothes";
 
-        textures[0].textureIndex = _customisationData.skinIndex;
-        textures[1].textureIndex = _customisationData.eyesIndex;
-        textures[2].textureIndex = _customisationData.mouthIndex;
-        textures[3].textureIndex = _customisationData.hairIndex;
-        textures[4].textureIndex = _customisationData.armourIndex;
-        textures[5].textureIndex = _customisationData.clothesIndex;
+        for (int i = 0; i < textures.Length; i++)
+        {
+            textures[i].textureIndex = _customisationData.textures[i].index;
+        }
+
+        #region Old Code
+        //textures[0].textureIndex = _customisationData.skinIndex;
+        //textures[1].textureIndex = _customisationData.eyesIndex;
+        //textures[2].textureIndex = _customisationData.mouthIndex;
+        //textures[3].textureIndex = _customisationData.hairIndex;
+        //textures[4].textureIndex = _customisationData.armourIndex;
+        //textures[5].textureIndex = _customisationData.clothesIndex;
+        #endregion
         #endregion
     }
 }

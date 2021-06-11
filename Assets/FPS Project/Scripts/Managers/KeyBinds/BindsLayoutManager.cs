@@ -51,7 +51,9 @@ public class BindsLayoutManager : MonoBehaviour
         // make sure they are spawned either left or right
         for(int i = 0; i < buttonNames.Count; i++)
         {
+            // spawns objects in a set position depending on if the object is odd or even in the list
             Instantiate(_button, leftOrRight[i % 2]);
+            // gets the buttons component and sets the name of the button
             BindingButton _bindName = _button.GetComponent<BindingButton>();
             _bindName.bindingToMap = buttonNames[i];
             buttonsToClear.Add(_button);

@@ -43,7 +43,7 @@ public class CustomisationManager : MonoBehaviour
             pManager._pStats.Add(new PlayerManager._PlayerStats() 
             {
                 name = stats.statName, 
-                value = stats.statValue
+                statValue = stats.statValue
             });
         }
 

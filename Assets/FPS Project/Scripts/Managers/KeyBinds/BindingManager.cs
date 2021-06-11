@@ -80,6 +80,21 @@ namespace FPSProject.Keybinds
             Debug.LogWarning("NO" + _key);
             return false;
         }
+        
+        public static bool BindingPressed(string _key)
+        {
+            // get the binding
+            Binding binding = GetBinding(_key);
+            if (binding != null)
+            {
+                // we have a binding return held
+                return binding.Pressed();
+            }
+
+            // no binding
+            Debug.LogWarning("NO" + _key);
+            return false;
+        }
 
         public static Binding GetBinding(string _key)
         {

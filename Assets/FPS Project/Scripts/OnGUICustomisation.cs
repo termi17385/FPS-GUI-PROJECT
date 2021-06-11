@@ -1,13 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FPSProject.Customisation;
 
 // This scripts only purpose is for debugging 
-
-[ExecuteInEditMode]
 public class OnGUICustomisation : MonoBehaviour
 {
+    #region Variables
     [System.Serializable]
     public struct GUILayout
     {
@@ -30,7 +28,8 @@ public class OnGUICustomisation : MonoBehaviour
     [SerializeField] PlayerCustomisation pC;
     [SerializeField] PlayerStatsCustomisation pSC;
     [SerializeField] CustomisationManager cManager;
-
+    #endregion
+    #region Method
     /// <summary>
     /// Temporay GUI used for customising the characters look
     /// </summary>
@@ -38,14 +37,16 @@ public class OnGUICustomisation : MonoBehaviour
     {
         if (runInEditor)
         {
+            #region Matrix
             Vector2 res = new Vector2(1920, 1080);
             GUI.matrix = IMGUIUtils.IMGUIMatrix(res);
-
+            #endregion
+            #region Style
             GUIStyle style = new GUIStyle();
             style.alignment = TextAnchor.MiddleCenter;
             style.fontSize = 20;
             style.normal.textColor = Color.white;
-
+            #endregion
             #region Rect
             Rect groupOne = new Rect(gui[0].position.x, gui[0].position.y, gui[0].scale.x, gui[0].scale.y);
             Rect groupTwo = new Rect(gui[1].position.x, gui[1].position.y, gui[1].scale.x, gui[1].scale.y);
@@ -77,24 +78,23 @@ public class OnGUICustomisation : MonoBehaviour
             GUI.BeginGroup(groupOne);
             GUI.Box(boxOne, "");
             GUI.BeginGroup(TexturesGroup);
-            for (int i = 0; i < pC.matName.Length; i++)
+            for (int i = 0; i < pC.textures.Length; i++)
             {
                 Rect boxTexture = new Rect(position3.x, (position3.y * i), scale3.x, scale3.y);
                 GUI.Box(boxTexture, "");
                 GUI.Box(boxTexture, pC.matName[i], style);
                 if (GUI.Button(new Rect(position.x, (position.y * i), scale.x, scale.y), ">"))
                 {
-                    pC.SetTexture(pC.matName[i], 1);
+                    pC.SetTexture(i, 1);
                 }
                 if (GUI.Button(new Rect(position2.x, (position2.y * i), scale2.x, scale2.y), "<"))
                 {
-                    pC.SetTexture(pC.matName[i], -1);
+                    pC.SetTexture(i, -1);
                 }
             }
             GUI.EndGroup();
             GUI.EndGroup();
             #endregion
-
             #region Group 2
             GUI.BeginGroup(groupTwo);
             GUI.Box(boxTwo,"");
@@ -122,7 +122,6 @@ public class OnGUICustomisation : MonoBehaviour
             GUI.EndGroup();
             GUI.EndGroup();
             #endregion
-
             #region Group 3
             GUI.Box(groupThree, "");
             GUI.BeginGroup(groupThree);
@@ -133,7 +132,6 @@ public class OnGUICustomisation : MonoBehaviour
             }
             GUI.EndGroup();
             #endregion
-
             #region Group 4
             GUI.Box(groupFour, "");
             GUI.BeginGroup(groupFour);
@@ -154,7 +152,6 @@ public class OnGUICustomisation : MonoBehaviour
             }
             GUI.EndGroup();
             #endregion
-
             #region Group 5
             GUI.Box(groupFive, "");
             GUI.BeginGroup(groupFive);
@@ -177,4 +174,5 @@ public class OnGUICustomisation : MonoBehaviour
             #endregion
         }
     }
+    #endregion
 }

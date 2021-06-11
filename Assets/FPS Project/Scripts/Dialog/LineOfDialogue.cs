@@ -14,5 +14,6 @@ namespace FPSProject.NPC.Dialogue
         [System.NonSerialized] public int buttonID;
 
         public Dialogue nextDialogue;
+        public Quest quest;
     }
 }

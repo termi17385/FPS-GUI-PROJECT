@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections;
+using FPSProject.Keybinds;
 using FPSProject.Menu;
 using UnityEngine;
 
@@ -28,11 +29,11 @@ namespace FPSProject.Weapons
                 // if player is paused of in free cam the player can't shoot
 
                 //base.Update(); 
-                if (Input.GetButton("Fire1")) Shoot(); 
+                if (BindingManager.BindingPressed("Fire")) Shoot(); 
                 ViewRay();
 
                 // runs the animation to aim down sights when the player holds right mouse
-                if(Input.GetKey(KeyCode.Mouse1)) anim.SetBool("isADS", true);
+                if(BindingManager.BindingHeld("Aim")) anim.SetBool("isADS", true);
                 else anim.SetBool("isADS", false);
             }
         }

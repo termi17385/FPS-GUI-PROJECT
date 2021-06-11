@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 854488938983368307}
   - component: {fileID: 6306259750629012187}
   - component: {fileID: 1623616773274103192}
-  - component: {fileID: 7456262445561852260}
   - component: {fileID: 2500129210669903237}
-  m_Layer: 0
+  - component: {fileID: 8479082814600147025}
+  m_Layer: 7
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 4849495849480777941}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.1621}
-  m_LocalScale: {x: 0.07220864, y: 0.07220864, z: 0.10707098}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -205,22 +205,6 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &7456262445561852260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4849495849480777941}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f605b679ba50ff4c9e9088cb909b578, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 1000
-  hitCount: 0
-  hitForce: 1
-  rayLength: 1
 --- !u!54 &2500129210669903237
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -237,3 +221,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 2
+--- !u!114 &8479082814600147025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4849495849480777941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a23ef093fb00543b116cd1b2fcab4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags:
+  - Target
+  - Enemy
+  targetLocation: {fileID: 0}
+  damageAmount: 0

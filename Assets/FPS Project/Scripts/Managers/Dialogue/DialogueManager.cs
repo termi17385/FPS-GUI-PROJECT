@@ -52,7 +52,7 @@ namespace FPSProject.NPC.Dialogue
             DisplayResponse(loadedDialogue.greeting);
         }
 
-        private void EndConversation()
+        public void EndConversation()
         {
             ClearButtons();
             DisplayResponse(loadedDialogue.goodBye.response);
@@ -81,6 +81,13 @@ namespace FPSProject.NPC.Dialogue
             else
             {
                 DisplayResponse(loadedDialogue.dialogueOptions[index].response);
+                
+                if(loadedDialogue.quest == true)
+                {
+                    var questMan = QuestManager.instance;
+                    questMan.AcceptQuest(loadedDialogue.dialogueOptions[index].quest);
+                    loadedDialogue.RunQuestEvent.Invoke();
+                }
             }
         }
 

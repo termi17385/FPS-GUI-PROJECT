@@ -392,6 +392,13 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   cManager: {fileID: 717098540}
+  textures:
+  - {fileID: 11400000, guid: bb615146bf29fe04e91597e78de10450, type: 2}
+  - {fileID: 11400000, guid: 50e740627c1b4e14aa0b6a4fd7877b21, type: 2}
+  - {fileID: 11400000, guid: d672955150e49b645983fe1cd92cde76, type: 2}
+  - {fileID: 11400000, guid: 6312d58f6b0ea6a4498593aad55f53c4, type: 2}
+  - {fileID: 11400000, guid: 6f86d1aa3d0f68140b94138f0585ed06, type: 2}
+  - {fileID: 11400000, guid: 557415a8e8fb5294391ef849e900edf4, type: 2}
   skin: []
   eyes: []
   mouth: []
