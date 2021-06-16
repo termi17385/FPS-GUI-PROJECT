@@ -22,11 +22,11 @@ public class CharacterDataManager : MonoBehaviour
         string text = PlayerPrefs.GetString("Load").ToLower();
         if(text != "") loadSave = bool.Parse(PlayerPrefs.GetString("Load").ToLower());
         
-       if (loadSave)
+        if (loadSave)
        {
             LoadData();
        }
-       else
+        else
        {
            Debug.LogError("No Save To Load");
        }
@@ -48,13 +48,10 @@ public class CharacterDataManager : MonoBehaviour
         // loads the position and rotation of the player
         var controller = FindObjectOfType<PlayerController>(); 
         player = controller.transform;
-        controller.DebugPostion("OldPosition");        
-        
         Debug.LogError($"LoadedPlayerPosition{player.position = Convert.FloatToVector3(_data.position)}");
         Debug.LogError($"NewLoadedPlayerPosition{player.position}");
-       
         pRotation.rotation = Convert.FloatToVector2(_data.rotation);
-        controller.DebugPostion("NewPostion");
+        
         // loads stats for the player
         foreach(CharacterData.SavedStats stats in _data.savedStats)
         {

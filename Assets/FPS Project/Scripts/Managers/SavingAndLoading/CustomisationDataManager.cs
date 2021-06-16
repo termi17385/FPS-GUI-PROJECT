@@ -30,7 +30,6 @@ public class CustomisationDataManager
 
     public string characterName;
     #endregion
-
     public CustomisationDataManager(PlayerCustomisation _customisationData, PlayerStatsCustomisation _statsData)
     {
         #region save stats

@@ -36,6 +36,35 @@ namespace FPSProject.Player
                 return getAxisForward + getAxisBackward;
             }
         }
+        #region Stamina/sprint
+        /*These Properties handle the depletion of stamina and
+         enabling and disabling of sprint when stamina has run out*/
+        public bool Sprint
+        {
+            get
+            {
+                if (pManager.Stamina <= 0) canSprint = false; 
+                if (pManager.Stamina >= 20) canSprint = true;
+
+                return canSprint;
+            }
+        }
+        public float SprintSpeed
+        {
+            get
+            {
+                var sprint = (BindingManager.BindingHeld("Sprint") && 
+                (GetAxisForwardBack >= 1 || GetAxisLeftRight >= 1)) && Sprint == true;
+                
+                if (sprint)
+                {
+                    pManager.StaminaDepletion(staminaDepletion);
+                    pManager.time[1] = 2;
+                }
+                return sprintSpeed;
+            }
+        }
+        #endregion
         #endregion
         #region Variables
         [SerializeField] private GameObject inventoryMenu;
@@ -43,6 +72,8 @@ namespace FPSProject.Player
         [Title("Movement")]
         [ReadOnly] public float moveSpeed;
         [HideInInspector] public float sprintSpeed;
+        [SerializeField] private float staminaDepletion = 50;
+        private bool canSprint;
         [HideInInspector] public float crouchSpeed;
         [HideInInspector] public float walkSpeed;
         [SerializeField] public float jumpHeight;
@@ -213,8 +244,11 @@ namespace FPSProject.Player
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);                             // rotates the player around the y axis
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;        // rotates the player to always be facing forward and keeps the movement going forward
                 #endregion
-
-                moveSpeed = BindingManager.BindingHeld("Sprint") ? sprintSpeed : walkSpeed;
+                
+                
+                if (Sprint == true) moveSpeed = BindingManager.BindingHeld("Sprint") ? SprintSpeed : walkSpeed;
+                else moveSpeed = walkSpeed;
+                
                 moveSpeed = BindingManager.BindingHeld("Crouch") ? crouchSpeed : moveSpeed;
                 cc.Move(moveDir * (moveSpeed * Time.deltaTime)); // moves the player times'd be speed and Time.deltaTime
             }

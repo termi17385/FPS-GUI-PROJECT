@@ -7,6 +7,7 @@ namespace FPSProject.Saving
     [Serializable]
     public class CharacterData
     {
+        #region Variables
         // position data
         public float[] position = new float[3];
         public float[] rotation = new float[2];
@@ -17,8 +18,7 @@ namespace FPSProject.Saving
             public int _statValue;
         }  
         public SavedStats[] savedStats = new SavedStats[6];
-        
-        
+        #endregion
         public CharacterData(CheckPoint _data, PlayerManager _pData)
         {
             #region Position and Rotation data

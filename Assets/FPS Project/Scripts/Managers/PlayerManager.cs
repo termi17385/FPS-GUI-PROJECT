@@ -37,17 +37,17 @@ namespace FPSProject.Player.Manager
         [TitleGroup("Health, Mana and Stamina")]
         [HorizontalGroup("Health, Mana and Stamina/Split")]
         #region CurrentValues
-        [SerializeField, TabGroup("Health, Mana and Stamina/Split/Parameters", "Variables")] private int currentHealth;
-        [SerializeField, TabGroup("Health, Mana and Stamina/Split/Parameters", "Variables")] private int currentStamina;
-        [SerializeField, TabGroup("Health, Mana and Stamina/Split/Parameters", "Variables")] private int currentMana;   
+        [SerializeField, TabGroup("Health, Mana and Stamina/Split/Parameters", "Variables")] private float currentHealth;
+        [SerializeField, TabGroup("Health, Mana and Stamina/Split/Parameters", "Variables")] private float currentStamina;
+        [SerializeField, TabGroup("Health, Mana and Stamina/Split/Parameters", "Variables")] private float currentMana;   
         #endregion
         #region Max Values
-        [SerializeField, TabGroup("Health, Mana and Stamina/Split/Parameters", "Variables")] private int maxHealth = 100;
-        [SerializeField, TabGroup("Health, Mana and Stamina/Split/Parameters", "Variables")] private int maxStamina = 100;
-        [SerializeField, TabGroup("Health, Mana and Stamina/Split/Parameters", "Variables")] private int maxMana = 100;
+        [SerializeField, TabGroup("Health, Mana and Stamina/Split/Parameters", "Variables")] private float maxHealth = 100;
+        [SerializeField, TabGroup("Health, Mana and Stamina/Split/Parameters", "Variables")] private float maxStamina = 100;
+        [SerializeField, TabGroup("Health, Mana and Stamina/Split/Parameters", "Variables")] private float maxMana = 100;
         #endregion
         #region Properties
-        [ShowInInspector, TabGroup("Health, Mana and Stamina/Split/Parameters", "Properties")] public int Health
+        [ShowInInspector, TabGroup("Health, Mana and Stamina/Split/Parameters", "Properties")] public float Health
         {
             get => currentHealth;
             set 
@@ -57,31 +57,34 @@ namespace FPSProject.Player.Manager
                 if (currentHealth >= maxHealth)
                 {
                     currentHealth = maxHealth;
-                    startRegen = false;
+                    startRegen[0] = false;
                 }
             } 
             
         }
-        [ShowInInspector, TabGroup("Health, Mana and Stamina/Split/Parameters", "Properties")] public int Stamina
+        [ShowInInspector, TabGroup("Health, Mana and Stamina/Split/Parameters", "Properties")] public float Stamina
         {
             get => currentStamina;
             set 
             { 
                 currentStamina = value;
 
-                if (currentStamina >= maxHealth)
-                    currentStamina = maxHealth;
+                if (currentStamina >= maxStamina)
+                {
+                    currentStamina = maxStamina;
+                    startRegen[1] = false;
+                }
             }
         }
-        [ShowInInspector, TabGroup("Health, Mana and Stamina/Split/Parameters", "Properties")] public int Mana
+        [ShowInInspector, TabGroup("Health, Mana and Stamina/Split/Parameters", "Properties")] public float Mana
         {
             get => currentMana;
             set 
             {
                 currentMana = value;
 
-                if (currentMana >= maxHealth)
-                currentMana = maxHealth;
+                if (currentMana >= maxMana)
+                    currentMana = maxMana;
             } 
         }
         #endregion
@@ -108,11 +111,14 @@ namespace FPSProject.Player.Manager
         #endregion
         #region Race, class and name
         #region Stats
+        /// <summary>
+        /// Class that stores all the stats of the player
+        /// </summary>
         [System.Serializable] public class _PlayerStats
         {
             public string name;
             public int statValue;
-            private int tempStat;
+            private int tempStat;   
             [ShowInInspector]public int TempStat
             {
                 get => tempStat;
@@ -173,8 +179,9 @@ namespace FPSProject.Player.Manager
         #endregion
         public Image damageIndicator;
         public float alpha;
-        public float time = 5.0f;
-        private bool startRegen;
+        public float[] time = new float[2];
+        [SerializeField] private bool[] startRegen = new bool[2];
+        [SerializeField] private float[] regenAmt = new float[2];
         #region Start and Update
         protected virtual void Start()
         {
@@ -215,6 +222,13 @@ namespace FPSProject.Player.Manager
                 });
             }
             #endregion
+
+            for (int i = 0; i < time.Length; i++)
+            {
+                time[i] = 5;
+                startRegen[i] = false;
+                regenAmt[i] = 10;
+            }
             
             DisplayStats();
             allStatsAssigned = true;
@@ -243,41 +257,55 @@ namespace FPSProject.Player.Manager
                 SaveStats();
             }
         }
-
+        
+        /// <summary>
+        /// Timers for handling the regen of stamina, mana and health
+        /// </summary>
         private void Timer()
         {
-            time -= Time.deltaTime;
-            if (time <= 0.0f)
+            time[0] -= Time.deltaTime;
+            if (time[0] <= 0.0f)
             {
-                if (Health <= 50)
-                    startRegen = true;
+                if (Health <= 90)
+                    startRegen[0] = true;
                     
-                HealthRegen(1);//Mathf.RoundToInt(5 * Time.deltaTime));
-                time = 0.0f;
+                HealthRegen(regenAmt[0]);//Mathf.RoundToInt(5 * Time.deltaTime));
+                time[0] = 0.0f;
+            }
+            
+            time[1] -= Time.deltaTime;
+            if (time[1] <= 0.0f)
+            {
+                if (Stamina <= 90) startRegen[1] = true;
+                StaminaRegen(regenAmt[1]);//Mathf.RoundToInt(5 * Time.deltaTime));
+                time[1] = 0.0f;
             }
         }
         #endregion
         #region Methods
         #region Health
+        /// <summary>
+        /// Displays the health of the character
+        /// </summary>
         private void DisplayHealth()
         {
-            float value = Mathf.Clamp01(Health/(float)maxHealth);
+            float value = Mathf.Clamp01(Health/maxHealth);
             Color temp = damageIndicator.color;
             temp.a = Mathf.Clamp01(alpha/100);
             damageIndicator.color = temp;
-            uiText[0].text = Health.ToString();
+            uiText[0].text = Mathf.RoundToInt(Health).ToString();
             uiImages[0].fillAmount = value;
         }
         /// <summary>
         /// Regenerates the players health by amt
         /// </summary>
         /// <param name="_Amt">the amount of health the player regens by</param>
-        private void HealthRegen(int _amt)
+        private void HealthRegen(float _amt)
         {
-            if (startRegen)
+            if (startRegen[0])
             {
-                Health += _amt;
-                alpha -= (_amt * 20);
+                Health += (_amt * Time.deltaTime); // regens the health 
+                alpha -= (_amt * 20);   // turns of the red border of death
                 if (alpha <= 0)
                 {
                     alpha = 0;
@@ -290,7 +318,7 @@ namespace FPSProject.Player.Manager
         /// <param name="_dmg">the amount of damage</param>
         public void DamagePlayer(int _dmg)
         {
-            time = 5;
+            time[0] = 5;
             Health -= _dmg;
             alpha += _dmg * 5;
             if (Health <= 0)
@@ -299,6 +327,9 @@ namespace FPSProject.Player.Manager
                 StartCoroutine(PlayerDied());
             }
         }
+        /// <summary>
+        /// handles the killing of the player
+        /// </summary>
         IEnumerator PlayerDied()
         {
             SceneManager.LoadScene("Death");
@@ -307,19 +338,33 @@ namespace FPSProject.Player.Manager
         }
         #endregion
         #region Stamina
+        /// <summary>
+        /// Displays the stamina of the player
+        /// </summary>
         private void DisplayStamina()
         {
-            float value = Mathf.Clamp01(Stamina / (float)maxStamina);
-            uiText[1].text = Stamina.ToString();
+            float value = Mathf.Clamp01(Stamina / maxStamina);
+            uiText[1].text = Mathf.RoundToInt(Stamina).ToString();
             uiImages[1].fillAmount = value;
         }
-        private void StaminaRegen(int _amt)
+        /// <summary>
+        /// Handles the regeneration of the players stamina
+        /// </summary>
+        /// <param name="_amt">How much to regen</param>
+        private void StaminaRegen(float _amt)
         {
-            Stamina += _amt;
+            if (startRegen[1])
+            {
+                Stamina += (_amt * Time.deltaTime);
+            }
         }
-        public void StaminaDepletion(int _amt)
+        /// <summary>
+        /// handles the depletion of the players stamina
+        /// </summary>
+        /// <param name="_amt">how much to deplete</param>
+        public void StaminaDepletion(float _amt)
         {
-            Stamina -= _amt;
+            Stamina -= (_amt * Time.deltaTime);
             if(Stamina <= 0)
             {
                 Stamina = 0;
@@ -349,29 +394,36 @@ namespace FPSProject.Player.Manager
         }
         #endregion
         #region Stats
-        public void UpgradeSpeed()
+        /// <summary>
+        /// Method for handling all of the players upgrades <br/>
+        /// is called only when stats are changed
+        /// </summary>
+        public void StatUpgrades()
         {
-            // temporay
+            #region Default values
+            // sets the starting values
             pControl.sprintSpeed = 10;
             pControl.crouchSpeed = 2;
             pControl.walkSpeed = 5;
             pControl.jumpHeight = 3;
             maxHealth = 100;
-            //
-
+            #endregion
+            #region Hard Values
+            // gets the values of all the stats and upgrades
             float speed = pControl.sprintSpeed;
             float jump = pControl.jumpHeight;
 
             int statValue = _pStats[1].statValue;
             int statValue1 = _pStats[2].statValue;
             int statValue2 = _pStats[1].statValue;
+            #endregion
 
-            pControl.sprintSpeed = speed + (statValue * 0.3f);
-            pControl.walkSpeed = pControl.sprintSpeed * 0.5f;
+            pControl.sprintSpeed = speed + (statValue * 0.3f);  // increases the sprint speed by a percentage of the stat value
+            pControl.walkSpeed = pControl.sprintSpeed * 0.5f;   // increases the walk speed by a percentage of the stat value
 
-            maxHealth += statValue1;
-            pControl.jumpHeight = jump + (statValue1 * 0.03f);
-            Health = maxHealth;
+            maxHealth += statValue1;                            // increases the maxHealth
+            pControl.jumpHeight = jump + (statValue1 * 0.03f);  // increases the jumpheight by a percentage of the stat value
+            Health = maxHealth;                                 // health is set to maxhealth
         }
 
         /// <summary>
@@ -412,7 +464,7 @@ namespace FPSProject.Player.Manager
                 maxPoint = pointPool;
             }
             DisplayStats();
-            UpgradeSpeed();
+            StatUpgrades();
             saved = false;
         }
         #region Displaying Stats
