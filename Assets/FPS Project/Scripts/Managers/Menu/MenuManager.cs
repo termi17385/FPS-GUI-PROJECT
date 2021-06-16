@@ -440,8 +440,6 @@ namespace FPSProject.Menu
             
             //string _fullscreen = PlayerPrefs.GetString("FullScreen"); // loads the string
             string text = PlayerPrefs.GetString("FullScreen");  // used to make sure that theres actually a value assigned
-            Debug.LogError("fullscreen? :" + text.ToString());  // debugs the value so we can check its not null
-
             if(text != "")
             {
                 fullscreen = bool.Parse(PlayerPrefs.GetString("FullScreen").ToLower()); // converts the string to lowercase then to a bool

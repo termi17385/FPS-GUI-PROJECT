@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 namespace FPSProject.Player.Manager
 {
@@ -174,7 +175,6 @@ namespace FPSProject.Player.Manager
         public float alpha;
         public float time = 5.0f;
         private bool startRegen;
-        public GameObject deathScreen;
         #region Start and Update
         protected virtual void Start()
         {
@@ -232,7 +232,7 @@ namespace FPSProject.Player.Manager
         protected virtual void Update()
         {
             Timer();
-            characterInfo[4].text = string.Format("Points: {0}", pointPool);
+            characterInfo[4].text = $"Points: {pointPool}";
             #region Health, Mana and Stamina
             DisplayHealth();
             DisplayStamina();
@@ -301,8 +301,7 @@ namespace FPSProject.Player.Manager
         }
         IEnumerator PlayerDied()
         {
-            deathScreen.SetActive(true);
-            PauseMenu.instance.death = true;
+            SceneManager.LoadScene("Death");
             Debug.Log("YOU HAVE DIED");
             yield return null;
         }

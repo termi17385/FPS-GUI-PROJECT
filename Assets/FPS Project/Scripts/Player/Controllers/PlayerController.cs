@@ -37,41 +37,41 @@ namespace FPSProject.Player
             }
         }
         #endregion
-        
         #region Variables
         [SerializeField] private GameObject inventoryMenu;
         [SerializeField] private PlayerManager pManager;
+        [Title("Movement")]
         [ReadOnly] public float moveSpeed;
+        [HideInInspector] public float sprintSpeed;
+        [HideInInspector] public float crouchSpeed;
+        [HideInInspector] public float walkSpeed;
+        [SerializeField] public float jumpHeight;
+        [Title("Gravity")]
         [SerializeField] private float gravity = -9.81f;
         [SerializeField, Min(1)] private float gravMultiplier;
-
-        [HideInInspector]public float sprintSpeed;
-        [HideInInspector]public float crouchSpeed;
-        [HideInInspector]public float walkSpeed;
-        [SerializeField]public float jumpHeight;
-
+        
         #region MouseStuff
+        [Title("MouseVariables")]
         [Min(0)]
         [SerializeField] private float mouse_Speed;
-        [SerializeField] Vector2 rotation = Vector2.zero;
+        public Vector2 rotation = Vector2.zero;
         [SerializeField] private float mouseLock;
 
         [SerializeField] private float turnSmoothTime = 0.1f;
         [SerializeField] private float turnSmoothVelocity;
         #endregion
+        [Space]
+        [Title("Miscellaneous")]
+        [ReadOnly] public Transform cam;
 
-        public Transform cam;
+        [SerializeField, ReadOnly] private CharacterController cc;
+        [SerializeField, ReadOnly] private Vector3 playerVelocity;
+        [SerializeField, ReadOnly] private bool grounded = false;
+        [SerializeField, ReadOnly] private bool isTalking = false;
+        [SerializeField, ReadOnly] private bool inventoryOpened = false;
 
-        [SerializeField] private CharacterController cc;
-        [SerializeField] private Vector3 playerVelocity;
-        [SerializeField] private bool grounded = false;
-        [SerializeField] private bool isTalking = false;
-        [SerializeField] private bool inventoryOpened = false;
-
-        [SerializeField] private LayerMask groundLayer;
-
-        [SerializeField] private Transform[] handPositions;
-        [SerializeField] private Transform[] hands;
+        [HideInInspector] public Transform[] handPositions;
+        [HideInInspector] public Transform[] hands;
         #endregion
 
         #region  Start and Update
@@ -83,42 +83,40 @@ namespace FPSProject.Player
             Debugging.DisableOnStart();
             crouchSpeed = 2;
         }
+        
         // Update is called once per frame
         void Update()
         {
-            if (!PauseMenu.instance.death)
+            bool enableOrDisable = Input.GetKeyDown(KeyCode.F2);
+            if (enableOrDisable) Debugging.EnableDebugMode();
+
+            if (inventoryMenu.activeSelf == true)
             {
-                bool enableOrDisable = Input.GetKeyDown(KeyCode.F2);
-                if (enableOrDisable) Debugging.EnableDebugMode();
+                PauseMenu.instance.paused = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
 
-                if (inventoryMenu.activeSelf == true)
+            PausedGame();
+            TalkToNPC();
+            OpenInventory();
+
+            if (PauseMenu.instance.paused == false)
+            {
+                grounded = GroundCheck();
+                PlayerMovement();
+                PlayerJumping();
+                MoveHandsIntoPosition();
+
+                if (!Debugging.debugMode)
                 {
-                    PauseMenu.instance.paused = true;
-                    Cursor.lockState = CursorLockMode.None;
+                    if (Cursor.lockState == CursorLockMode.None)
+                        Cursor.lockState = CursorLockMode.Locked;
+                    MouseMovement();
                 }
-
-                PausedGame();
-                TalkToNPC();
-                OpenInventory();
-
-                if (PauseMenu.instance.paused == false)
+                else if (Debugging.debugMode)
                 {
-                    grounded = GroundCheck();
-                    PlayerMovement();
-                    PlayerJumping();
-                    MoveHandsIntoPosition();
-
-                    if (!Debugging.debugMode)
-                    {
-                        if (Cursor.lockState == CursorLockMode.None)
-                            Cursor.lockState = CursorLockMode.Locked;
-                        MouseMovement();
-                    }
-                    else if (Debugging.debugMode)
-                    {
-                        if (Cursor.lockState == CursorLockMode.Locked)
-                            Cursor.lockState = CursorLockMode.None;
-                    }
+                    if (Cursor.lockState == CursorLockMode.Locked)
+                        Cursor.lockState = CursorLockMode.None;
                 }
             }
         }
@@ -196,7 +194,6 @@ namespace FPSProject.Player
         }
         #endregion
         #region Movement
-        // ReSharper disable Unity.PerformanceAnalysis
         private void PlayerMovement()
         {
             Vector3 direction = new Vector3(GetAxisLeftRight, 
@@ -299,6 +296,11 @@ namespace FPSProject.Player
         //    }
         //}
         #endregion
+
+        public void DebugPostion(string text)
+        {
+            string debugText = $"{text}{this.transform.position}";
+        }
     }
 }
 

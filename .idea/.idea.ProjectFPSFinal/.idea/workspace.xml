@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="df9c9bc3-32ee-4ca1-8565-20e420478e4f" name="Default Changelist" comment="" />
+    <list default="true" id="df9c9bc3-32ee-4ca1-8565-20e420478e4f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/CheckPoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ProjectFPSFinal/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProjectFPSFinal/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ActivateEnemies.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/ActivateEnemies.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ActivateEnemies.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/ActivateEnemies.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Bullet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Bullet.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Bullet.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Bullet.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CheckPoint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CheckPoint.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/CheckPoint.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Enemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Enemy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Enemy.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Enemy.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scenes/GameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/Menu/LoadingBarManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/Menu/LoadingBarManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/Menu/MenuManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/Menu/MenuManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/Menu/PauseMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/Menu/PauseMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/PlayerManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/PlayerManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/CharacterData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/CharacterData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/CustomisationManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/CustomisationManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/SaveManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/SaveManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Controllers/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Controllers/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MarkerLookat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/MarkerLookat.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MarkerLookat.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/MarkerLookat.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TargetRange.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/TargetRange.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TargetRange.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/TargetRange.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/target.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/target.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/target.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/target.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,10 +50,13 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../FPSProject/Assets/FPS Project/Scripts/Test/ButtonTest.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../FPSProject/Assets/FPS Project/Scripts/Test/Keybindings/KeybindTest.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/82EC470C-9131-4935-8AD0-C83AD628910C/42/5957a231/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/FPS Project/Scripts/QuestHandler.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/CheckPoint.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/FPS Project/Scripts/CheckPoint.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/FPS Project/Scenes/DeathSceneScript/RespawnManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../FPSProject/Assets/FPS Project/Scripts/Test/Keybindings/BindingManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../AI Pathfinding/Assets/StateMachine/New Folder/StateMachine.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/82EC470C-9131-4935-8AD0-C83AD628910C/f1/55f322d8/Transform.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -39,12 +71,21 @@
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/KeyBinds/BindsLayoutManager.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/KeyBinds/BindingManager.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/GunStuff/PlasmaRifle.cs" />
-      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/Menu/PauseMenu.cs" />
       <option value="$PROJECT_DIR$/Assets/Enemy.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/CharacterTransformData.cs" />
       <option value="$PROJECT_DIR$/Assets/CheckPoint.cs" />
-      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/PlayerManager.cs" />
-      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Controllers/PlayerController.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/CharacterData.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Enemy.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/Menu/PauseMenu.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scenes/DeathSceneScript/RespawnManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/PlayerManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/Menu/LoadingBarManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/Menu/MenuManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/SaveManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/CustomisationManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Utilities/Convert.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Controllers/PlayerController.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/CharacterDataManager.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1tSSjFc1wTqt6T4XSNlExJQmfne" />
@@ -62,7 +103,7 @@
     <property name="settings.editor.selected.configurable" value="CodeLensConfigurable" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor &amp; Play">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$PROJECT_DIR$/../../../Builds/FPSProject/ProjectFPS.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -71,10 +112,10 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="1656">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="1656" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -101,15 +142,31 @@
       <option name="presentableId" value="Default" />
       <updated>1623126918839</updated>
       <workItem from="1623126964375" duration="9520000" />
-      <workItem from="1623395019131" duration="600000" />
+      <workItem from="1623395019131" duration="11182000" />
+      <workItem from="1623407272987" duration="308000" />
+      <workItem from="1623407772789" duration="11840000" />
+      <workItem from="1623575814744" duration="873000" />
+      <workItem from="1623576728381" duration="2623000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
@@ -124,5 +181,10 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/Assets/FPS Project/Scripts/CheckPoint.cs" line="26">
+        <watch expression="player" language="C#" />
+      </inline-watch>
+    </watches-manager>
   </component>
 </project>

@@ -24,7 +24,5 @@ public class LoadingBarManager : MonoBehaviour
         float loadingBarProgress = Mathf.Clamp01(loadingOperation.progress / 0.9f);
         loadingBar.fillAmount = loadingBarProgress;
         percentage.text = Mathf.Round(loadingBarProgress * 100) + "%";
-
-        Debug.LogError("Loading");
     }
 }

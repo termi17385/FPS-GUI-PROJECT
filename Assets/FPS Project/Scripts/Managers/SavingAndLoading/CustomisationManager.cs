@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using FPSProject.Player.Manager;
@@ -8,27 +9,32 @@ using UnityEngine;
 
 public class CustomisationManager : MonoBehaviour
 {
-    private SaveManager sM;
+    private SaveManager saveManger;
     [SerializeField] private PlayerManager pManager;
     public PlayerCustomisation pCustomisation;
     public PlayerStatsCustomisation pSCustomisation;
     public Renderer characterRenderer;
 
+    private void Awake()
+    {
+        saveManger = FindObjectOfType<SaveManager>();
+    }
+
+
     public void Save()
     {
-        sM = SaveManager.instance;                                                                  // gets the instance of the save manager
-        sM.SaveCustomisationData(new CustomisationDataManager(pCustomisation, pSCustomisation));    // saves the customisation and stats data
+        saveManger.SaveCustomisationData(new CustomisationDataManager(pCustomisation, pSCustomisation));    // saves the customisation and stats data
         
         // loads the next scene
         PlayerPrefs.SetString("SceneName", "GameScene");    
         SceneManager.LoadScene("LoadingScreen");
-
+        PlayerPrefs.SetInt("DataSaved", 0);
+        PlayerPrefs.SetString("Load", "false");
     }
 
     public void Load()
     {
-        sM = SaveManager.instance;
-        CustomisationDataManager _data = sM.LoadCustomisationData();
+        CustomisationDataManager _data = saveManger.LoadCustomisationData();
         
         for(int i = 0; i < _data.textures.Length; i++)
         {
@@ -37,19 +43,23 @@ public class CustomisationManager : MonoBehaviour
 
             SetTexture(_type, _index);
         }
-
-        foreach(CustomisationDataManager.Stats stats in _data.statsStruct)
+        
+        // Makes sure that we dont override the new stats
+        if (PlayerPrefs.GetInt("DataSaved") == 0)
         {
-            pManager._pStats.Add(new PlayerManager._PlayerStats() 
+            foreach(CustomisationDataManager.Stats stats in _data.statsStruct)
             {
-                name = stats.statName, 
-                statValue = stats.statValue
-            });
-        }
+                pManager._pStats.Add(new PlayerManager._PlayerStats() 
+                {
+                    name = stats.statName, 
+                    statValue = stats.statValue
+                });
+            }
 
-        pManager.classType = _data.classType;
-        pManager.raceType = _data.raceType;
-        pManager.characterName = _data.characterName;
+            pManager.classType = _data.classType;
+            pManager.raceType = _data.raceType;
+            pManager.characterName = _data.characterName;
+        }
     }
 
     void SetTexture(string type, int index)

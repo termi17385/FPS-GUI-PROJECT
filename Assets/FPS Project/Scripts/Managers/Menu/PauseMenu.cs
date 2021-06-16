@@ -76,7 +76,6 @@ namespace FPSProject.Menu
         [NonSerialized] public static PauseMenu instance;
         [SerializeField] private GameObject[] menus = new GameObject[3];
         public bool paused;
-        public bool death;
         private string sceneName = "LoadingScreen";
         #endregion
         #endregion
@@ -84,7 +83,6 @@ namespace FPSProject.Menu
         #region Start, Update and menu methods
         void Awake()
         {
-            death = false;
             GetResolutions();
             SetupListeners();
             GetGraphics();
