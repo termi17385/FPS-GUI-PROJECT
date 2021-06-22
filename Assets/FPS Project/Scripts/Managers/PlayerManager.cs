@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using System.Collections;
+using FPSProject.Customisation;
 using FPSProject.Menu;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -252,7 +253,7 @@ namespace FPSProject.Player.Manager
             DisplayStamina();
             DisplayMana();
             #endregion
-            if (saved)
+            if (saved && _pStats.Count != 0)
             {
                 SaveStats();
             }

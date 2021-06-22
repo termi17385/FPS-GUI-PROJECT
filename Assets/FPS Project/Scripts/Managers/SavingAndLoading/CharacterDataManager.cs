@@ -23,13 +23,13 @@ public class CharacterDataManager : MonoBehaviour
         if(text != "") loadSave = bool.Parse(PlayerPrefs.GetString("Load").ToLower());
         
         if (loadSave)
-       {
+        {
             LoadData();
-       }
+        }
         else
-       {
+        {
            Debug.LogError("No Save To Load");
-       }
+        }
     }
 
     public void SaveData(CheckPoint _checkPoint)

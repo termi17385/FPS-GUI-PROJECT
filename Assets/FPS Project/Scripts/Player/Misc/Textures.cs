@@ -12,8 +12,7 @@ public class Textures : SerializedScriptableObject
 
     private void OnEnable()
     {
-        if(textureList.Count == 0)
-        GetTextures(name);
+        if(textureList.Count == 0) GetTextures(name);
     }
 
     private void GetTextures(string nameOfTexture)

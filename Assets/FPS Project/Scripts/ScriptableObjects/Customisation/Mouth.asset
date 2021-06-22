@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64d34879d25da4f4f89006fc331437d2, type: 3}
+  m_Name: Mouth
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  textureList:
+  - {fileID: 2800000, guid: 3760b896bc086c04a8e297c21fbfbfc8, type: 3}
+  - {fileID: 2800000, guid: 1b0905d36f39b9340896dd7ede5f7874, type: 3}
+  - {fileID: 2800000, guid: 73a762baa59104540ba37c59e187393f, type: 3}
+  index: 1
+  name: Mouth

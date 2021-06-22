@@ -101,14 +101,17 @@ namespace FPSProject.Player
         [SerializeField, ReadOnly] private bool isTalking = false;
         [SerializeField, ReadOnly] private bool inventoryOpened = false;
 
-        [HideInInspector] public Transform[] handPositions;
-        [HideInInspector] public Transform[] hands;
+        [SerializeField] private GameObject InventoryCamera;
+        [SerializeField] private Transform[] handPositions;
+        [SerializeField] private Transform[] hands;
+        public bool secondary;
         #endregion
 
         #region  Start and Update
         // Start is called before the first frame update
         void Start()
         {
+            MoveHandsIntoPosition(false);
             cc = GetComponent<CharacterController>();
             Cursor.lockState = CursorLockMode.Locked;
             Debugging.DisableOnStart();
@@ -136,7 +139,6 @@ namespace FPSProject.Player
                 grounded = GroundCheck();
                 PlayerMovement();
                 PlayerJumping();
-                MoveHandsIntoPosition();
 
                 if (!Debugging.debugMode)
                 {
@@ -152,13 +154,13 @@ namespace FPSProject.Player
             }
         }
         #endregion
-       
         #region quest and inventory
         private void OpenInventory()
         {
             if(BindingManager.BindingPressed("Inventory"))
             {
                 inventoryOpened = !inventoryOpened;
+                InventoryCamera.SetActive(inventoryOpened);
                 if (inventoryOpened)
                 {
                     PauseMenu.instance.paused = true;
@@ -209,10 +211,20 @@ namespace FPSProject.Player
         #endregion
 
         #region Misc and other Controls
-        private void MoveHandsIntoPosition()
+        public void MoveHandsIntoPosition(bool _secondary)
         {
-            hands[0].transform.position = handPositions[0].transform.position;
-            hands[1].transform.position = handPositions[1].transform.position;
+            secondary = _secondary;
+            switch (secondary)
+            {
+                case false:
+                    hands[0].transform.position = handPositions[0].transform.position;
+                    hands[1].transform.position = handPositions[1].transform.position;
+                    break;
+                case true:
+                    hands[0].transform.position = handPositions[2].transform.position;
+                    hands[1].transform.position = handPositions[3].transform.position;
+                    break;
+            }
         }
 
         /// <summary>
