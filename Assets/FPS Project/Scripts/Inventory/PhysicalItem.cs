@@ -12,6 +12,7 @@ public class PhysicalItem : MonoBehaviour
     [SerializeField] private Transform player;
 
     [SerializeField] private GameObject pickupDisplay;
+    [SerializeField] private Transform parent;
     [SerializeField] private float dampening;
     
     [SerializeField] RawImage itemDisplay;
@@ -25,6 +26,7 @@ public class PhysicalItem : MonoBehaviour
         player = FindObjectOfType<PlayerController>().transform;
 
         if (item.Mesh != null) meshFilter.mesh = item.Mesh;
+        else if (item.OBJ != null) Instantiate(item.OBJ, parent.position, Quaternion.identity).transform.SetParent(parent);
         else itemDisplay.texture = item.Icon;
 
     }

@@ -6,7 +6,6 @@ using FPSProject.Player;
 using FPSProject.Player.Manager;
 using FPSProject.Utils;
 using FPSProject.Weapons;
-using UnityEditor.iOS;
 
 public class Inventory : MonoBehaviour
 {
@@ -221,12 +220,12 @@ public class Inventory : MonoBehaviour
                 player.GetComponent<PlayerManager>().hatMesh.mesh = _item.Mesh;
                 break;
             case Item.ItemType.Weapon when _secondary:
-                _player.meshes[1].mesh = _item.Mesh;
                 _player.meshes[1].gameObject.GetComponent<PlasmaRifle>().enabled = true;
+                _player.meshes[1].mesh = _item.Mesh;
                 break;
             case Item.ItemType.Weapon:
-                _player.meshes[0].mesh = _item.Mesh;
                 _player.meshes[0].gameObject.GetComponent<PlasmaRifle>().enabled = true;
+                _player.meshes[0].mesh = _item.Mesh;
                 break;
         }
         var obj = TextureUtils.LoadGameObjectResource(_item.Name);
