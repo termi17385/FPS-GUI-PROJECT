@@ -1,11 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
 using FPSProject.Player;
+using FPSProject.Player.Manager;
 using FPSProject.Utils;
-using UnityEngine.Serialization;
+using FPSProject.Weapons;
+using UnityEditor.iOS;
 
 public class Inventory : MonoBehaviour
 {
@@ -17,8 +18,10 @@ public class Inventory : MonoBehaviour
     [SerializeField] private GameObject prefab;
     [SerializeField] private ToolTip toolTip;
     [SerializeField] private GameObject menu;
+
+    [SerializeField] private Transform[] equipSlots;
+    public List<GameObject> equipedItems = new List<GameObject>();
     //[SerializeField] private bool showInventory = true;
-    private Item selectedItem = null;
 
     #region Display Inventory
     //private Vector2 scrollPosition;
@@ -70,7 +73,7 @@ public class Inventory : MonoBehaviour
             var destroyItem = _newItem.GetComponent<PhysicalItem>();
             var contains = Contains(item);
 
-            if (!contains)
+            if (!contains && item.Type != Item.ItemType.Weapon)
             {
                 Spawn(item);
                 item.Amount = 1;
@@ -79,7 +82,8 @@ public class Inventory : MonoBehaviour
 
             else
             {
-                IncreaseAmount(item);
+                if (item.Type != Item.ItemType.Weapon) IncreaseAmount(item);
+                else { Spawn(item); item.Amount = 1; }
                 StartCoroutine(destroyItem.DestroyObject());
             }  
         }
@@ -92,7 +96,11 @@ public class Inventory : MonoBehaviour
             inventoryItems.Add(obj.transform);
         }*/
     }
-    public void DisableMenu() => menu.SetActive(false);    
+    public void DisableMenu()
+    {
+        menu.SetActive(false);
+        toolTip.gameObject.SetActive(false);
+    }
     /// <summary>
     /// Checks if any item in inventory item matches the "sent" item
     /// then returns
@@ -120,33 +128,141 @@ public class Inventory : MonoBehaviour
         inventoryItems.Add(obj.transform); 
     }
     #endregion
-    #region DropItems
+    #region Using and Equiping Items
     public void DropItem(Item _item)
     {
-        // loops until it finds the matching item
-        foreach (var t in inventoryItems.Where(t => _item.Name == t.GetComponent<ItemDisplay>().item.name))
+        Debug.LogError(_item);
+        if (_item.Amount > 1)
         {
-            if (t.GetComponent<ItemDisplay>().item.Amount > 1)
-            {
-                t.GetComponent<ItemDisplay>().item.Amount--;
-                SpawnDroppedItem(_item);
-            }
-            else
-            {
-                SpawnDroppedItem(_item);
-            }
+            _item.Amount--;
+            SpawnDroppedItem(_item);
+        }
+        else SpawnDroppedItem(_item, true);
+    }
+    public void ConsumeItem(Item _item)
+    {
+        if (_item.Amount > 1)
+        {
+            _item.Amount--;
+            Switch(_item);           
+        }
+        else if (_item.Amount <= 1)
+        {
+           Switch(_item);
+           DeleteItem(_item);
+        } 
+    }
+    private void Switch(Item _item)
+    {
+        switch (_item.Type)
+        {
+            case Item.ItemType.Food:
+                player.GetComponent<PlayerManager>().Health += 10;
+                player.GetComponent<PlayerManager>().Stamina += 10;
+                break;
+            case Item.ItemType.Potions:
+                player.GetComponent<PlayerManager>().Health += 50;
+                break;
+        }
+    }
+    private void SpawnDroppedItem(Item _droppedItem, bool _delete = false)
+    {
+        GameObject _obj = TextureUtils.LoadGameObjectResource("MeshItem");
+        if (_droppedItem.Type == Item.ItemType.Food || _droppedItem.Type == Item.ItemType.Potions) _obj = TextureUtils.LoadGameObjectResource("ItemGameObjectSprite"); 
 
+        _obj.GetComponent<PhysicalItem>().item = _droppedItem;  
+        Instantiate(_obj, transform.position, Quaternion.identity);
+        if(_delete) DeleteItem(_droppedItem);
+    }
+    private void DeleteItem(Item _item)
+    {
+        for (int i = inventoryItems.Count - 1; i > -1; i--)
+        {
+            if (inventoryItems[i].GetComponent<ItemDisplay>().item.Name != _item.Name) continue;
+            GameObject destroyThis = inventoryItems[i].gameObject;
+            inventoryItems.RemoveAt(i);
+            Destroy(destroyThis);
             break;
         }
     }
-
-    private void SpawnDroppedItem(Item _droppedItem)
+    public void EquipItem(GameObject _item)
     {
-        var _obj = TextureUtils.LoadMeshResource("ItemGameObjectSprite");
-        Instantiate(_obj, player.forward * 2, Quaternion.identity);
-        _obj.GetComponent<PhysicalItem>().item = _droppedItem;  
+        Transform obj = null;
+        foreach (var t in inventoryItems.Where(t => _item.transform == t)) obj = t;
+
+        if (_item.GetComponent<ItemDisplay>().item.Type == Item.ItemType.Apparel)
+        {
+            obj.SetParent(equipSlots[0].transform);
+            obj.transform.localPosition = new Vector3(0, 0, 0);
+            equipedItems.Add(obj.gameObject);
+            SpawnEquippedItemOnPlayer(_item.GetComponent<ItemDisplay>().item);
+        }
+        else if (_item.GetComponent<ItemDisplay>().secondary)
+        {
+            obj.SetParent(equipSlots[2].transform);
+            obj.transform.localPosition = new Vector3(0, 0, 0);
+            equipedItems.Add(obj.gameObject);
+            SpawnEquippedItemOnPlayer(obj.GetComponent<ItemDisplay>().item, true);
+        }
+        else
+        {
+            obj.SetParent(equipSlots[1].transform);
+            obj.transform.localPosition = new Vector3(0, 0, 0);
+            equipedItems.Add(obj.gameObject);
+            SpawnEquippedItemOnPlayer(obj.GetComponent<ItemDisplay>().item);
+        }
     }
-    #endregion
+    private void SpawnEquippedItemOnPlayer(Item _item, bool _secondary = false)
+    {
+        var _player = player.GetComponent<PlayerController>();
+        switch (_item.Type)
+        {
+            case Item.ItemType.Apparel:
+                player.GetComponent<PlayerManager>().hatMesh.mesh = _item.Mesh;
+                break;
+            case Item.ItemType.Weapon when _secondary:
+                _player.meshes[1].mesh = _item.Mesh;
+                _player.meshes[1].gameObject.GetComponent<PlasmaRifle>().enabled = true;
+                break;
+            case Item.ItemType.Weapon:
+                _player.meshes[0].mesh = _item.Mesh;
+                _player.meshes[0].gameObject.GetComponent<PlasmaRifle>().enabled = true;
+                break;
+        }
+        var obj = TextureUtils.LoadGameObjectResource(_item.Name);
+    }
+
+    private void DespawnEquippedItemOnPlayer(Item _item)
+    {
+        var _player = player.GetComponent<PlayerController>();
+        switch (_item.Type)
+        {
+            case Item.ItemType.Apparel:
+                player.gameObject.GetComponent<PlayerManager>().hatMesh.mesh = null;
+                break;
+            case Item.ItemType.Weapon when _item.Name == "LasPistol":
+            {
+                _player.meshes[1].gameObject.GetComponent<PlasmaRifle>().enabled = false;
+                _player.meshes[1].mesh = null;
+                break;
+            }
+            case Item.ItemType.Weapon:
+            {
+                _player.meshes[0].gameObject.GetComponent<PlasmaRifle>().enabled = false;
+                _player.meshes[0].mesh = null;
+                break;
+            }
+        }
+    }
+    public void UnEquipItem(GameObject _item)
+    {
+        _item.transform.SetParent(contentPosition);
+        var despawn = _item.GetComponent<ItemDisplay>().item;
+        equipedItems.Remove(_item);
+
+        if (despawn.Type == Item.ItemType.Apparel) DespawnEquippedItemOnPlayer(despawn);
+    }
+    #endregion  
     
     /*#region IMGUI
     private void OnGUI()

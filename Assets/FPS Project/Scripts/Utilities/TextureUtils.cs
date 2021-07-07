@@ -6,7 +6,7 @@ namespace FPSProject.Utils
     {
         public static Texture2D LoadTextureResource(string _resourceName)
         {
-            object[] obj = Resources.LoadAll("InventoryItems");
+            object[] obj = Resources.LoadAll("InventoryItems/Sprites");
             foreach(object texture in obj)
             {
                 string textureName = texture.ToString();
@@ -16,13 +16,25 @@ namespace FPSProject.Utils
             return null;
         }
         
-        public static GameObject LoadMeshResource(string _resourceName)
+        public static GameObject LoadGameObjectResource(string _resourceName)
         {
-            object[] obj = Resources.LoadAll("InventoryItems");
+            object[] obj = Resources.LoadAll("InventoryItems/GameObjects");
             foreach(object mesh in obj)
             {
                 string meshName = mesh.ToString();
                 if (meshName.Contains(_resourceName)) return mesh as GameObject;
+            }
+
+            return null;
+        }
+        
+        public static Mesh LoadMeshResource(string _resourceName)
+        {
+            object[] obj = Resources.LoadAll("InventoryItems/Meshes");
+            foreach(object mesh in obj)
+            {
+                string meshName = mesh.ToString();
+                if (meshName.Contains(_resourceName)) return mesh as Mesh;
             }
 
             return null;

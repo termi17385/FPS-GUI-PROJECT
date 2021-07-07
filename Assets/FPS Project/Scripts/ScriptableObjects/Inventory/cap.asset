@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 289f4a363446d7a488ae2f97a1071ea6, type: 3}
+  m_Name: cap
+  m_EditorClassIdentifier: 
+  name: cap
+  description: this is a hat
+  value: 0
+  amount: 0
+  icon: {fileID: 2800000, guid: 980f7ce4d41581a409c081bcfed711bd, type: 3}
+  mesh: {fileID: 0}
+  meshObject: {fileID: 0}
+  item: 2
+  damage: 0
+  armour: 0
+  heal: 0

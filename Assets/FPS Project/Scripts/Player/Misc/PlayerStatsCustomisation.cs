@@ -1,5 +1,9 @@
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace FPSProject.Customisation
 {
@@ -35,16 +39,20 @@ namespace FPSProject.Customisation
 
         public int statPoints;
         public bool allStatsAssigned = false;
+        [SerializeField] private Transform prefab;
+        [SerializeField] private Transform content;
+        [SerializeField] private List<TextMeshProUGUI> pointsText = new List<TextMeshProUGUI>();
+        [SerializeField] private TextMeshProUGUI pointText;
         #endregion
         #region Race
         public CharacterRace race = CharacterRace.Human;
-        
+        [SerializeField] private TMP_Dropdown rDropdown;
         // debugging index
         public int raceIndex;
         #endregion
         #region Class
         public CharacterClass characterClass = CharacterClass.Hunter;
-        
+        [SerializeField] private TMP_Dropdown cDropdown;
         // debugging index
         public int classIndex;
         #endregion
@@ -57,10 +65,7 @@ namespace FPSProject.Customisation
             // debugging indexes
             raceIndex = (int)race;
             classIndex = (int)characterClass;
-
-            ChooseClass(classIndex);
-            ChooseRace(raceIndex);
-
+            
             #region Stat Names
             characterStats[0].baseStatsName = "Charisma";
             characterStats[1].baseStatsName = "Speed";
@@ -70,7 +75,40 @@ namespace FPSProject.Customisation
             characterStats[5].baseStatsName = "Mana";
             #endregion
         }
+        private void Start()
+        {
+            SpawnButtons();
+            ChooseClass(classIndex);
+            ChooseRace(raceIndex);
+            SetDropDowns();
+        }
 
+        public void CharacterName(string cn) => characterName = cn;
+
+        /// <summary>
+        /// Fills the drop downs with the correct names
+        /// </summary>
+        private void SetDropDowns()
+        {
+            rDropdown.ClearOptions();
+            cDropdown.ClearOptions();
+
+            List<string> rOptions = new List<string>();
+            List<string> cOptions = new List<string>();
+            for (int i = 0; i < 5; i++)
+            {
+                string rName = (race = (CharacterRace) i).ToString();
+                string cName = (characterClass = (CharacterClass) i).ToString();
+                rOptions.Add(rName);
+                cOptions.Add(cName);
+            }
+            rDropdown.AddOptions(rOptions);
+            cDropdown.AddOptions(cOptions);
+
+            rDropdown.value = raceIndex;
+            cDropdown.value = classIndex;
+        }
+        
         /// <summary>
         /// This method handles the players ability to <br/>
         /// Choose their class in the customisation menu
@@ -143,14 +181,38 @@ namespace FPSProject.Customisation
                 break;
                 #endregion
             }
+            UpdateText();
         }
         public void ChooseRace(int raceIndex)
         {
             race = (CharacterRace)raceIndex;
+            UpdateText();
+        } 
+        #region Stats
+        private void UpdateText()
+        {
+            pointText.text = "Points: " + statPoints.ToString();
+            for (int i = 0; i < characterStats.Length; i++) pointsText[i].text = ":" + (characterStats[i].baseStats + characterStats[i].tempStats).ToString();
+        }
+        private void SpawnButtons()
+        {
+            for (int i = 0; i < characterStats.Length; i++)
+            {
+                int copy = i;
+                var obj = Instantiate(prefab, content);
+                string pointText = ":" + (characterStats[i].baseStats + characterStats[i].tempStats).ToString();
+                
+                obj.Find("Name").GetComponent<TextMeshProUGUI>().text = characterStats[i].baseStatsName;
+                obj.Find("Point").GetComponent<TextMeshProUGUI>().text = pointText; 
+                
+                obj.Find("+").GetComponent<Button>().onClick.AddListener(delegate {  if(!allStatsAssigned)AssignStats(1, copy); UpdateText(); });
+                obj.Find("-").GetComponent<Button>().onClick.AddListener(delegate { AssignStats(-1, copy); UpdateText(); });
+                pointsText.Add(obj.Find("Point").GetComponent<TextMeshProUGUI>());
+            }
         }
         /// <summary>
         /// Used to assign the characters stat. <br/>
-        /// this method handles incrememting the points <br/>
+        /// this method handles incrementing the points <br/>
         /// the player will not be able to assign more then 20 points <br/>
         /// to the character
         /// </summary>
@@ -164,7 +226,7 @@ namespace FPSProject.Customisation
             // the max value of the base and temp stat combined
             int baseStat = characterStats[id].baseStats;
             int tempStat = characterStats[id].tempStats;
-
+            
             int maxValue = 20 - baseStat;
 
             if (tempStat >= maxValue) characterStats[id].tempStats = maxValue;
@@ -181,6 +243,7 @@ namespace FPSProject.Customisation
             if (statPoints <= 0) allStatsAssigned = true;
             else if (statPoints >= 1) allStatsAssigned = false;
         }
+        #endregion
         #endregion 
         #region Debugging
         //private void OnGUI()

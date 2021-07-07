@@ -87,7 +87,7 @@ namespace FPSProject.Player
         [SerializeField] private float mouse_Speed;
         public Vector2 rotation = Vector2.zero;
         [SerializeField] private float mouseLock;
-
+        private bool swapWeapon;
         [SerializeField] private float turnSmoothTime = 0.1f;
         [SerializeField] private float turnSmoothVelocity;
         #endregion
@@ -102,8 +102,10 @@ namespace FPSProject.Player
         [SerializeField, ReadOnly] private bool inventoryOpened = false;
 
         [SerializeField] private GameObject InventoryCamera;
-        [SerializeField] private Transform[] handPositions;
-        [SerializeField] private Transform[] hands;
+        //[SerializeField] private Transform[] handPositions;
+        //[SerializeField] private Transform[] hands;
+        public GameObject[] weapons;
+        public MeshFilter[] meshes;
         public bool secondary;
         #endregion
 
@@ -111,7 +113,6 @@ namespace FPSProject.Player
         // Start is called before the first frame update
         void Start()
         {
-            MoveHandsIntoPosition(false);
             cc = GetComponent<CharacterController>();
             Cursor.lockState = CursorLockMode.Locked;
             Debugging.DisableOnStart();
@@ -121,7 +122,7 @@ namespace FPSProject.Player
         // Update is called once per frame
         void Update()
         {
-            bool enableOrDisable = Input.GetKeyDown(KeyCode.F2);
+            var enableOrDisable = Input.GetKeyDown(KeyCode.F2);
             if (enableOrDisable) Debugging.EnableDebugMode();
 
             if (inventoryMenu.activeSelf == true)
@@ -139,6 +140,7 @@ namespace FPSProject.Player
                 grounded = GroundCheck();
                 PlayerMovement();
                 PlayerJumping();
+                SwapWeapons();
 
                 if (!Debugging.debugMode)
                 {
@@ -185,7 +187,7 @@ namespace FPSProject.Player
                 if (Physics.Raycast(transform.position, transform.forward, out hit, 3))
                 {
                     print(hit.transform.name);
-                    if ((hit.transform.tag == "NPC" && isTalking))
+                    if ((hit.transform.CompareTag("NPC") && isTalking))
                     {
                         Dialogue npcDialogue = hit.transform.GetComponent<Dialogue>();
                         if (npcDialogue)
@@ -206,27 +208,31 @@ namespace FPSProject.Player
                 }
             }
 
-            Debug.DrawRay(transform.position, (transform.forward * 3f), Color.red);
+            var transform1 = transform;
+            Debug.DrawRay(transform1.position, (transform1.forward * 3f), Color.red);
         }
         #endregion
 
         #region Misc and other Controls
-        public void MoveHandsIntoPosition(bool _secondary)
+        private void SwapWeapons()
         {
-            secondary = _secondary;
-            switch (secondary)
+            var mouseScroll = Input.mouseScrollDelta.y <= -1.0f || Input.mouseScrollDelta.y >= 1.0f; 
+            if(mouseScroll && weapons.Length > 1) MoveHandsIntoPosition(secondary = !secondary);
+        }
+        private void MoveHandsIntoPosition(bool _secondary)
+        {
+            switch (_secondary)
             {
                 case false:
-                    hands[0].transform.position = handPositions[0].transform.position;
-                    hands[1].transform.position = handPositions[1].transform.position;
+                    weapons[0].SetActive(true);
+                    weapons[1].SetActive(false);
                     break;
                 case true:
-                    hands[0].transform.position = handPositions[2].transform.position;
-                    hands[1].transform.position = handPositions[3].transform.position;
+                    weapons[0].SetActive(false);
+                    weapons[1].SetActive(true);
                     break;
             }
         }
-
         /// <summary>
         /// Pauses the game when escape is pressed
         /// </summary>

@@ -1,5 +1,8 @@
-using UnityEngine;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using UnityEngine.UI;
+using UnityEngine;
+using TMPro;
 
 
 namespace FPSProject.Customisation
@@ -8,13 +11,15 @@ namespace FPSProject.Customisation
     {
         #region Variables
         [SerializeField] private CustomisationManager cManager;
-        #region Texture Lists
-        [Title("Texture List")] // lists for holding all the textures for the different parts of the character
-        public Textures[] textures = new Textures[6];
+        #region Textures
+        [Title("Texture list and prefab")] // lists for holding all the textures for the different parts of the character
+        [Tooltip("Scriptable objects handling all textures")]public Textures[] textures = new Textures[6];
+        [SerializeField] private GameObject prefab;
+        [SerializeField] private Transform content;
         #endregion
         #region misc
         [Title("texture Index")] // indexs for changing what position in an array
-        public int index = 0; 
+        public int index; 
         [Title("Renderer")]
         public Renderer characterRenderer;
         [Title("Material names")]  // ids for the materials
@@ -22,12 +27,19 @@ namespace FPSProject.Customisation
         #endregion
         #endregion
         #region Methods
-        public void Start()
+
+        private void Awake()
         {
             ResetIndexesOnStart();
-
+            Debugging.DisableOnStart();
+        }
+        private void Start()
+        {
+            SpawnTextureButtons();
             // Old Code Does nothing now
+
             #region For loops for assigning textures
+
             //for (int i = 0; i < skinMax; i++)       // loops until i is no longer less then defined value
             //{
             //    Texture2D tempTexture = Resources.Load("Character/Skin_" + i) as Texture2D;     // looks through the resources folder for the skin texture
@@ -58,10 +70,13 @@ namespace FPSProject.Customisation
             //    Texture2D tempTexture = Resources.Load("Character/Clothes_" + i) as Texture2D;  // looks through the resources folder for the clothes texture
             //    clothes.Add(tempTexture);                                                       // assigns the texture to the array
             //}
+
             #endregion
+
         }
 
         #region Old Code
+
         /// <summary>
         /// Creates an array of objects loaded from the resource folder <br/>
         /// loops through the objects and checks the name of each obj <br/> 
@@ -85,9 +100,25 @@ namespace FPSProject.Customisation
         //        // then adds the textures to the corrosponding list
         //    }
         //}
+
         #endregion
 
         #region Main Methods
+        /// <summary>
+        /// spawns all the buttons for changing the textures
+        /// </summary>
+        private void SpawnTextureButtons()
+        {
+            for (var i = 0; i < textures.Length; i++)
+            {
+                int copy = i;
+                var obj = Instantiate(prefab, content).transform;
+                obj.Find("Name").GetComponent<TextMeshProUGUI>().text = textures[i].name;
+                
+                obj.Find("Right").GetComponent<Button>().onClick.AddListener(()=> SetTexture(copy, 1));
+                obj.Find("Left").GetComponent<Button>().onClick.AddListener(()=> SetTexture(copy, -1));
+            }
+        }
         /// <summary>
         /// Temporay method for resetting the index values of the textures
         /// </summary>
@@ -96,7 +127,7 @@ namespace FPSProject.Customisation
             for (int i = 0; i < textures.Length; i++)
             {
                 Textures _textureType = textures[i];
-                _textureType.index = 0;
+                _textureType.index = 0; 
                 SetTexture(i, 0);
             }
 
@@ -109,7 +140,7 @@ namespace FPSProject.Customisation
         /// <param name="dir">The direction in the array we are going</param>
         public void SetTexture(int type, int dir)
         {
-            // hard code for readablity
+            // hard code for readability
             Textures _textureType = textures[type];
             int _maxIndex = _textureType.textureList.Count - 1;     // max index value for each texture list
             int _matIndex = type + 1;                               // material index

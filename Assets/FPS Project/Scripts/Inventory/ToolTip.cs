@@ -6,6 +6,7 @@ public class ToolTip : MonoBehaviour
 {
    public TextMeshProUGUI name;
    public TextMeshProUGUI description;
+   public bool debug = false;
    
    [SerializeField] private RectTransform parent;
    [SerializeField] private Vector2 offset;

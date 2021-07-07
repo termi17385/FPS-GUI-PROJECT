@@ -19,8 +19,8 @@ public class SaveManager : MonoBehaviour
 
     private void Start()
     {
-        if (instance != null) instance = this;
-        else Destroy(gameObject);
+        //if (instance != null) instance = this;
+        // else Destroy(gameObject);
     }
     #endregion
 

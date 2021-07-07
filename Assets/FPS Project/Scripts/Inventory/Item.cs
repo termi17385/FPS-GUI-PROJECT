@@ -28,7 +28,7 @@ public class Item : ScriptableObject
     [SerializeField]private int value;
     [SerializeField]private int amount;
     [SerializeField]private Texture2D icon;
-    [SerializeField]private GameObject mesh;
+    [SerializeField]private Mesh mesh;
     [SerializeField]private ItemType item;
     [SerializeField]private int damage;
     [SerializeField]private int armour;
@@ -65,7 +65,7 @@ public class Item : ScriptableObject
         set => icon = value;
     }
 
-    public GameObject Mesh
+    public Mesh Mesh
     {
         get => mesh;
         set => mesh = value;
@@ -114,10 +114,9 @@ public class Item : ScriptableObject
         Armour = copyItem.Armour;
         Heal = copyItem.Heal;
     }
-
-    private void OnEnable()
+    private void OnValidate()
     {
-        Icon = TextureUtils.LoadTextureResource(Name);
         Mesh = TextureUtils.LoadMeshResource(Name);
+        Icon = TextureUtils.LoadTextureResource(Name);
     }
 }

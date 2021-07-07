@@ -3,7 +3,44 @@
   <component name="ChangeListManager">
     <list default="true" id="df9c9bc3-32ee-4ca1-8565-20e420478e4f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ProjectFPSFinal/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProjectFPSFinal/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Models and Materials/Models/My Models/LasPistol.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Models and Materials/Models/My Models/LasPistol.fbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Models and Materials/Models/My Models/PlasmaRifleV3.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Models and Materials/Models/My Models/PlasmaRifleV3.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Prefabs/Characters/Player - GameScene.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Prefabs/Characters/Player - GameScene.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Prefabs/Guns/LasPistol.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Prefabs/Guns/LasPistol.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Prefabs/Guns/LasPistol.prefab.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Prefabs/Guns/LasPistol.prefab.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Prefabs/Guns/PlasmaRifleV3.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Prefabs/Guns/PlasmaRifleV3.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Prefabs/Guns/PlasmaRifleV3.prefab.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Prefabs/Guns/PlasmaRifleV3.prefab.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Prefabs/Menu.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Prefabs/Menu.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scenes/Customisation.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scenes/Customisation.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scenes/GameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/Inventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/Inventory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/Item.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/Item.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/ItemDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/ItemDisplay.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/MenuSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/MenuSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/PhysicalItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/PhysicalItem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/ToolTip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/ToolTip.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/PlayerManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/PlayerManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/SaveManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/SaveManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/OnGUICustomisation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/OnGUICustomisation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Controllers/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Controllers/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Controllers/PlayerGun.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Controllers/PlayerGun.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/GunStuff/Gun.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/GunStuff/Gun.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/GunStuff/PlasmaRifle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/GunStuff/PlasmaRifle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Misc/PlayerCustomisation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Misc/PlayerCustomisation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Misc/PlayerStatsCustomisation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Misc/PlayerStatsCustomisation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/ScriptableObjects/Inventory/Gun.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/ScriptableObjects/Inventory/Gun.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Utilities/TextureUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FPS Project/Scripts/Utilities/TextureUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/InventoryItems/Bapple.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/InventoryItems/Bapple.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/InventoryItems/ItemGameObjectSprite.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/InventoryItems/ItemGameObjectSprite.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/InventoryItems/Potion.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/InventoryItems/Potion.png.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,17 +59,18 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/../FPSProject/Assets/FPS Project/Scripts/Test/ButtonTest.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/ItemDisplay.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../FPSProject/Assets/FPS Project/Scripts/Test/ButtonTest.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../FPSProject/Assets/FPS Project/Scripts/Test/Keybindings/KeybindTest.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../MoreGames/DoooleJump/Assets/Scripts/Managers/HighScoreManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/82EC470C-9131-4935-8AD0-C83AD628910C/42/5957a231/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/FPS Project/Scripts/QuestHandler.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5406A456-CF73-4443-B3D0-2A7D123287F1/95/701a8c45/List`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/FPS Project/Scripts/CheckPoint.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../AI Pathfinding/Assets/StateMachine/New Folder/StateMachine.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/MenuSystem.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/ToolTip.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/PhysicalItem.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../MoreGames/DoooleJump/Assets/Scripts/Menu/LeaderBoard.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../FPSProject/Assets/FPS Project/Scripts/Test/Keybindings/BindingManager.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -47,7 +85,6 @@
       <option value="$PROJECT_DIR$/Assets/Bullet.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/KeyBinds/BindsLayoutManager.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/KeyBinds/BindingManager.cs" />
-      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/GunStuff/PlasmaRifle.cs" />
       <option value="$PROJECT_DIR$/Assets/Enemy.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/CharacterTransformData.cs" />
       <option value="$PROJECT_DIR$/Assets/CheckPoint.cs" />
@@ -56,7 +93,6 @@
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scenes/DeathSceneScript/RespawnManager.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/Menu/LoadingBarManager.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/Menu/MenuManager.cs" />
-      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/SaveManager.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/CustomisationManager.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Utilities/Convert.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/CharacterData.cs" />
@@ -64,17 +100,25 @@
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/CharacterDataManager.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Item.cs" />
-      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/PlayerManager.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Misc/Textures.cs" />
-      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Utilities/TextureUtils.cs" />
-      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Controllers/PlayerController.cs" />
-      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/ToolTip.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/Index.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/ToolTip.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/ItemDisplay.cs" />
-      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/Item.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Utilities/TextureUtils.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/MenuSystem.cs" />
-      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/Inventory.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/PlayerManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/Item.cs" />
       <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/PhysicalItem.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Controllers/PlayerController.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Inventory/Inventory.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/GunStuff/Gun.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/GunStuff/PlasmaRifle.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/Dialogue/DialogueManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Misc/PlayerCustomisation.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Managers/SavingAndLoading/SaveManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/OnGUICustomisation.cs" />
+      <option value="K:/Unity/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/UI/Core/Dropdown.cs" />
+      <option value="$PROJECT_DIR$/Assets/FPS Project/Scripts/Player/Misc/PlayerStatsCustomisation.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1tSSjFc1wTqt6T4XSNlExJQmfne" />
@@ -140,6 +184,17 @@
       <workItem from="1624331709602" duration="18024000" />
       <workItem from="1624351214847" duration="8519000" />
       <workItem from="1624359938146" duration="9439000" />
+      <workItem from="1624431668851" duration="2979000" />
+      <workItem from="1624599971708" duration="6000" />
+      <workItem from="1624600046507" duration="204000" />
+      <workItem from="1624600693450" duration="934000" />
+      <workItem from="1624633060875" duration="411000" />
+      <workItem from="1624633498772" duration="1636000" />
+      <workItem from="1625135455263" duration="787000" />
+      <workItem from="1625136505631" duration="87000" />
+      <workItem from="1625211086618" duration="7377000" />
+      <workItem from="1625573978776" duration="13357000" />
+      <workItem from="1625614753489" duration="2144000" />
     </task>
     <servers />
   </component>

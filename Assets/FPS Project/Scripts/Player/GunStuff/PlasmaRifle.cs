@@ -8,18 +8,14 @@ namespace FPSProject.Weapons
 {
     public class PlasmaRifle : Gun
     {
-        [SerializeField] private GameObject flash;
-        [SerializeField] private Animator anim;
-        [SerializeField] private Animator gunAnim;
         [SerializeField] private AudioSource gunSound;
-
-        [SerializeField]bool test;
+        [SerializeField] private MeshFilter mesh;
           
         protected override void Start()
         {
+            mesh.mesh = null;
             base.Start();
             gunSound = GetComponent<AudioSource>();
-            gunAnim = GetComponent<Animator>();
         }
 
         protected override void Update()
@@ -33,20 +29,17 @@ namespace FPSProject.Weapons
                 ViewRay();
 
                 // runs the animation to aim down sights when the player holds right mouse
-                if(BindingManager.BindingHeld("Aim")) anim.SetBool("isADS", true);
-                else anim.SetBool("isADS", false);
+                //if(BindingManager.BindingHeld("Aim")) anim.SetBool("isADS", true);
+                //else anim.SetBool("isADS", false);
             }
         }
 
         protected override IEnumerator ShotEffect()
         {
-            flash.SetActive(true);
-            gunAnim.enabled = true;
-            gunAnim.Play(0);
             gunSound.Play();
             yield return shotDuration;
-            flash.SetActive(false);
-        
+            bullet.SetPosition(0, Vector3.zero);
+            bullet.SetPosition(1, Vector3.zero);
         }
     }
 }

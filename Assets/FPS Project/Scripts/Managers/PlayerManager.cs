@@ -183,6 +183,7 @@ namespace FPSProject.Player.Manager
         public float[] time = new float[2];
         [SerializeField] private bool[] startRegen = new bool[2];
         [SerializeField] private float[] regenAmt = new float[2];
+        public MeshFilter hatMesh;
         #region Start and Update
         protected virtual void Start()
         {

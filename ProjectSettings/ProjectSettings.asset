@@ -16,11 +16,11 @@ PlayerSettings:
   productName: ProjectFPS
   defaultCursor: {fileID: 2800000, guid: e6b7d384ce55894419341e6f62b10384, type: 3}
   cursorHotspot: {x: 100, y: 100}
-  m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
+  m_SplashScreenBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
   m_SplashScreenOverlayOpacity: 0.808
-  m_SplashScreenAnimation: 1
+  m_SplashScreenAnimation: 0
   m_SplashScreenLogoStyle: 1
   m_SplashScreenDrawMode: 1
   m_SplashScreenBackgroundAnimationZoom: 1
@@ -40,10 +40,12 @@ PlayerSettings:
     width: 1
     height: 1
   m_SplashScreenLogos:
+  - logo: {fileID: 21300000, guid: 89807e40bcd908248891fc8eedde443c, type: 3}
+    duration: 4.64
   - logo: {fileID: 21300000, guid: ab07ad3be54c7fe4b9174ba382519b06, type: 3}
-    duration: 5
+    duration: 4.67
   - logo: {fileID: 10404, guid: 0000000000000000e000000000000000, type: 0}
-    duration: 2.5
+    duration: 2
   m_VirtualRealitySplashScreen: {fileID: 2800000, guid: ab07ad3be54c7fe4b9174ba382519b06, type: 3}
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1024
@@ -155,7 +157,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.DefaultCompany.ProjectFPSFinal
+    Standalone: com.DefaultCompany.ProjectFPS
   buildNumber:
     Standalone: 0
     iPhone: 0

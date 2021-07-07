@@ -1,6 +1,7 @@
 using System.Collections;
 using FPSProject.Keybinds;
 using FPSProject.Player;
+using FPSProject.Weapons;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,16 +15,19 @@ public class PhysicalItem : MonoBehaviour
     [SerializeField] private float dampening;
     
     [SerializeField] RawImage itemDisplay;
+    [SerializeField] private MeshFilter meshFilter;
 
     private void Start()
     {
         gameObject.name = item.name;
-        itemDisplay.texture = item.Icon;
         
         inv = FindObjectOfType<Inventory>();
         player = FindObjectOfType<PlayerController>().transform;
-    }
 
+        if (item.Mesh != null) meshFilter.mesh = item.Mesh;
+        else itemDisplay.texture = item.Icon;
+
+    }
     private void Update()
     {
         if (AllowPickup() && BindingManager.BindingPressed("Interact")) inv.SpawnInventoryItems(transform);
@@ -32,6 +36,7 @@ public class PhysicalItem : MonoBehaviour
         LookAtPlayer(player);   
     }
 
+   
     /// <summary>
     /// Destroys the object duh
     /// </summary>
@@ -54,8 +59,5 @@ public class PhysicalItem : MonoBehaviour
     /// <summary>
     /// Determines if the player is close enough to pick up item
     /// </summary>
-    private bool AllowPickup()
-    {
-        return Vector2.Distance(transform.position, player.position) <= 2;
-    }
+    private bool AllowPickup() => Vector3.Distance(transform.position, player.position) <= 2;
 }
